@@ -1,0 +1,42 @@
+name: cd_all_debrid_client_astro
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted]
+
+    env:
+      PORT: ${{ secrets.PORT }}
+      SECRET_API_ALLDEBRID_LOCAL: ${{ secrets.SECRET_API_ALLDEBRID_LOCAL }}
+      SECRET_OFFICIAL_ALLDEBRID_API: ${{ secrets.SECRET_OFFICIAL_ALLDEBRID_API }}
+      SECRET_ALLDEBRID_TOKEN: ${{ secrets.SECRET_ALLDEBRID_TOKEN }}
+      PUBLIC_MOTRIX: ${{ secrets.PUBLIC_MOTRIX }}
+      PUBLIC_DS: ${{ secrets.PUBLIC_DS }}
+
+    steps:
+      - name: 📦 Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: 🛑 Stop des conteneurs (si en cours)
+        run: docker compose down || true
+        working-directory: /var/app
+
+      - name: 🧹 Nettoyer /var/app et recopier les sources
+        run: |
+          sudo rm -rf /var/app/*
+          sudo cp -a $(pwd)/. /var/app
+
+      - name: 🛠️ Build et démarrage de l'image Docker
+        run: |
+          docker compose build
+          docker compose up -d
+        working-directory: /var/app
+
+      - name: 🧪 Logs du conteneur (si échec)
+        if: failure()
+        run: docker logs $(docker ps -alq)
+        working-directory: /var/app

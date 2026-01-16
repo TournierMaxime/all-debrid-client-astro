@@ -1,0 +1,36 @@
+---
+import DropDown from "../../../components/DropDown"
+
+type Props = {
+  qualities:
+    | {
+        quality: string
+        url: string
+      }[]
+    | undefined
+}
+
+const { qualities } = Astro.props as Props
+
+const getQualities = (url: string) => {
+  return url.split("/?")[1] || ""
+}
+---
+
+<DropDown
+  client:load
+  title="Qualités disponibles"
+  label="Sélectionnez une qualité"
+>
+  <ul class="mt-2 bg-white border border-gray-300 rounded-md shadow-md">
+    {
+      qualities?.map((quality: { quality: string; url: string }) => (
+        <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+          <a href={`/media/${getQualities(quality.url)}`} class="p-2 m-2">
+            <b>{quality.quality}</b>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</DropDown>

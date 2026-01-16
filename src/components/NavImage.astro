@@ -1,0 +1,20 @@
+---
+import logo from "../../public/logo.png"
+// import { useSearch } from "../feature/search/context/SearchContext"
+import { Image } from "astro:assets"
+
+// const { resetSearch } = useSearch()
+/* onClick={() => resetSearch()} */
+---
+
+<div class="w-2/12">
+  <a href={"/"}>
+    <Image
+      src={logo}
+      alt="All Debrid Scraper"
+      width={500}
+      height={500}
+      class="sm:w-[100px] sm:h-[100px] w-[80px] h-[80px] max-w-[100px]"
+    />
+  </a>
+</div>

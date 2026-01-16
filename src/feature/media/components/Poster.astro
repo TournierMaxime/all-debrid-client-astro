@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets"
+import { zaFullUrl } from "../../../constants/utils"
+
+const { title, src } = Astro.props
+
+if (!title || !src) {
+  return null
+}
+---
+
+<Image
+  src={`${zaFullUrl + src}`}
+  alt={title ?? "Film title not provided"}
+  width={360}
+  height={480}
+  class="object-cover md:w-60 md:h-80 sm:w-40 sm:h-60 mob-s:w-[45vw] mob-s:h-[35vh] xs:w-[44vw] xs:h-[30vh] mob-m:w-[45vw] mob-m:h-[40vh] mob-l:w-[45vw] mob-l:h-[45vh] rounded-lg"
+  loading="lazy"
+/>

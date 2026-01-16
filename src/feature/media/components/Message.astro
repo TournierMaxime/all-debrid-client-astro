@@ -1,0 +1,16 @@
+---
+type Props = {
+  message?: string
+  error?: string
+}
+
+const { message, error } = Astro.props as Props
+---
+
+{
+  error ? (
+    <p class="w-full my-4 text-red-500">{error}</p>
+  ) : (
+    <p class="w-full my-4 text-green-500">{message}</p>
+  )
+}
