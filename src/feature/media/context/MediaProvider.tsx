@@ -55,37 +55,43 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
       console.log("Récupération du lien avec AllDebrid:", link)
 
-      const response = await actions.getLink(link)
+      const { data: resGetLink, error: errGetLink } = await actions.getLink({
+        link,
+      })
 
-      console.log("Réponse de AllDebrid:", response)
+      if (errGetLink) {
+        throw new Error(errGetLink.message)
+      }
 
-      if (response && response?.link) {
-        const { link } = response
+      if (resGetLink && resGetLink?.link) {
+        const { link } = resGetLink
 
-        console.log("Lien récupéré:", link)
+        const { data: resGetRedirectLink, error: errGetRedirectLink } =
+          await actions.getRedirectLink({ link })
 
-        const redirect = await actions.getRedirectLink(link)
+        if (errGetRedirectLink) {
+          throw new Error(errGetRedirectLink.message)
+        }
 
-        console.log("Réponse du lien de redirection:", redirect)
-
-        const links = redirect?.data?.links
+        const links = resGetRedirectLink?.data?.links
 
         if (!Array.isArray(links) || links.length === 0) {
           throw new Error("Aucun lien de redirection retourné par AllDebrid")
         }
 
-        const unlock = await actions.getUnlockLink(links[0])
+        const { data: resGetUnlockLink, error: errGetUnlockLink } =
+          await actions.getUnlockLink({ link: links[0] })
 
-        if (unlock.error) {
+        if (errGetUnlockLink) {
           dispatch({
             type: "SET_LINK",
-            payload: { link: "", error: unlock.error.message },
+            payload: { link: "", error: errGetUnlockLink.message },
           })
         } else {
           dispatch({
             type: "SET_LINK",
             payload: {
-              link: unlock?.data?.link,
+              link: resGetUnlockLink?.data?.link,
               message: "Lien récupéré avec succès",
             },
           })

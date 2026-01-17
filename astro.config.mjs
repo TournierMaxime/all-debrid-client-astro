@@ -5,9 +5,13 @@ import react from "@astrojs/react"
 
 import tailwindcss from "@tailwindcss/vite"
 
+import node from "@astrojs/node"
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
+  trailingSlash: "never",
+
   env: {
     schema: {
       SECRET_API_ALLDEBRID_LOCAL: envField.string({
@@ -42,4 +46,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
+  adapter: node({
+    mode: "standalone",
+  }),
 })

@@ -44,14 +44,14 @@ export const server = {
     },
   }),
 
-  unlockLink: defineAction({
+  getUnlockLink: defineAction({
     input: z.object({ link: z.string() }),
     handler: async ({ link }) => {
       return await allDebridService.getUnlockLink(link)
     },
   }),
 
-  redirectLink: defineAction({
+  getRedirectLink: defineAction({
     input: z.object({ link: z.string() }),
     handler: async ({ link }) => {
       return await allDebridService.getRedirectLink(link)
