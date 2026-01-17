@@ -18,6 +18,14 @@ COPY package*.json ./
 # Installe les dépendances
 RUN npm ci
 
+ARG PORT
+ARG PUBLIC_DS
+ARG PUBLIC_MOTRIX
+
+ENV PORT=$PORT
+ENV PUBLIC_DS=$PUBLIC_DS
+ENV PUBLIC_MOTRIX=$PUBLIC_MOTRIX
+
 # Copie les fichiers de l’app dans l’image
 COPY . .
 
