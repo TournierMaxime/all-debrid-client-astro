@@ -26,7 +26,10 @@ const getQualities = (url: string) => {
     {
       qualities?.map((quality: { quality: string; url: string }) => (
         <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-          <a href={`/media/${getQualities(quality.url)}`} class="p-2 m-2">
+          <a
+            href={`/media/${getQualities(quality.url)}`}
+            class="p-2 m-2 font-semibold text-sm"
+          >
             <b>{quality.quality}</b>
           </a>
         </li>

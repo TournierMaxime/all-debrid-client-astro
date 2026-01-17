@@ -1,5 +1,8 @@
 ---
 import type { Media } from "../type/media"
+
+import Tag from "../../../components/Tag.astro"
+
 interface Props {
   data: Media
 }
@@ -11,97 +14,80 @@ if (!data) {
 }
 ---
 
-<div class="flex flex-col w-full p-4 mb-4">
-  <p class="my-2">
-    <b>Titre:</b>
-    {data.originalTitle ?? "Unknown title"}
-  </p>
-  {
-    data.quality && (
-      <p class="my-2">
-        <b>Qualité:</b>
-        {data.quality}
-      </p>
-    )
-  }
+<div class="flex flex-col w-full md:pl-4 mb-4">
   {
     data.description && (
-      <p class="w-full text-justify my-2">
-        <b>Synopsis:</b>
-        {data.description}
-      </p>
+      <div class="w-full text-justify my-2 md:m-0">
+        <h3 class="text-lg font-semibold">Synopsis</h3>
+        <p class="flex flex-row flex-wrap">{data.description}</p>
+      </div>
     )
   }
   {
     data.season && (
-      <p class="my-2">
-        <b>Saison:</b>
-        {data.season}
-      </p>
+      <div class="my-2">
+        <h3 class="text-lg font-semibold">Saison</h3>
+        <Tag tag={data.season} />
+      </div>
     )
   }
   {
     data.episodes && (
-      <p class="my-2">
-        <b>Episodes:</b>
-        {data.episodes}
-      </p>
+      <div class="my-2">
+        <h3 class="text-lg font-semibold">Episodes</h3>
+        <Tag tag={data.episodes} />
+      </div>
     )
   }
   {
     data.directors && (
-      <p class="my-2">
-        <b>Réalisation:</b>
-        {data.directors && data.directors.map((d: string) => d)}
-      </p>
+      <div class="flex flex-col my-2">
+        <h3 class="text-lg font-semibold">Réalisation</h3>
+        <div class="flex flex-row flex-wrap">
+          {data.directors
+            .flatMap((director) => director.split(", "))
+            .map((director: string) => (
+              <Tag tag={director} />
+            ))}
+        </div>
+      </div>
     )
   }
   {
     data.actors && (
-      <p class="my-2">
-        <b>Acteurs:</b>
-        {data.actors && data.actors.map((a: string) => a)}
-      </p>
-    )
-  }
-  {
-    data.origin && (
-      <p class="my-2">
-        <b>Origine:</b>
-        {data.origin}
-      </p>
-    )
-  }
-  {
-    data.releaseDate && (
-      <p class="my-2">
-        <b>Sortie:</b>
-        {data.releaseDate}
-      </p>
-    )
-  }
-  {
-    data.duration && (
-      <p class="my-2">
-        <b>Durée:</b>
-        {data.duration}
-      </p>
+      <div class="flex flex-col">
+        <h3 class="text-lg font-semibold">Acteurs</h3>
+        <div class="flex flex-row flex-wrap">
+          {data.actors
+            .flatMap((actor) => actor.split(", "))
+            .map((actor: string) => <Tag tag={actor} />)
+            .slice(0, 10)}
+        </div>
+      </div>
     )
   }
   {
     data.genres && (
-      <p class="my-2">
-        <b>Genres:</b>
-        {data.genres && data.genres.map((g: string) => g)}
-      </p>
+      <div class="flex flex-col my-2">
+        <h3 class="text-lg font-semibold">Genres</h3>
+        <div class="flex flex-row flex-wrap">
+          {data.genres
+            .flatMap((genre) => genre.split(", "))
+            .map((genre) => (
+              <Tag tag={genre} />
+            ))}
+        </div>
+      </div>
     )
   }
   {
     data.fileSize && (
-      <p class="my-2 w-full text-justify">
-        <b>Taille:</b>
-        {data.fileSize}
-      </p>
+      <div class="w-full text-justify">
+        <h3 class="text-lg font-semibold">Taille</h3>
+        <div class="flex flex-row flex-wrap">
+          <Tag tag={data.fileSize} />
+        </div>
+      </div>
     )
   }
 </div>

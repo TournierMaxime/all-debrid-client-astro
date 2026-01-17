@@ -15,9 +15,7 @@ const { data }: Props = Astro.props
 ---
 
 <div class="flex flex-col bg-white">
-  <ul
-    class="flex md:flex-row md:flex-wrap flex-row items-center justify-between sm:justify-start flex-wrap w-full"
-  >
+  <ul class="flex flex-row flex-wrap sm:items-center justify-between w-full">
     {
       data.map((film: Element) => {
         const splitUrl = film.link.split("?")

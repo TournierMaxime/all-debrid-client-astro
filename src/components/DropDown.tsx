@@ -18,7 +18,7 @@ export default function DropDown({ title, label, children }: Dropdown) {
     <div className="flex flex-col md:w-5/12 mb-4">
       <h2 className="text-lg font-semibold mb-2">{title}</h2>
       <button
-        className="w-full text-left bg-gray-300 px-4 py-2 rounded-md flex justify-between items-center cursor-pointer"
+        className="w-full text-left bg-white border border-slate-400 px-4 py-2 rounded-md flex justify-between items-center cursor-pointer"
         onClick={handleOpen}
       >
         {label}

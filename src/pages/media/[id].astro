@@ -4,11 +4,12 @@ import Details from "../../feature/media/components/Details.astro"
 import Poster from "../../feature/media/components/Poster.astro"
 import Qualities from "../../feature/media/components/Qualities.astro"
 import Languages from "../../feature/media/components/Languages.astro"
+import Tag from "../../components/Tag.astro"
 
 import { zaService } from "../../services/za"
 import { zaFullUrl } from "../../constants/utils"
 
-import { EnumFilmSerie } from "../../feature/media/type/media"
+import { EnumFilmSerie, type Media } from "../../feature/media/type/media"
 
 import MediaWrapper from "../../wrappers/MediaWrapper"
 
@@ -23,7 +24,7 @@ if (!id) {
 const decodeURI = decodeURIComponent(id)
 const url = `${zaFullUrl}/?${decodeURI}`
 
-let data
+let data: Media
 
 if (id.includes("film")) {
   data = await zaService.getFilm(url)
@@ -35,15 +36,23 @@ if (id.includes("film")) {
 ---
 
 <Layout>
-  <div class="flex flex-col items-center justify-center">
-    <div
-      class="flex flex-col items-center bg-white rounded-lg p-4 w-full h-full mx-auto"
-    >
+  <div class="flex flex-col bg-white p-4">
+    <h1 class="text-xl font-semibold">
+      {data.title}
+    </h1>
+    <ul class="flex flex-row flex-wrap my-2">
+      <li><Tag tag={data.originalTitle} /></li>
+      <li><Tag tag={data.duration} /></li>
+      <li><Tag tag={data.origin} /></li>
+      <li><Tag tag={data.releaseDate} /></li>
+    </ul>
+
+    <div class="flex flex-col items-center w-full h-full mx-auto">
       <div
-        class="flex items-center md:items-start md:flex-row md:justify-between flex-col w-full"
+        class="flex items-start md:flex-row md:justify-between flex-col w-full"
       >
         <Poster title={data.title} src={data.image} />
-        <div class="flex flex-col w-full p-4 mb-4">
+        <div class="flex flex-col w-full mb-4">
           <Details data={data} />
         </div>
       </div>
