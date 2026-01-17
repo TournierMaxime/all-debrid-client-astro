@@ -12,14 +12,12 @@ export default function MediaWrapper({
 }) {
   return (
     <MediaProvider>
-      <div className="flex md:flex-row md:justify-between flex-col w-full">
-        <Downloads
-          downloads={data.downloads}
-          type={type}
-          downloadsEpisode={data.downloadsEpisode}
-        />
-        <Modal />
-      </div>
+      <Downloads
+        downloads={data.downloads}
+        type={type}
+        downloadsEpisode={data.downloadsEpisode}
+      />
+      <Modal />
     </MediaProvider>
   )
 }
