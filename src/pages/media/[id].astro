@@ -1,14 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro"
 import Details from "../../feature/media/components/Details.astro"
-import { zaService } from "../../services/za"
-import { zaFullUrl } from "../../constants/utils"
 import Poster from "../../feature/media/components/Poster.astro"
 import Qualities from "../../feature/media/components/Qualities.astro"
 import Languages from "../../feature/media/components/Languages.astro"
-import MediaIsland from "../../feature/media/components/MediaIsland"
-import Modal from "../../feature/media/components/Modal"
-import { EnumFilmSerie } from "../../feature/media/type/media"
+
+import { zaService } from "../../services/za"
+import { zaFullUrl } from "../../constants/utils"
+
+import MediaWrapper from "../../wrappers/MediaWrapper"
 
 export const prerender = false
 
@@ -55,20 +55,7 @@ if (id.includes("film")) {
           )
         }
 
-        <MediaIsland
-          client:load
-          props={{
-            downloads: id.includes("film") ? data.downloads : null,
-            downloadsEpisode: id.includes("serie")
-              ? data.downloadsEpisodes
-              : null,
-            type: id.includes("film")
-              ? EnumFilmSerie.film
-              : EnumFilmSerie.serie,
-          }}
-        />
-
-        <Modal client:visible />
+        <MediaWrapper client:load props={data} />
       </div>
     </div>
   </div>

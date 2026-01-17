@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useReducer } from "react"
-import { allDebridService } from "../../../services/za"
 import copy from "copy-to-clipboard"
 import type {
   DownloadEpisode,
@@ -7,6 +6,7 @@ import type {
   MediaAction,
   MediaState,
 } from "../type/media"
+import { actions } from "astro:actions"
 
 const MediaContext = createContext<any>(null)
 
@@ -55,7 +55,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
       console.log("Récupération du lien avec AllDebrid:", link)
 
-      const response = await allDebridService.getLink(link)
+      const response = await actions.getLink(link)
 
       console.log("Réponse de AllDebrid:", response)
 
@@ -64,7 +64,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
         console.log("Lien récupéré:", link)
 
-        const redirect = await allDebridService.getRedirectLink(link)
+        const redirect = await actions.getRedirectLink(link)
 
         console.log("Réponse du lien de redirection:", redirect)
 
@@ -74,7 +74,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
           throw new Error("Aucun lien de redirection retourné par AllDebrid")
         }
 
-        const unlock = await allDebridService.getUnlockLink(links[0])
+        const unlock = await actions.getUnlockLink(links[0])
 
         if (unlock.error) {
           dispatch({

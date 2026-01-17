@@ -3,19 +3,25 @@ import { useMedia } from "../../../feature/media/context/MediaProvider"
 import { EnumFilmSerie } from "../type/media"
 import type { PropsFilmSerie } from "../type/media"
 
-export default function Downloads(props: PropsFilmSerie) {
+export default function Downloads({
+  downloads,
+  type,
+  downloadsEpisode,
+}: {
+  downloads: PropsFilmSerie["downloads"]
+  type: PropsFilmSerie["type"]
+  downloadsEpisode: PropsFilmSerie["downloadsEpisode"]
+}) {
   const { getDownLoads, getDownLoadsSeries } = useMedia()
 
   return (
     <DropDown title="Liens de téléchargement" label="Sélectionnez un lien">
       <ul className="mt-2 bg-white border border-gray-300 rounded-md shadow-md">
-        {props.type === EnumFilmSerie.film &&
-          props.downloads.map((download, index) =>
-            getDownLoads(download, index),
-          )}
+        {type === EnumFilmSerie.film &&
+          downloads?.map((download, index) => getDownLoads(download, index))}
 
-        {props.type === EnumFilmSerie.serie &&
-          props.downloadsEpisode.map((episode, index) =>
+        {type === EnumFilmSerie.serie &&
+          downloadsEpisode?.map((episode, index) =>
             getDownLoadsSeries(episode, index),
           )}
       </ul>

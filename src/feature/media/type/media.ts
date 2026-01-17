@@ -24,7 +24,6 @@ interface Media {
   availableLanguages?: AvailableLanguages[]
   season?: string
   episodes?: string
-  fileName?: string
 }
 
 interface Qualities {
