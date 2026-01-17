@@ -25,4 +25,4 @@ COPY . .
 RUN npm run build
 
 # Définit la commande de démarrage
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
