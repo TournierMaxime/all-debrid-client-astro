@@ -1,5 +1,5 @@
-import Provider from "./Provider.astro"
-import Message from "./Message.astro"
+import Provider from "./Provider"
+import Message from "./Message"
 import Button from "../../../components/Button"
 import { useMedia } from "../context/MediaProvider"
 
