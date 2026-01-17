@@ -1,12 +1,13 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config"
 
-import react from "@astrojs/react";
+import react from "@astrojs/react"
 
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from "@tailwindcss/vite"
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
   env: {
     schema: {
       SECRET_API_ALLDEBRID_LOCAL: envField.string({

@@ -57,8 +57,15 @@ if (id.includes("film")) {
 
         <MediaIsland
           client:load
-          downloads={data.downloads ?? []}
-          type={id.includes("film") ? EnumFilmSerie.film : EnumFilmSerie.serie}
+          props={{
+            downloads: id.includes("film") ? data.downloads : null,
+            downloadsEpisode: id.includes("serie")
+              ? data.downloadsEpisodes
+              : null,
+            type: id.includes("film")
+              ? EnumFilmSerie.film
+              : EnumFilmSerie.serie,
+          }}
         />
 
         <Modal client:visible />

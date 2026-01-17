@@ -1,6 +1,4 @@
-"use client"
 import React, { createContext, useContext, useReducer, useRef } from "react"
-import { zaService } from "../../../services/za"
 import type {
   SearchAction,
   SearchState,
@@ -8,6 +6,8 @@ import type {
   SearchProps,
 } from "../type/search"
 import type { Medias, Media } from "../../../feature/media/type/media"
+import { actions } from "astro:actions"
+import { navigate } from "astro:transitions/client"
 
 // Définition du contexte
 const SearchContext = createContext<SearchContextType | null>(null)
@@ -54,7 +54,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const handleSearch = async () => {
     if (!state.search.query) return
 
-    await searchData(zaService.search(state?.search))
+    await searchData(actions.search(state?.search))
 
     dispatch({
       type: "SET_SEARCH",
@@ -103,6 +103,9 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const response: Medias[] = await service
       dispatch({ type: "SET_DATA", payload: { medias: response } })
+      navigate(
+        `results?query=${state.search.query}&filter=${state.search.filter}`,
+      )
     } catch (error: any) {
       dispatch({ type: "SET_ERROR", payload: error })
     } finally {
@@ -113,7 +116,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const resetSearch = () => {
     dispatch({ type: "SET_DATA", payload: initialDataRef.current })
     dispatch({ type: "SET_ERROR", payload: undefined })
-    fetchData(zaService.getFilms())
+    fetchData(actions.getFilms())
   }
 
   return (

@@ -9,7 +9,6 @@ class ZA {
   public apiAllDebridLocal = SECRET_API_ALLDEBRID_LOCAL
 
   async getFilms() {
-    console.log("Appel API vers :", this.apiAllDebridLocal);
     const response = await fetch(`${this.apiAllDebridLocal}/films/`, {
       method: "GET",
       headers: {
@@ -64,7 +63,7 @@ class AllDebrid extends ZA {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     )
     return response.json()
   }
@@ -72,7 +71,7 @@ class AllDebrid extends ZA {
   async getUnlockLink(link: string) {
     const response = await fetch(
       `${this.officialAllDebridApi}/link/unlock?link=${decodeURIComponent(
-        link
+        link,
       )}`,
       {
         method: "POST",
@@ -80,7 +79,7 @@ class AllDebrid extends ZA {
           "Content-Type": "application/json",
           Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
         },
-      }
+      },
     )
     return response.json()
   }
@@ -88,7 +87,7 @@ class AllDebrid extends ZA {
   async getRedirectLink(link: string) {
     const response = await fetch(
       `${this.officialAllDebridApi}/link/redirector?link=${decodeURIComponent(
-        link
+        link,
       )}`,
       {
         method: "POST",
@@ -96,7 +95,7 @@ class AllDebrid extends ZA {
           "Content-Type": "application/json",
           Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
         },
-      }
+      },
     )
     return response.json()
   }

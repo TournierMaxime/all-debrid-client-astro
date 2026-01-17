@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa"
 import Modal from "../../../components/Modal"
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import Form from "./Form"
 import { useSearch } from "../context/SearchContext"
 
@@ -25,16 +25,14 @@ const SearchForm = () => {
   }
 
   return (
-    <Fragment>
-      <div className="flex flex-col justify-center items-center md:flex-row md:justify-center w-2/12">
-        <div className="flex items-center" onClick={handleOpen}>
-          <FaSearch className="sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] max-w-[50px] cursor-pointer mr-4" />
-        </div>
-        <Modal isOpen={isOpen} onClose={handleOpen} title="Moteur de recherche">
-          <Form handleSubmit={handleSubmit} />
-        </Modal>
+    <div className="flex flex-col justify-center items-center md:flex-row md:justify-center w-2/12">
+      <div className="flex items-center" onClick={handleOpen}>
+        <FaSearch className="sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] max-w-[50px] cursor-pointer mr-4" />
       </div>
-    </Fragment>
+      <Modal isOpen={isOpen} onClose={handleOpen} title="Moteur de recherche">
+        <Form handleSubmit={handleSubmit} />
+      </Modal>
+    </div>
   )
 }
 

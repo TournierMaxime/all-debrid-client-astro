@@ -1,4 +1,3 @@
-"use client"
 import React from "react"
 import { useSearch } from "../../../feature/search/context/SearchContext"
 
@@ -62,7 +61,7 @@ const Form = ({
       {/* Bouton de soumission */}
       <button
         type="submit"
-        className="flex justify-center bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 text-white mt-4 transition"
+        className="flex justify-center bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 text-white mt-4 transition cursor-pointer"
       >
         Valider
       </button>
