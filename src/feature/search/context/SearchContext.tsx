@@ -104,7 +104,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
       const response: Medias[] = await service
       dispatch({ type: "SET_DATA", payload: { medias: response } })
       navigate(
-        `results?query=${state.search.query}&filter=${state.search.filter}`,
+        `/results?query=${state.search.query}&filter=${state.search.filter}`,
       )
     } catch (error: any) {
       dispatch({ type: "SET_ERROR", payload: error })
