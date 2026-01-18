@@ -57,4 +57,10 @@ export const server = {
       return await allDebridService.getRedirectLink(link)
     },
   }),
+  saveLink: defineAction({
+    input: z.object({ link: z.string() }),
+    handler: async ({ link }) => {
+      return await allDebridService.saveLink(link)
+    },
+  }),
 }
