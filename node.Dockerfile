@@ -32,5 +32,8 @@ COPY . .
 # Build l’app (si nécessaire pour ton projet Next.js)
 RUN npm run build
 
+ENV HOST=0.0.0.0
+EXPOSE $PORT
+
 # Définit la commande de démarrage
 CMD ["npm", "run", "preview"]
