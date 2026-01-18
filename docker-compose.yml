@@ -16,5 +16,3 @@ services:
     command: npm start
     ports:
       - "${PORT}:${PORT}"
-    volumes:
-      - .:/var/app
