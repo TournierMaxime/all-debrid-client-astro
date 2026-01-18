@@ -13,6 +13,6 @@ services:
       - PUBLIC_DS=${PUBLIC_DS}
     working_dir: /var/app
     user: root
-    command: npm start
+    command: npm run preview -- --host
     ports:
       - "${PORT}:${PORT}"
