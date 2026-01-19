@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { allDebridService } from "../services/za"
+
+type History = {
+  status: string
+  data: {
+    links: Link[]
+  }
+}
+
+type Link = {
+  link: string
+  link_dl: string
+  filename: string
+  size: number
+  date: number
+  host: string
+}
+
+const response = await allDebridService.getUserHistory()
+const { links } = response.data
+---
+
+<Layout>
+  <div class="flex flex-col bg-white">
+    <ul>
+      {
+        links.map((data: Link) => {
+          const { link, link_dl, filename, size, date, host } = data
+          return (
+            <>
+              <li>{link}</li>
+              <li>{link_dl}</li>
+              <li>{filename}</li>
+              <li>{size}</li>
+              <li>{date}</li>
+              <li>{host}</li>
+            </>
+          )
+        })
+      }
+    </ul>
+  </div>
+</Layout>
