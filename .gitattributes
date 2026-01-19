@@ -1,0 +1,2 @@
+docker-compose.yml merge=ours
+node.Dockerfile merge=ours
