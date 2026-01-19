@@ -76,7 +76,6 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
         const links = resGetRedirectLink?.data?.links
 
         const { data: resSaveLink } = await actions.saveLink({ link: links[0] })
-        console.log("resSaveLink", resSaveLink)
 
         if (!Array.isArray(links) || links.length === 0) {
           throw new Error("Aucun lien de redirection retourné par AllDebrid")

@@ -3,7 +3,7 @@ import logo from "../../public/logo.png"
 import { Image } from "astro:assets"
 ---
 
-<div class="w-2/12">
+<div class="w-2/12 flex flex-row items-center">
   <a href={"/"}>
     <Image
       src={logo}
@@ -13,5 +13,5 @@ import { Image } from "astro:assets"
       class="sm:w-[100px] sm:h-[100px] w-[80px] h-[80px] max-w-[100px]"
     />
   </a>
-  <a href="/history">Historique</a>
+  <a href="/history" class="font-semibold text-normal">Historique</a>
 </div>

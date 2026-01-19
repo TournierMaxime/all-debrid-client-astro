@@ -5,8 +5,7 @@ export default function Provider() {
     <ul className="flex flex-row justify-around mt-4">
       <li className="bg-violet-500 rounded p-2 mr-4">
         <a target="_blank" className="text-white" href={PUBLIC_MOTRIX}>
-          {" "}
-          Motrix{" "}
+          Motrix
         </a>
       </li>
       <li className="bg-green-500 rounded p-2">
