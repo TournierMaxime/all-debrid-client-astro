@@ -1,0 +1,24 @@
+services:
+  server:
+    container_name: all-debrid-client-astro
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+      args:
+        - PORT=${PORT}
+        - PUBLIC_MOTRIX=${PUBLIC_MOTRIX}
+        - PUBLIC_DS=${PUBLIC_DS}
+    environment:
+      - PORT=${PORT}
+      - SECRET_API_ALLDEBRID_LOCAL=${SECRET_API_ALLDEBRID_LOCAL}
+      - SECRET_OFFICIAL_ALLDEBRID_API=${SECRET_OFFICIAL_ALLDEBRID_API}
+      - SECRET_ALLDEBRID_TOKEN=${SECRET_ALLDEBRID_TOKEN}
+      - PUBLIC_MOTRIX=${PUBLIC_MOTRIX}
+      - PUBLIC_DS=${PUBLIC_DS}
+    working_dir: /var/app
+    user: root
+    command: npm run dev -- --host
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/var/app
