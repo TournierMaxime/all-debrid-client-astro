@@ -18,11 +18,22 @@ COPY package*.json ./
 # Installe les dépendances
 RUN npm ci
 
+ARG PORT
+ARG PUBLIC_MOTRIX
+ARG PUBLIC_DS
+# On les expose au script de build
+ENV PORT=$PORT
+ENV PUBLIC_MOTRIX=$PUBLIC_MOTRIX
+ENV PUBLIC_DS=$PUBLIC_DS
+
 # Copie les fichiers de l’app dans l’image
 COPY . .
 
 # Build l’app (si nécessaire pour ton projet Next.js)
 RUN npm run build
+
+ENV HOST=0.0.0.0
+EXPOSE $PORT
 
 # Définit la commande de démarrage
 CMD ["npm", "run", "dev"]

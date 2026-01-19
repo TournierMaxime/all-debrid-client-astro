@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
+    "start": "astro",
     "sync": "npx astro sync"
   },
   "dependencies": {
