@@ -16,6 +16,7 @@ jobs:
       SECRET_ALLDEBRID_TOKEN: ${{ secrets.SECRET_ALLDEBRID_TOKEN }}
       PUBLIC_MOTRIX: ${{ secrets.PUBLIC_MOTRIX }}
       PUBLIC_DS: ${{ secrets.PUBLIC_DS }}
+      SECRET_API_PLEX_LOCAL: ${{ secrets.SECRET_API_PLEX_LOCAL }}
 
     steps:
       - name: 📦 Cloner le dépôt
