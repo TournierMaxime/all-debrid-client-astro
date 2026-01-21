@@ -14,6 +14,14 @@ export default defineConfig({
 
   env: {
     schema: {
+      SECRET_PLEX_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_API_PLEX_LOCAL: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       SECRET_API_ALLDEBRID_LOCAL: envField.string({
         context: "server",
         access: "secret",
