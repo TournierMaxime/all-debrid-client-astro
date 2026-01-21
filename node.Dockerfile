@@ -36,4 +36,4 @@ ENV HOST=0.0.0.0
 EXPOSE $PORT
 
 # Définit la commande de démarrage
-CMD ["npm", "run", "preview"]
+CMD ["npm", "run", "dev"]

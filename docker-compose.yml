@@ -18,6 +18,6 @@ services:
       - SECRET_API_PLEX_LOCAL=${SECRET_API_PLEX_LOCAL}
     working_dir: /var/app
     user: root
-    command: npm run preview -- --host 0.0.0.0 --port ${PORT}
+    command: npm run dev -- --host
     ports:
       - "${PORT}:${PORT}"
