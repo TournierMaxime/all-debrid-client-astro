@@ -17,6 +17,7 @@ jobs:
       PUBLIC_MOTRIX: ${{ secrets.PUBLIC_MOTRIX }}
       PUBLIC_DS: ${{ secrets.PUBLIC_DS }}
       SECRET_API_PLEX_LOCAL: ${{ secrets.SECRET_API_PLEX_LOCAL }}
+      SECRET_PLEX_TOKEN: ${{ secrets.SECRET_PLEX_TOKEN }}
 
     steps:
       - name: 📦 Cloner le dépôt

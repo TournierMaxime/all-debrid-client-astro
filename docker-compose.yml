@@ -16,8 +16,11 @@ services:
       - PUBLIC_MOTRIX=${PUBLIC_MOTRIX}
       - PUBLIC_DS=${PUBLIC_DS}
       - SECRET_API_PLEX_LOCAL=${SECRET_API_PLEX_LOCAL}
+      - SECRET_PLEX_TOKEN=${SECRET_PLEX_TOKEN}
     working_dir: /var/app
     user: root
     command: npm run dev -- --host
     ports:
       - "${PORT}:${PORT}"
+    volumes:
+      - .:/var/app
