@@ -34,7 +34,11 @@ jobs:
           sudo cp -a $(pwd)/. /var/app
 
       - name: 🛠️ Build et démarrage de l'image Docker
-        run: npm run docker:prod
+        run: |
+          docker compose \
+            -f docker-compose.yml \
+            -f docker-compose.prod.yml \
+            up --build -d
         working-directory: /var/app
 
       - name: 🧪 Logs du conteneur (si échec)
