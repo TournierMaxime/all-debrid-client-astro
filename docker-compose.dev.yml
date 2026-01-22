@@ -1,0 +1,11 @@
+services:
+  server:
+    container_name: all-debrid-client-astro-dev
+
+    command: npm run dev -- --host
+
+    environment:
+      NODE_ENV: development
+
+    volumes:
+      - .:/var/app

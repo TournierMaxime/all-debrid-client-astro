@@ -25,15 +25,15 @@ ARG PUBLIC_DS
 ENV PORT=$PORT
 ENV PUBLIC_MOTRIX=$PUBLIC_MOTRIX
 ENV PUBLIC_DS=$PUBLIC_DS
+ENV HOST=0.0.0.0
+ENV NODE_ENV=${NODE_ENV}
 
 # Copie les fichiers de l’app dans l’image
 COPY . .
 
 # Build l’app (si nécessaire pour ton projet Next.js)
-RUN npm run build
+RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
 
-ENV HOST=0.0.0.0
 EXPOSE $PORT
 
-# Définit la commande de démarrage
-CMD ["npm", "run", "preview"]
+CMD if [ "$NODE_ENV" = "production" ]; then npm run preview; else npm run dev; fi

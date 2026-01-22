@@ -7,7 +7,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "start": "astro",
-    "sync": "npx astro sync"
+    "sync": "npx astro sync",
+    "docker:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d",
+    "docker:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.2",
