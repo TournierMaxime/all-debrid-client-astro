@@ -13,6 +13,10 @@ export default defineConfig({
   trailingSlash: "never",
   env: {
     schema: {
+      NODE_ENV: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       SECRET_PLEX_ENDPOINT: envField.string({
         context: "server",
         access: "secret",

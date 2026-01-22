@@ -8,6 +8,7 @@ services:
         - PORT=${PORT}
         - PUBLIC_MOTRIX=${PUBLIC_MOTRIX}
         - PUBLIC_DS=${PUBLIC_DS}
+        - NODE_ENV=${NODE_ENV}
     environment:
       - PORT=${PORT}
       - SECRET_API_ALLDEBRID_LOCAL=${SECRET_API_ALLDEBRID_LOCAL}

@@ -21,12 +21,13 @@ RUN npm ci
 ARG PORT
 ARG PUBLIC_MOTRIX
 ARG PUBLIC_DS
+ARG NODE_ENV
 # On les expose au script de build
 ENV PORT=$PORT
 ENV PUBLIC_MOTRIX=$PUBLIC_MOTRIX
 ENV PUBLIC_DS=$PUBLIC_DS
 ENV HOST=0.0.0.0
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=$NODE_ENV
 
 # Copie les fichiers de l’app dans l’image
 COPY . .

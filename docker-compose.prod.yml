@@ -7,4 +7,4 @@ services:
     restart: always
 
     environment:
-      NODE_ENV: production
+      - NODE_ENV=${NODE_ENV}
