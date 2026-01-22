@@ -11,9 +11,12 @@ import node from "@astrojs/node"
 export default defineConfig({
   output: "server",
   trailingSlash: "never",
-
   env: {
     schema: {
+      SECRET_PLEX_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       SECRET_PLEX_TOKEN: envField.string({
         context: "server",
         access: "secret",

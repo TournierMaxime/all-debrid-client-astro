@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro"
+
+import { plexService } from "../services/plex"
+
+import moment from "moment"
+import { tableClass, tdClass, thClass } from "../constants/utils"
+
+import type { Metadata, UnifiedMetadata } from "../types/metadata"
+
+const normalize = (
+  items: Metadata[],
+  sectionId: string,
+  source: string,
+): UnifiedMetadata[] =>
+  items.map((item) => ({
+    ...item,
+    sectionId,
+    source,
+  }))
+
+const [films, privateFilms, emilieSFilms] = await Promise.all([
+  plexService.getLibrary("1"),
+  plexService.getLibrary("5"),
+  plexService.getLibrary("8"),
+])
+
+const allMetadata: UnifiedMetadata[] = [
+  ...normalize(films.MediaContainer.Metadata, "1", "Films"),
+  ...normalize(privateFilms.MediaContainer.Metadata, "5", "Films Privés"),
+  ...normalize(emilieSFilms.MediaContainer.Metadata, "8", "Films Emilie"),
+]
+
+const sortMetadataFilms = allMetadata.sort(
+  (a: Metadata, b: Metadata) => b.addedAt - a.addedAt,
+)
+---
+
+<Layout>
+  <div class="flex flex-col bg-white p-4">
+    <table class={tableClass}>
+      <thead>
+        <tr>
+          <th class={thClass} scope="col">Titre</th>
+          <th class={thClass} scope="col">Source</th>
+          <th class={thClass} scope="col">Date d'ajout</th>
+          <th class={thClass} scope="col">Consulter</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          sortMetadataFilms.map((m: UnifiedMetadata) => {
+            const { title, addedAt, source, sectionId } = m
+            return (
+              <tr>
+                <td class={tdClass} scope="row">
+                  {title}
+                </td>
+                <td class={tdClass} scope="row">
+                  {source}
+                </td>
+                <td class={tdClass} scope="row">
+                  {moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")}
+                </td>
+                <td class={tdClass + " text-center"} scope="row">
+                  <a href={`/library/${sectionId}/${m.ratingKey}`}>Voir</a>
+                </td>
+              </tr>
+            )
+          })
+        }
+      </tbody>
+    </table>
+  </div>
+</Layout>

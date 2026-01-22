@@ -3,7 +3,8 @@ const { tag, color = "" } = Astro.props
 ---
 
 <button
-  class={`text-black text-normal font-normal px-2 my-1 mr-1 w-auto rounded-xl border border-slate-400 ${color}`}
+  title={tag}
+  class={`bg-white text-black text-normal font-normal px-2 my-1 mr-1 w-auto max-w-[500px] rounded-xl border border-slate-400 truncate ${color}`}
 >
   {tag}
 </button>

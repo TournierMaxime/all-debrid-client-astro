@@ -17,6 +17,7 @@ services:
       - PUBLIC_DS=${PUBLIC_DS}
       - SECRET_API_PLEX_LOCAL=${SECRET_API_PLEX_LOCAL}
       - SECRET_PLEX_TOKEN=${SECRET_PLEX_TOKEN}
+      - SECRET_PLEX_ENDPOINT=${SECRET_PLEX_ENDPOINT}
     working_dir: /var/app
     user: root
     command: npm run dev -- --host

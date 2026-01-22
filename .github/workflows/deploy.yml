@@ -18,6 +18,7 @@ jobs:
       PUBLIC_DS: ${{ secrets.PUBLIC_DS }}
       SECRET_API_PLEX_LOCAL: ${{ secrets.SECRET_API_PLEX_LOCAL }}
       SECRET_PLEX_TOKEN: ${{ secrets.SECRET_PLEX_TOKEN }}
+      SECRET_PLEX_ENDPOINT: ${{ secrets.SECRET_PLEX_ENDPOINT }}
 
     steps:
       - name: 📦 Cloner le dépôt

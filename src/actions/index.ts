@@ -1,6 +1,7 @@
 import { defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import { zaService, allDebridService } from "../services/za"
+import { plexService } from "../services/plex"
 
 export const server = {
   // --- Actions ZA Service ---
@@ -67,6 +68,23 @@ export const server = {
   getUserHistory: defineAction({
     handler: async () => {
       return await allDebridService.getUserHistory()
+    },
+  }),
+
+  getLibrary: defineAction({
+    input: z.object({
+      sectionId: z.string(),
+      params: z
+        .object({
+          type: z.string().optional(),
+          offset: z.string().optional(),
+          limit: z.string().optional(),
+        })
+        .optional(),
+    }),
+
+    handler: async ({ sectionId, params }) => {
+      return await plexService.getLibrary(sectionId, params)
     },
   }),
 }
