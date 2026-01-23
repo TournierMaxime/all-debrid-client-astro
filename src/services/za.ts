@@ -127,6 +127,17 @@ class AllDebrid extends ZA {
     })
     return response.json()
   }
+
+  async getUserLinks() {
+    const response = await fetch(`${this.officialAllDebridApi}/user/links`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
+      },
+    })
+    return response.json()
+  }
 }
 
 export const zaService = new ZA()

@@ -17,14 +17,13 @@ type History = {
 
 type Link = {
   link: string
-  link_dl: string
-  filename: string
-  size: number
   date: number
   host: string
+  filename: string
+  size: number
 }
 
-const response = await allDebridService.getUserHistory()
+const response = await allDebridService.getUserLinks()
 const { links } = response.data
 
 const formatBytes = (bytes: number) => {
@@ -49,8 +48,8 @@ const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
             <div>
               <p class="truncate">{data.filename}</p>
               <button
-                class="mt-4 px-2 py-1 bg-blue-500 text-white rounded"
-                onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link_dl}" } }))`}
+                class="mt-4 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer"
+                onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
               >
                 Télécharger
               </button>

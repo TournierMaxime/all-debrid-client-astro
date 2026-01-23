@@ -71,6 +71,12 @@ export const server = {
     },
   }),
 
+  getUserLinks: defineAction({
+    handler: async () => {
+      return await allDebridService.getUserLinks()
+    },
+  }),
+
   getLibrary: defineAction({
     input: z.object({
       sectionId: z.string(),
