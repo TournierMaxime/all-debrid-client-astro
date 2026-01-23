@@ -1,10 +1,10 @@
 ---
-const { tag, color = "" } = Astro.props
+const { tag, color = "", clx = "" } = Astro.props
 ---
 
 <button
   title={tag}
-  class={`bg-white text-black text-normal font-normal px-2 my-1 mr-1 w-auto max-w-[500px] rounded-xl border border-slate-400 truncate ${color}`}
+  class={`bg-white text-black text-sm font-normal px-2 my-1 mr-1 rounded border border-slate-400 truncate ${color} ${clx ? clx : "w-auto"}`}
 >
   {tag}
 </button>

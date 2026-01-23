@@ -4,9 +4,9 @@ import Layout from "../layouts/Layout.astro"
 import { plexService } from "../services/plex"
 
 import moment from "moment"
-import { tableClass, tdClass, thClass } from "../constants/utils"
 
 import type { Metadata, UnifiedMetadata } from "../types/metadata"
+import Tag from "../components/Tag.astro"
 
 const normalize = (
   items: Metadata[],
@@ -38,38 +38,25 @@ const sortMetadataFilms = allMetadata.sort(
 
 <Layout>
   <div class="flex flex-col bg-white p-4">
-    <table class={tableClass}>
-      <thead>
-        <tr>
-          <th class={thClass} scope="col">Titre</th>
-          <th class={thClass} scope="col">Source</th>
-          <th class={thClass} scope="col">Date d'ajout</th>
-          <th class={thClass} scope="col">Consulter</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          sortMetadataFilms.map((m: UnifiedMetadata) => {
-            const { title, addedAt, source, sectionId } = m
-            return (
-              <tr>
-                <td class={tdClass} scope="row">
-                  {title}
-                </td>
-                <td class={tdClass} scope="row">
-                  {source}
-                </td>
-                <td class={tdClass} scope="row">
-                  {moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")}
-                </td>
-                <td class={tdClass + " text-center"} scope="row">
-                  <a href={`/library/${sectionId}/${m.ratingKey}`}>Voir</a>
-                </td>
-              </tr>
-            )
-          })
-        }
-      </tbody>
-    </table>
+    {
+      sortMetadataFilms.map((m: UnifiedMetadata) => {
+        const { title, addedAt, source, sectionId } = m
+        return (
+          <div class="w-full p-4 my-2 bg-white rounded-md border border-slate-400 shadow-md">
+            <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
+              <h2>{title}</h2>
+
+              <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
+            </div>
+            <div class="flex flex-row justify-between items-baseline">
+              <Tag tag={source} />
+              <button class="mt-4 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer">
+                <a href={`/library/${sectionId}/${m.ratingKey}`}>Consulter</a>
+              </button>
+            </div>
+          </div>
+        )
+      })
+    }
   </div>
 </Layout>
