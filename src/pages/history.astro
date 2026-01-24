@@ -7,6 +7,7 @@ import { allDebridService } from "../services/za"
 
 import moment from "moment"
 import Tag from "../components/Tag.astro"
+import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
 
 type History = {
   status: string
@@ -53,6 +54,12 @@ const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
               >
                 Télécharger
               </button>
+              <button
+                class="mt-2 px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
+                onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
+              >
+                Supprimer
+              </button>
               <Tag tag={formatBytes(data.size)} />
             </div>
             <div class="mt-4 md:mt-0">
@@ -64,4 +71,5 @@ const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
     </div>
   </div>
   <DownloadAgainWrapper client:only="react" />
+  <DeleteSaveLinkWrapper client:only="react" />
 </Layout>
