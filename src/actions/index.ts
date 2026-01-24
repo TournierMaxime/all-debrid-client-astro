@@ -102,4 +102,13 @@ export const server = {
       return allDebridService.deleteSaveLink(link)
     },
   }),
+
+  deleteMetadataItem: defineAction({
+    input: z.object({
+      ids: z.string(),
+    }),
+    handler: async ({ ids }) => {
+      return plexService.deleteMetadataItem(ids)
+    },
+  }),
 }
