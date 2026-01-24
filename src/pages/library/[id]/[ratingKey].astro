@@ -9,11 +9,13 @@ import { plexEndpoint, plexToken } from "../../../constants/utils"
 import { Image } from "astro:assets"
 
 import Tag from "../../../components/Tag.astro"
+import Info from "../../../components/Info.astro"
 
 import { formatDuration } from "../../../constants/utils"
 import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapper"
 
 import { formatBytes } from "../../../constants/utils"
+import { DeleteButton } from "../../../components/Button"
 
 const { id, ratingKey } = Astro.params
 
@@ -62,154 +64,80 @@ const extension = Media[0]?.container ?? ""
       class="flex flex-col bg-slate-100 rounded-lg p-4 shadow-md border border-slate-400"
     >
       <div class="flex flex-col md:flex-row w-full">
-        <div class="flex flex-col w-full md:w-3/12">
+        <div
+          class="flex flex-col md:w-8/12 w-full h-[max-content] md:ml-4 rounded bg-white border border-slate-400 p-4 md:mb-0 mb-4"
+        >
+          <h1 class="font-semibold text-lg md:mt-0 mb-2">
+            {title}
+          </h1>
+          <p class="text-normal text-justify leading-8">{summary}</p>
+        </div>
+        <div class="md:w-1/12"></div>
+        <div class="flex flex-col w-full md:w-3/12 rounded">
           <Image
             src={`${plexEndpoint}${thumb}?X-Plex-Token=${plexToken}`}
             alt={title}
-            width={360}
-            height={480}
-            class="object-cover w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
+            width={240}
+            height={320}
+            class="rounded-lg object-cover w-full h-full max-w-[240px] max-h-[320px]"
           />
-          <button
-            class="mt-2 px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
-            onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+          <div
+            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md"
           >
-            Supprimer
-          </button>
+            <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
+            <Info title="Realisation" dataMap={Director} />
+            <Info title="Scénario" dataMap={Writer} />
+            <Info title="Distribution" dataMap={Role} />
+            <Info title="Durée" data={formatDuration(duration)} />
+            <Info title="Année" data={year} />
+            <Info title="Genre" dataMap={Genre} />
+            <Info title="Pays" dataMap={Country} />
+            <Info title="Collection" dataMap={Collection} />
+          </div>
+          <div
+            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md"
+          >
+            <h2 class="font-semibold text-lg mb-4">
+              Spécifications techniques
+            </h2>
+            <h3 class="font-semibold text-normal ml-2">Taille du fichier</h3>
+            <span class="ml-2">
+              <Tag tag={formatBytes(size)} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Resolution</h3>
+            <span class="ml-2">
+              <Tag tag={videoResolution} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Image par seconde</h3>
+            <span class="ml-2">
+              <Tag tag={videoFrameRate} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Audio Codec</h3>
+            <span class="ml-2">
+              <Tag tag={audioCodec} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Video Codec</h3>
+            <span class="ml-2">
+              <Tag tag={videoCodec} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Extension du fichier</h3>
+            <span class="ml-2">
+              <Tag tag={extension} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Chemin</h3>
+            <span class="ml-2">
+              <Tag tag={path} />
+            </span>
+            <h3 class="font-semibold text-normal ml-2">Fichier</h3>
+            <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
+            <DeleteButton
+              title="Supprimer"
+              onClick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+            >
+              Supprimer
+            </DeleteButton>
+          </div>
         </div>
-        <div class="flex flex-col md:w-9/12 w-full md:ml-4">
-          <h1 class="font-semibold text-lg mt-4 md:mt-0 mb-2">
-            {title}
-          </h1>
-          <p class="text-normal text-justify">{summary}</p>
-        </div>
-      </div>
-
-      <div class="flex flex-col w-full mt-4">
-        <h2 class="font-semibold text-lg">Fiche technique</h2>
-        <h3 class="font-semibold text-normal ml-2">Realisation</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Director &&
-              Director.map((d) => {
-                return (
-                  <li>
-                    <Tag tag={d.tag} />
-                  </li>
-                )
-              })
-          }
-        </ul>
-        <h3 class="font-semibold text-normal ml-2">Scénario</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Writer &&
-              Writer.map((w) => {
-                return (
-                  <li>
-                    <Tag tag={w.tag} />
-                  </li>
-                )
-              })
-          }
-        </ul>
-        <h3 class="font-semibold text-normal ml-2">Distribution</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Role &&
-              Role.map((r) => {
-                return (
-                  <li>
-                    <Tag tag={r.tag} />
-                  </li>
-                )
-              })
-          }
-        </ul>
-        <h3 class="font-semibold text-normal ml-2">Durée</h3>
-        <span class="ml-2">
-          <Tag tag={formatDuration(duration)} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Année</h3>
-        <span class="ml-2">
-          <Tag tag={year} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Genre</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Genre &&
-              Genre.map((g) => {
-                return (
-                  <li>
-                    <Tag tag={g.tag} />
-                  </li>
-                )
-              })
-          }
-        </ul>
-        <h3 class="font-semibold text-normal ml-2">Pays</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Country &&
-              Country.map((c) => {
-                return (
-                  <li>
-                    <Tag tag={c.tag} />
-                  </li>
-                )
-              })
-          }
-        </ul>
-        <h3 class="font-semibold text-normal ml-2">Collection</h3>
-        <ul class="ml-2 flex flex-row flex-wrap">
-          {
-            Collection ? (
-              Collection.map((c) => {
-                return (
-                  <li>
-                    <Tag tag={c.tag} />
-                  </li>
-                )
-              })
-            ) : (
-              <span>Non</span>
-            )
-          }
-        </ul>
-      </div>
-
-      <div class="flex flex-col w-full mt-4">
-        <h2 class="font-semibold text-normal">Spécifications techniques</h2>
-        <h3 class="font-semibold text-normal ml-2">Taille du fichier</h3>
-        <span class="ml-2">
-          <Tag tag={formatBytes(size)} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Resolution</h3>
-        <span class="ml-2">
-          <Tag tag={videoResolution} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Image par seconde</h3>
-        <span class="ml-2">
-          <Tag tag={videoFrameRate} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Audio Codec</h3>
-        <span class="ml-2">
-          <Tag tag={audioCodec} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Video Codec</h3>
-        <span class="ml-2">
-          <Tag tag={videoCodec} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Extension du fichier</h3>
-        <span class="ml-2">
-          <Tag tag={extension} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Chemin</h3>
-        <span class="ml-2">
-          <Tag tag={path} />
-        </span>
-        <h3 class="font-semibold text-normal ml-2">Fichier</h3>
-        <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
       </div>
     </div>
   </div>

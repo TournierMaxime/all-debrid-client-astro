@@ -1,0 +1,43 @@
+---
+import Tag from "./Tag.astro"
+
+interface Props {
+  title: string
+  data?: string | number
+  dataMap?: { tag: string }[]
+}
+
+const { title, data, dataMap } = Astro.props
+
+const hasDataMap = Array.isArray(dataMap) && dataMap.length > 0
+---
+
+<h3 class="font-semibold text-normal ml-2">{title}</h3>
+
+{
+  hasDataMap && (
+    <ul class="ml-2 flex flex-row flex-wrap">
+      {dataMap.map((d) => (
+        <li>
+          <Tag tag={d.tag} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+{
+  !hasDataMap && !data && (
+    <span class="ml-2">
+      <Tag tag="Non" />
+    </span>
+  )
+}
+
+{
+  data && (
+    <span class="ml-2">
+      <Tag tag={data} />
+    </span>
+  )
+}
