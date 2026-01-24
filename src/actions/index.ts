@@ -93,4 +93,13 @@ export const server = {
       return await plexService.getLibrary(sectionId, params)
     },
   }),
+
+  deleteSaveLink: defineAction({
+    input: z.object({
+      link: z.string(),
+    }),
+    handler: async ({ link }) => {
+      return allDebridService.deleteSaveLink(link)
+    },
+  }),
 }
