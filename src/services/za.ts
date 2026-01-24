@@ -138,6 +138,24 @@ class AllDebrid extends ZA {
     })
     return response.json()
   }
+
+  async deleteSaveLink(link: string) {
+    const body = new URLSearchParams()
+    body.append("links[]", link)
+
+    const response = await fetch(
+      `${this.officialAllDebridApi}/user/links/delete`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
+        },
+        body,
+      },
+    )
+    return response.json()
+  }
 }
 
 export const zaService = new ZA()
