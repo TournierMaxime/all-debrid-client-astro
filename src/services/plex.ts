@@ -19,6 +19,20 @@ class Plex {
     return response.json()
   }
 
+  async deleteMetadataItem(ids: string) {
+    const response = await fetch(
+      `${this.plexEndpoint}/library/metadata/${ids}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Plex-Token": SECRET_PLEX_TOKEN,
+        },
+      },
+    )
+    return response.json()
+  }
+
   async getLibrary(
     sectionId: string,
     params?: { type?: string; offset?: string; limit?: string },

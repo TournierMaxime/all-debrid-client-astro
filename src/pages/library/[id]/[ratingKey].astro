@@ -11,6 +11,7 @@ import { Image } from "astro:assets"
 import Tag from "../../../components/Tag.astro"
 
 import { formatDuration } from "../../../constants/utils"
+import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapper"
 
 const { id, ratingKey } = Astro.params
 
@@ -62,6 +63,12 @@ const extension = Media.map((m) => m.container)
             height={480}
             class="object-cover w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
           />
+          <button
+            class="mt-2 px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
+            onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+          >
+            Supprimer
+          </button>
         </div>
         <div class="flex flex-col md:w-7/12 w-full">
           <h1 class="font-semibold text-lg mt-4 md:mt-0 mb-2">
@@ -195,4 +202,5 @@ const extension = Media.map((m) => m.container)
       </div>
     </div>
   </div>
+  <DeleteMetadataItemWrapper client:only="react" />
 </Layout>
