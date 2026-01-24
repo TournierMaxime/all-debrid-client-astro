@@ -13,6 +13,8 @@ import Tag from "../../../components/Tag.astro"
 import { formatDuration } from "../../../constants/utils"
 import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapper"
 
+import { formatBytes } from "../../../constants/utils"
+
 const { id, ratingKey } = Astro.params
 
 if (!id) return
@@ -37,16 +39,21 @@ const {
   Role,
 } = oneFilm
 
-const path = Media.map((m) =>
-  m.Part.map((p) => p.file.split("/").slice(0, -1).join("/")),
-)
-const file = Media.map((m) => m.Part.map((p) => p.file.split("/").pop()))
+const path = Media[0]?.Part[0]?.file.split("/").slice(0, -1).join("/") ?? ""
 
-const videoResolution = Media.map((m) => m.videoResolution)
-const videoFrameRate = Media.map((m) => m.videoFrameRate)
-const audioCodec = Media.map((m) => m.audioCodec)
-const videoCodec = Media.map((m) => m.videoCodec)
-const extension = Media.map((m) => m.container)
+const file = Media[0]?.Part[0]?.file.split("/").pop() ?? ""
+
+const size = Media[0]?.Part[0]?.size ?? 0
+
+const videoResolution = Media[0]?.videoResolution ?? ""
+
+const videoFrameRate = Media[0]?.videoFrameRate ?? ""
+
+const audioCodec = Media[0]?.audioCodec ?? ""
+
+const videoCodec = Media[0]?.videoCodec ?? ""
+
+const extension = Media[0]?.container ?? ""
 ---
 
 <Layout>
@@ -55,7 +62,7 @@ const extension = Media.map((m) => m.container)
       class="flex flex-col bg-slate-100 rounded-lg p-4 shadow-md border border-slate-400"
     >
       <div class="flex flex-col md:flex-row w-full">
-        <div class="flex flex-col w-full md:w-4/12">
+        <div class="flex flex-col w-full md:w-3/12">
           <Image
             src={`${plexEndpoint}${thumb}?X-Plex-Token=${plexToken}`}
             alt={title}
@@ -70,7 +77,7 @@ const extension = Media.map((m) => m.container)
             Supprimer
           </button>
         </div>
-        <div class="flex flex-col md:w-7/12 w-full">
+        <div class="flex flex-col md:w-9/12 w-full md:ml-4">
           <h1 class="font-semibold text-lg mt-4 md:mt-0 mb-2">
             {title}
           </h1>
@@ -173,6 +180,10 @@ const extension = Media.map((m) => m.container)
 
       <div class="flex flex-col w-full mt-4">
         <h2 class="font-semibold text-normal">Spécifications techniques</h2>
+        <h3 class="font-semibold text-normal ml-2">Taille du fichier</h3>
+        <span class="ml-2">
+          <Tag tag={formatBytes(size)} />
+        </span>
         <h3 class="font-semibold text-normal ml-2">Resolution</h3>
         <span class="ml-2">
           <Tag tag={videoResolution} />

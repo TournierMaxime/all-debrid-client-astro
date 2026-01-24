@@ -9,6 +9,8 @@ import moment from "moment"
 import Tag from "../components/Tag.astro"
 import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
 
+import { formatBytes } from "../constants/utils"
+
 type History = {
   status: string
   data: {
@@ -26,16 +28,6 @@ type Link = {
 
 const response = await allDebridService.getUserLinks()
 const { links } = response.data
-
-const formatBytes = (bytes: number) => {
-  if (bytes === 0) return "0 B"
-
-  const k = 1024
-  const sizes = ["B", "KB", "MB", "GB", "TB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-
-  return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`
-}
 
 const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
 ---
