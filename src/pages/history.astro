@@ -9,6 +9,8 @@ import moment from "moment"
 import Tag from "../components/Tag.astro"
 import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
 
+import { formatBytes } from "../constants/utils"
+
 type History = {
   status: string
   data: {
@@ -27,16 +29,6 @@ type Link = {
 const response = await allDebridService.getUserLinks()
 const { links } = response.data
 
-const formatBytes = (bytes: number) => {
-  if (bytes === 0) return "0 B"
-
-  const k = 1024
-  const sizes = ["B", "KB", "MB", "GB", "TB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-
-  return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`
-}
-
 const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
 ---
 
@@ -49,20 +41,22 @@ const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
             <div class="min-w-0">
               <p class="truncate">{data.filename}</p>
               <button
-                class="mt-4 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer"
+                class="m-1 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer text-sm"
+                title="Télécharger"
                 onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
               >
                 Télécharger
               </button>
               <button
-                class="mt-2 px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
+                class="m-1 px-2 py-1 bg-red-500 text-white rounded cursor-pointer text-sm"
+                title="Supprimer"
                 onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
               >
                 Supprimer
               </button>
               <Tag tag={formatBytes(data.size)} />
             </div>
-            <div class="mt-4 md:mt-0">
+            <div>
               <Tag tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")} />
             </div>
           </div>
