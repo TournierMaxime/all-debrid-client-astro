@@ -16,12 +16,14 @@ import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapp
 
 import { formatBytes } from "../../../constants/utils"
 import { DeleteButton } from "../../../components/Button"
+import Cast from "../../../feature/media/components/Cast.astro"
+import { record } from "astro:schema"
 
-const { id, ratingKey } = Astro.params
+const { ratingKey } = Astro.params
 
-if (!id) return
+if (!ratingKey) return
 
-const response = await plexService.getLibrary(id)
+const response = await plexService.getLibraryMetadata(ratingKey)
 const { Metadata } = response.MediaContainer
 
 const oneFilm: M = Metadata.find((m: M) => m.ratingKey === ratingKey)
@@ -39,6 +41,8 @@ const {
   Director,
   Writer,
   Role,
+  Rating,
+  Producer,
 } = oneFilm
 
 const path = Media[0]?.Part[0]?.file.split("/").slice(0, -1).join("/") ?? ""
@@ -64,13 +68,19 @@ const extension = Media[0]?.container ?? ""
       class="flex flex-col bg-slate-100 rounded-lg p-4 shadow-md border border-slate-400"
     >
       <div class="flex flex-col md:flex-row w-full">
-        <div
-          class="flex flex-col md:w-8/12 w-full h-[max-content] md:ml-4 rounded bg-white border border-slate-400 p-4 md:mb-0 mb-4"
-        >
-          <h1 class="font-semibold text-lg md:mt-0 mb-2">
-            {title}
-          </h1>
-          <p class="text-normal text-justify leading-8">{summary}</p>
+        <div class="flex flex-col md:w-8/12 w-full">
+          <div
+            class="flex flex-col h-[max-content] md:ml-4 rounded bg-white border border-slate-400 p-4 md:mb-0 mb-4"
+          >
+            <h1 class="font-semibold text-lg md:mt-0 mb-2">
+              {title}
+            </h1>
+            <p class="text-normal text-justify leading-8">{summary}</p>
+          </div>
+          <Cast title="Réalisation" data={Director} />
+          <Cast title="Distribution" data={Role} />
+          <Cast title="Scénario" data={Writer} />
+          <Cast title="Production" data={Producer} />
         </div>
         <div class="md:w-1/12"></div>
         <div class="flex flex-col w-full md:w-3/12 rounded">
@@ -80,14 +90,51 @@ const extension = Media[0]?.container ?? ""
             width={240}
             height={320}
             class="rounded-lg object-cover w-full h-full max-w-[240px] max-h-[320px]"
+            decoding="async"
+            loading="lazy"
           />
+          <div
+            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md mt-4"
+          >
+            {
+              Rating &&
+                Rating.map((r) => {
+                  const provider = r.image.split("://")[0]
+                  const press = r.type === "critic"
+
+                  switch (provider) {
+                    case "imdb":
+                      return (
+                        <a href={r.image}>
+                          {`IMDB (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
+                        </a>
+                      )
+                    case "rottentomatoes":
+                      return (
+                        <a href={r.image}>
+                          {`Rotten Tomato (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
+                        </a>
+                      )
+                    case "themoviedb":
+                      return (
+                        <a href={r.image}>
+                          {`TMDB (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
+                        </a>
+                      )
+                    default:
+                      return (
+                        <a href={r.image}>
+                          {`${provider} (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
+                        </a>
+                      )
+                  }
+                })
+            }
+          </div>
           <div
             class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md"
           >
             <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
-            <Info title="Realisation" dataMap={Director} />
-            <Info title="Scénario" dataMap={Writer} />
-            <Info title="Distribution" dataMap={Role} />
             <Info title="Durée" data={formatDuration(duration)} />
             <Info title="Année" data={year} />
             <Info title="Genre" dataMap={Genre} />

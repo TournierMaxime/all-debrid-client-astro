@@ -57,6 +57,22 @@ class Plex {
 
     return response.json()
   }
+
+  async getLibraryMetadata(ratingKey: string) {
+    const response = await fetch(
+      `${this.plexEndpoint}/library/metadata/${ratingKey}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Plex-Token": SECRET_PLEX_TOKEN,
+        },
+      },
+    )
+
+    return response.json()
+  }
 }
 
 export const plexService = new Plex()

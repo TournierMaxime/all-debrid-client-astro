@@ -14,7 +14,9 @@ export interface Metadata {
   Director: Director[]
   Writer: Writer[]
   Role: Role[]
+  Producer: Producer[]
   UltraBlurColors: UltraBlurColors[]
+  Rating: Rating[]
 }
 
 export interface Image {
@@ -34,19 +36,46 @@ export interface Collection {
 }
 
 export interface Director {
+  id: number
+  filter: string
   tag: string
+  tagKey: string
+  thumb: string
 }
 
 export interface Writer {
+  id: number
+  filter: string
   tag: string
+  tagKey: string
+  thumb: string
+}
+
+export interface Producer {
+  id: number
+  filter: string
+  tag: string
+  tagKey: string
+  thumb: string
 }
 
 export interface Role {
+  id: number
+  filter: string
   tag: string
+  tagKey: string
+  role: string
+  thumb: string
 }
 
 export interface UltraBlurColors {
   tag: string
+}
+
+export interface Rating {
+  image: string
+  value: number
+  type: string
 }
 
 export interface Media {
