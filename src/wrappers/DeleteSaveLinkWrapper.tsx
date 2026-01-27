@@ -7,7 +7,7 @@ export default function DeleteSaveLinkWrapper() {
       const { link } = e.detail
 
       const confirmed = window.confirm(
-        "Es-tu sûr de vouloir supprimer ce lien ? Cette action est irréversible.",
+        "Ce lien est sur le point d'être supprimé de l'historique.\n\nÊtes vous sur de vouloir continuer ?\n\nCette action est irréversible.",
       )
 
       if (!confirmed) return

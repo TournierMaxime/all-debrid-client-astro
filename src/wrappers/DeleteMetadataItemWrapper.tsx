@@ -7,7 +7,7 @@ export default function DeleteMetadataItemWrapper() {
       const { ids } = e.detail
 
       const confirmed = window.confirm(
-        "Ce contenu est sur le point d'être supprimé.\nÊtes vous sur de vouloir continuer ?\nCette action est irréversible.",
+        "Ce contenu est sur le point d'être supprimé du NAS.\n\nÊtes vous sur de vouloir continuer ?\n\nCette action est irréversible.",
       )
 
       if (!confirmed) return

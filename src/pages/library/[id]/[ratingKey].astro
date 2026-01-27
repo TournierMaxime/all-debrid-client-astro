@@ -69,7 +69,7 @@ console.log("Rating", Rating)
 <Layout>
   <div class="bg-white p-4">
     <div class="flex flex-col p-4">
-      <div class="flex flex-col md:flex-row w-full">
+      <div class="flex flex-col sm:flex-col-reverse md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
           <Card clx="h-[max-content] md:ml-4 p-4">
             <h1 class="font-semibold text-lg md:mt-0 mb-2">
@@ -133,9 +133,7 @@ console.log("Rating", Rating)
               <Tag tag={extension} />
             </span>
             <h3 class="font-semibold text-normal ml-2">Chemin</h3>
-            <span class="ml-2">
-              <Tag tag={path} />
-            </span>
+            <Tag clx="ml-2 w-auto max-w-[900px]" tag={path} />
             <h3 class="font-semibold text-normal ml-2">Fichier</h3>
             <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
             <button
