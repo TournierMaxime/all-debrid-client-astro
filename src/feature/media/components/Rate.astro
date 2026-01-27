@@ -1,0 +1,49 @@
+---
+import Info from "../../../components/Info.astro"
+import type { Rating } from "../../../types/metadata"
+
+interface Props {
+  data: Rating[]
+  type: "critic" | "audience"
+}
+
+const { data, type } = Astro.props
+
+if (!data) {
+  return null
+}
+---
+
+{
+  type === "critic" &&
+    data &&
+    data.map((d: Rating) => {
+      const provider = d.image.split("://")[0]
+      const press = d.type === "critic"
+
+      if (!press) return
+
+      switch (provider) {
+        case "rottentomatoes":
+          return <Info data={`RT ${d.value * 10}%`} />
+      }
+    })
+}
+
+{
+  type === "audience" &&
+    data &&
+    data.map((d: Rating) => {
+      const provider = d.image.split("://")[0]
+      const audience = d.type === "audience"
+
+      if (!audience) return
+
+      switch (provider) {
+        case "imdb":
+          return <Info data={`IMDB ${d.value * 10}%`} />
+        case "rottentomatoes":
+          return <Info data={`RT ${d.value * 10}%`} />
+      }
+    })
+}

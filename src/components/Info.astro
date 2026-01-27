@@ -2,17 +2,19 @@
 import Tag from "./Tag.astro"
 
 interface Props {
-  title: string
+  title?: string
+  subtitle?: string
   data?: string | number
   dataMap?: { tag: string }[]
 }
 
-const { title, data, dataMap } = Astro.props
+const { title, subtitle, data, dataMap } = Astro.props
 
 const hasDataMap = Array.isArray(dataMap) && dataMap.length > 0
 ---
 
 <h3 class="font-semibold text-normal ml-2">{title}</h3>
+<h5 class="font-semibold text-sm ml-2">{subtitle}</h5>
 
 {
   hasDataMap && (

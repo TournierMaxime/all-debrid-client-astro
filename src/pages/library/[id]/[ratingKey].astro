@@ -1,12 +1,12 @@
 ---
 import Layout from "../../../layouts/Layout.astro"
 
-import type { Metadata as M } from "../../../types/metadata"
+import type { LibraryMetadata } from "../../../types/metadata"
 import { plexService } from "../../../services/plex"
 
 import { plexEndpoint, plexToken } from "../../../constants/utils"
 
-import { Image } from "astro:assets"
+import { Image as Img } from "astro:assets"
 
 import Tag from "../../../components/Tag.astro"
 import Info from "../../../components/Info.astro"
@@ -17,26 +17,26 @@ import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapp
 import { formatBytes } from "../../../constants/utils"
 import { DeleteButton } from "../../../components/Button"
 import Cast from "../../../feature/media/components/Cast.astro"
-import { record } from "astro:schema"
+import Rate from "../../../feature/media/components/Rate.astro"
+import Card from "../../../components/Card.astro"
 
 const { ratingKey } = Astro.params
 
 if (!ratingKey) return
 
 const response = await plexService.getLibraryMetadata(ratingKey)
-const { Metadata } = response.MediaContainer
 
-const oneFilm: M = Metadata.find((m: M) => m.ratingKey === ratingKey)
+if (response.Metadata.ratingKey !== ratingKey) return
+
+const oneFilm: LibraryMetadata = response
 
 const {
-  title,
-  summary,
-  thumb,
-  year,
-  duration,
+  Metadata,
   Media,
   Genre,
-  Collection,
+  Guid,
+  Image,
+  Part,
   Country,
   Director,
   Writer,
@@ -45,21 +45,25 @@ const {
   Producer,
 } = oneFilm
 
-const path = Media[0]?.Part[0]?.file.split("/").slice(0, -1).join("/") ?? ""
+const path = Part.file.split("/").slice(0, -1).join("/") ?? ""
 
-const file = Media[0]?.Part[0]?.file.split("/").pop() ?? ""
+const file = Part.file.split("/").pop() ?? ""
 
-const size = Media[0]?.Part[0]?.size ?? 0
+const size = Part.size ?? 0
 
-const videoResolution = Media[0]?.videoResolution ?? ""
+const videoResolution = Media.videoResolution ?? ""
 
-const videoFrameRate = Media[0]?.videoFrameRate ?? ""
+const videoFrameRate = Media.videoFrameRate ?? ""
 
-const audioCodec = Media[0]?.audioCodec ?? ""
+const audioCodec = Media.audioCodec ?? ""
 
-const videoCodec = Media[0]?.videoCodec ?? ""
+const videoCodec = Media.videoCodec ?? ""
 
-const extension = Media[0]?.container ?? ""
+const extension = Media.container ?? ""
+
+const thumb = Image.find((i) => i.type === "coverPoster")
+
+console.log("thumb", thumb)
 ---
 
 <Layout>
@@ -69,81 +73,42 @@ const extension = Media[0]?.container ?? ""
     >
       <div class="flex flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
-          <div
-            class="flex flex-col h-[max-content] md:ml-4 rounded bg-white border border-slate-400 p-4 md:mb-0 mb-4"
-          >
+          <Card clx="h-[max-content] md:ml-4 p-4 md:mb-0 mb-4">
             <h1 class="font-semibold text-lg md:mt-0 mb-2">
-              {title}
+              {Metadata.title}
             </h1>
-            <p class="text-normal text-justify leading-8">{summary}</p>
-          </div>
-          <Cast title="Réalisation" data={Director} />
-          <Cast title="Distribution" data={Role} />
-          <Cast title="Scénario" data={Writer} />
-          <Cast title="Production" data={Producer} />
+            <p class="text-normal text-justify leading-8">{Metadata.summary}</p>
+          </Card>
+          {Director && <Cast title="Réalisation" data={Director} />}
+          {Role && <Cast title="Distribution" data={Role} />}
+          {Writer && <Cast title="Scénario" data={Writer} />}
+          {Producer && <Cast title="Production" data={Producer} />}
         </div>
         <div class="md:w-1/12"></div>
         <div class="flex flex-col w-full md:w-3/12 rounded">
-          <Image
-            src={`${plexEndpoint}${thumb}?X-Plex-Token=${plexToken}`}
-            alt={title}
+          <Img
+            src={`${plexEndpoint}${thumb?.url}?X-Plex-Token=${plexToken}`}
+            alt={Metadata.title}
             width={240}
             height={320}
             class="rounded-lg object-cover w-full h-full max-w-[240px] max-h-[320px]"
             decoding="async"
             loading="lazy"
           />
-          <div
-            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md mt-4"
-          >
-            {
-              Rating &&
-                Rating.map((r) => {
-                  const provider = r.image.split("://")[0]
-                  const press = r.type === "critic"
-
-                  switch (provider) {
-                    case "imdb":
-                      return (
-                        <a href={r.image}>
-                          {`IMDB (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
-                        </a>
-                      )
-                    case "rottentomatoes":
-                      return (
-                        <a href={r.image}>
-                          {`Rotten Tomato (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
-                        </a>
-                      )
-                    case "themoviedb":
-                      return (
-                        <a href={r.image}>
-                          {`TMDB (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
-                        </a>
-                      )
-                    default:
-                      return (
-                        <a href={r.image}>
-                          {`${provider} (${press ? "Presse" : "Spec"}) - ${r.value * 10}%`}
-                        </a>
-                      )
-                  }
-                })
-            }
-          </div>
-          <div
-            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md"
-          >
+          <Card>
+            <h3 class="font-semibold text-normal">Notes Presses</h3>
+            <Rate data={Rating} type={"critic"} />
+            <h3 class="font-semibold text-normal">Notes Spectateurs</h3>
+            <Rate data={Rating} type={"audience"} />
+          </Card>
+          <Card>
             <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
-            <Info title="Durée" data={formatDuration(duration)} />
-            <Info title="Année" data={year} />
+            <Info title="Durée" data={formatDuration(Metadata.duration)} />
+            <Info title="Année" data={Metadata.year} />
             <Info title="Genre" dataMap={Genre} />
             <Info title="Pays" dataMap={Country} />
-            <Info title="Collection" dataMap={Collection} />
-          </div>
-          <div
-            class="flex flex-col w-full mt-4 border border-slate-400 rounded p-1 bg-white shadow-md"
-          >
+          </Card>
+          <Card>
             <h2 class="font-semibold text-lg mb-4">
               Spécifications techniques
             </h2>
@@ -183,7 +148,7 @@ const extension = Media[0]?.container ?? ""
             >
               Supprimer
             </DeleteButton>
-          </div>
+          </Card>
         </div>
       </div>
     </div>
