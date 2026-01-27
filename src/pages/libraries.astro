@@ -5,43 +5,30 @@ import { plexService } from "../services/plex"
 
 import moment from "moment"
 
-import type { Metadata, UnifiedMetadata } from "../types/metadata"
 import Tag from "../components/Tag.astro"
 import Button from "../components/Button"
 
-const normalize = (
-  items: Metadata[],
-  sectionId: string,
-  source: string,
-): UnifiedMetadata[] =>
-  items.map((item) => ({
-    ...item,
-    sectionId,
-    source,
-  }))
+interface UnifiedData {
+  ratingKey: string
+  title: string
+  addedAt: number
+  librarySectionID: number
+  librarySectionTitle: string
+}
 
-const [films, privateFilms, emilieSFilms] = await Promise.all([
-  plexService.getLibrary("1"),
-  plexService.getLibrary("5"),
-  plexService.getLibrary("8"),
-])
+const data = await plexService.getLibrary("1")
 
-const allMetadata: UnifiedMetadata[] = [
-  ...normalize(films.MediaContainer.Metadata, "1", "Films"),
-  ...normalize(privateFilms.MediaContainer.Metadata, "5", "Films Privés"),
-  ...normalize(emilieSFilms.MediaContainer.Metadata, "8", "Films Emilie"),
-]
-
-const sortMetadataFilms = allMetadata.sort(
-  (a: Metadata, b: Metadata) => b.addedAt - a.addedAt,
+const sortMetadataFilms = data.sort(
+  (a: UnifiedData, b: UnifiedData) => b.addedAt - a.addedAt,
 )
 ---
 
 <Layout>
   <div class="flex flex-col bg-white p-4">
     {
-      sortMetadataFilms.map((m: UnifiedMetadata) => {
-        const { title, addedAt, source, sectionId } = m
+      sortMetadataFilms.map((m: UnifiedData) => {
+        console.log(m.title)
+        const { title, addedAt, librarySectionTitle, librarySectionID } = m
         return (
           <div class="w-full p-4 my-2 bg-white rounded-md border border-slate-400 shadow-md">
             <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
@@ -50,11 +37,11 @@ const sortMetadataFilms = allMetadata.sort(
               <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
             </div>
             <div class="flex flex-row justify-between items-baseline">
-              <Tag tag={source} />
+              <Tag tag={librarySectionTitle} />
               <Button title="Consulter">
                 <a
                   class="text-sm"
-                  href={`/library/${sectionId}/${m.ratingKey}`}
+                  href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
                 >
                   Consulter
                 </a>
