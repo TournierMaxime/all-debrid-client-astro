@@ -142,12 +142,12 @@ console.log("thumb", thumb)
             </span>
             <h3 class="font-semibold text-normal ml-2">Fichier</h3>
             <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
-            <DeleteButton
+            <button
+              class="m-1 px-2 py-1 bg-red-500 text-white rounded cursor-pointer text-sm"
               title="Supprimer"
-              onClick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+              onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+              >Supprimer</button
             >
-              Supprimer
-            </DeleteButton>
           </Card>
         </div>
       </div>
