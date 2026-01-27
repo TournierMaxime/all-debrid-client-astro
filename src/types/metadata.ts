@@ -1,52 +1,95 @@
-export interface Metadata {
-  title: string
-  addedAt: number
-  ratingKey: string
-  summary: string
-  thumb: string
-  year: number
-  duration: number
-  Media: Media[]
+export interface LibraryMetadata {
+  librarySectionID: number
+  librarySectionTitle: string
+  librarySectionUUID: string
+  Metadata: Metadata
+  Media: Media
+  Part: Part
   Image: Image[]
   Genre: Genre[]
   Country: Country[]
-  Collection: Collection[]
+  Guid: Guid[]
+  Rating: Rating[]
   Director: Director[]
   Writer: Writer[]
   Role: Role[]
-  UltraBlurColors: UltraBlurColors[]
+  Producer: Producer[]
+}
+
+export interface Metadata {
+  ratingKey: string
+  slug: string
+  studio: string
+  type: string
+  title: string
+  summary: string
+  lastViewedAt: number
+  year: number
+  tagline: string
+  duration: number
+  originallyAvailableAt: string
+  addedAt: number
 }
 
 export interface Image {
-  tag: string
+  alt: string
+  type: string
+  url: string
 }
 
 export interface Genre {
+  id: number
+  filter: string
   tag: string
 }
 
 export interface Country {
+  id: number
+  filter: string
   tag: string
 }
 
-export interface Collection {
-  tag: string
+export interface Guid {
+  id: string
 }
 
 export interface Director {
-  tag: string
+  id?: number
+  filter?: string
+  tag?: string
+  tagKey?: string
+  thumb?: string
 }
 
 export interface Writer {
-  tag: string
+  id?: number
+  filter?: string
+  tag?: string
+  tagKey?: string
+  thumb?: string
+}
+
+export interface Producer {
+  id?: number
+  filter?: string
+  tag?: string
+  tagKey?: string
+  thumb?: string
 }
 
 export interface Role {
+  id: number
+  filter: string
   tag: string
+  tagKey: string
+  role: string
+  thumb: string
 }
 
-export interface UltraBlurColors {
-  tag: string
+export interface Rating {
+  image: string
+  value: number
+  type: string
 }
 
 export interface Media {
@@ -55,26 +98,17 @@ export interface Media {
   bitrate: number
   width: number
   height: number
-  aspectRatio: number
-  audioChannels: number
   audioCodec: string
   videoCodec: string
   videoResolution: string
   container: string
   videoFrameRate: string
-  videoProfile: string
-  hasVoiceActivity: boolean
-  Part: Part[]
 }
 
 export interface Part {
   id: number
-  key: string
-  duration: number
   file: string
   size: number
-  container: string
-  videoProfile: string
 }
 
 export type UnifiedMetadata = Metadata & {

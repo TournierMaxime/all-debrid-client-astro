@@ -8,17 +8,6 @@ class Plex {
   public apiPlexLocal = SECRET_API_PLEX_LOCAL
   public plexEndpoint = SECRET_PLEX_ENDPOINT
 
-  async getLibraries() {
-    const response = await fetch(`${this.apiPlexLocal}/plex/library/sections`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Plex-Token": SECRET_PLEX_TOKEN,
-      },
-    })
-    return response.json()
-  }
-
   async deleteMetadataItem(ids: string) {
     const response = await fetch(
       `${this.plexEndpoint}/library/metadata/${ids}`,
@@ -34,7 +23,7 @@ class Plex {
   }
 
   async getLibrary(
-    sectionId: string,
+    sectionKey: string,
     params?: { type?: string; offset?: string; limit?: string },
   ) {
     const query = params
@@ -44,13 +33,27 @@ class Plex {
       : ""
 
     const response = await fetch(
-      `${this.plexEndpoint}/library/sections/${sectionId}/all${query}`,
+      `${this.apiPlexLocal}/plex/library/sections/${sectionKey}/all${query}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "X-Plex-Token": SECRET_PLEX_TOKEN,
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async getLibraryMetadata(ratingKey: string) {
+    const response = await fetch(
+      `${this.apiPlexLocal}/plex/library/metadata/${ratingKey}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
       },
     )
