@@ -63,17 +63,15 @@ const extension = Media.container ?? ""
 
 const thumb = Image.find((i) => i.type === "coverPoster")
 
-console.log("thumb", thumb)
+console.log("Rating", Rating)
 ---
 
 <Layout>
   <div class="bg-white p-4">
-    <div
-      class="flex flex-col bg-slate-100 rounded-lg p-4 shadow-md border border-slate-400"
-    >
+    <div class="flex flex-col p-4">
       <div class="flex flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
-          <Card clx="h-[max-content] md:ml-4 p-4 md:mb-0 mb-4">
+          <Card clx="h-[max-content] md:ml-4 p-4">
             <h1 class="font-semibold text-lg md:mt-0 mb-2">
               {Metadata.title}
             </h1>
@@ -91,15 +89,13 @@ console.log("thumb", thumb)
             alt={Metadata.title}
             width={240}
             height={320}
-            class="rounded-lg object-cover w-full h-full max-w-[240px] max-h-[320px]"
+            class="rounded-lg shadow-sm object-cover w-full h-full max-w-[240px] max-h-[320px] border border-slate-200 mb-4"
             decoding="async"
             loading="lazy"
           />
           <Card>
-            <h3 class="font-semibold text-normal">Notes Presses</h3>
-            <Rate data={Rating} type={"critic"} />
-            <h3 class="font-semibold text-normal">Notes Spectateurs</h3>
-            <Rate data={Rating} type={"audience"} />
+            <Rate title="Notes Presses" data={Rating} type={"critic"} />
+            <Rate title="Notes Spectateurs" data={Rating} type={"audience"} />
           </Card>
           <Card>
             <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
