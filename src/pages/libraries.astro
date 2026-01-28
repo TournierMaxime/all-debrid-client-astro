@@ -6,7 +6,7 @@ import { plexService } from "../services/plex"
 import moment from "moment"
 
 import Tag from "../components/Tag.astro"
-import Button from "../components/Button"
+import Button from "../components/Button.astro"
 
 interface UnifiedData {
   ratingKey: string
@@ -38,7 +38,7 @@ const sortMetadataFilms = data.sort(
             </div>
             <div class="flex flex-row justify-between items-baseline">
               <Tag tag={librarySectionTitle} />
-              <Button title="Consulter">
+              <Button isDefaultBtn={true}>
                 <a
                   class="text-sm"
                   href={`/library/${String(librarySectionID)}/${m.ratingKey}`}

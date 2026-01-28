@@ -17,7 +17,6 @@ export default function DownloadAgain({ loading }: { loading: boolean }) {
         <h3 className="text-normal font-semibold">Chargement du lien</h3>
       ) : (
         <Fragment>
-          {" "}
           <Provider />
           <Message message="Lien copié dans le presse-papier !" />
         </Fragment>

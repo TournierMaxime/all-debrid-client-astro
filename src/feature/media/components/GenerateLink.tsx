@@ -1,6 +1,5 @@
 import Provider from "./Provider"
 import Message from "./Message"
-import Button from "../../../components/Button"
 import { useMedia } from "../context/MediaProvider"
 
 export default function GenerateLink() {
@@ -23,9 +22,12 @@ export default function GenerateLink() {
     if (link?.error) return <Message error={link?.error} />
 
     return (
-      <Button onClick={handleClick}>
+      <button
+        className={`m-1 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer text-sm`}
+        onClick={handleClick}
+      >
         {getStatus(downloading, link?.link)}
-      </Button>
+      </button>
     )
   }
 

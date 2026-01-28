@@ -10,15 +10,15 @@ import { Image as Img } from "astro:assets"
 
 import Tag from "../../../components/Tag.astro"
 import Info from "../../../components/Info.astro"
+import Button from "../../../components/Button.astro"
+import Cast from "../../../feature/media/components/Cast.astro"
+import Rate from "../../../feature/media/components/Rate.astro"
+import Card from "../../../components/Card.astro"
 
 import { formatDuration } from "../../../constants/utils"
 import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapper"
 
 import { formatBytes } from "../../../constants/utils"
-import { DeleteButton } from "../../../components/Button"
-import Cast from "../../../feature/media/components/Cast.astro"
-import Rate from "../../../feature/media/components/Rate.astro"
-import Card from "../../../components/Card.astro"
 
 const { ratingKey } = Astro.params
 
@@ -62,14 +62,12 @@ const videoCodec = Media.videoCodec ?? ""
 const extension = Media.container ?? ""
 
 const thumb = Image.find((i) => i.type === "coverPoster")
-
-console.log("Rating", Rating)
 ---
 
 <Layout>
   <div class="bg-white p-4">
     <div class="flex flex-col p-4">
-      <div class="flex flex-col sm:flex-col-reverse md:flex-row w-full">
+      <div class="flex flex-col-reverse sm:flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
           <Card clx="h-[max-content] md:ml-4 p-4">
             <h1 class="font-semibold text-lg md:mt-0 mb-2">
@@ -136,12 +134,11 @@ console.log("Rating", Rating)
             <Tag clx="ml-2 w-auto max-w-[900px]" tag={path} />
             <h3 class="font-semibold text-normal ml-2">Fichier</h3>
             <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
-            <button
-              class="m-1 px-2 py-1 bg-red-500 text-white rounded cursor-pointer text-sm"
-              title="Supprimer"
+            <Button
+              isDeleteBtn={true}
               onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
-              >Supprimer</button
-            >
+              title="Supprimer"
+            />
           </Card>
         </div>
       </div>

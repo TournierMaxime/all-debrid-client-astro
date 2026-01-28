@@ -22,7 +22,7 @@ const Form = ({
           placeholder={`Rechercher`}
           className="px-4 py-2 sm:w-8/12 w-full rounded-md border border-gray-600 text-black focus:outline-none"
         />
-        {/* Radio Buttons */}
+
         <div className="flex flex-row items-center space-x-4 mt-4 md:mt-0 ml-2 w-4/12">
           <label className="flex items-center">
             <input
@@ -58,7 +58,6 @@ const Form = ({
         </div>
       </div>
 
-      {/* Bouton de soumission */}
       <button
         type="submit"
         className="flex justify-center bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 text-white mt-4 transition cursor-pointer"
