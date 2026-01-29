@@ -16,7 +16,7 @@ export default function Downloads({
 
   return (
     <DropDown title="Liens de téléchargement" label="Sélectionnez un lien">
-      <ul className="mt-2 bg-[var(--ads-bg-default)] border border-[var(--ads-border)] rounded-md shadow-md">
+      <ul className="mt-2 bg-(--ads-bg-default) border border-(--ads-border) rounded-md shadow-md">
         {type === EnumFilmSerie.film &&
           downloads?.map((download, index) => getDownLoads(download, index))}
 

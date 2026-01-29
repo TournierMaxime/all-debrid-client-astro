@@ -23,11 +23,11 @@ const getLanguages = (url: string) => {
   label="Sélectionnez une version"
 >
   <ul
-    class="mt-2 bg-[var(--ads-bg-default)] border border-[var(--ads-border-languages)] rounded-md shadow-md"
+    class="mt-2 bg-(--ads-bg-default) border border-(--ads-border-languages) rounded-md shadow-md"
   >
     {
       languages?.map((language) => (
-        <li class="px-4 py-2 hover:bg-[var(--ads-hover-languages)] cursor-pointer">
+        <li class="px-4 py-2 hover:bg-(--ads-hover-languages) cursor-pointer">
           <a href={`/media/${getLanguages(language.url)}`} class="p-2 m-2">
             <b>{language.name}</b>
           </a>

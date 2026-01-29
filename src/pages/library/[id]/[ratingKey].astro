@@ -65,7 +65,7 @@ const thumb = Image.find((i) => i.type === "coverPoster")
 ---
 
 <Layout>
-  <div class="bg-[var(--ads-bg-default)] p-4">
+  <div class="bg-(--ads-bg-default) p-4">
     <div class="flex flex-col p-4">
       <div class="flex flex-col-reverse sm:flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
@@ -87,7 +87,7 @@ const thumb = Image.find((i) => i.type === "coverPoster")
             alt={Metadata.title}
             width={240}
             height={320}
-            class="rounded-lg shadow-sm object-cover w-full h-full max-w-[240px] max-h-[320px] border border-[var(--ads-border)] mb-4"
+            class="rounded-lg shadow-sm object-cover w-full h-full max-w-60 max-h-80 border border-(--ads-border) mb-4"
             decoding="async"
             loading="lazy"
           />

@@ -105,6 +105,7 @@
   --ads-text-cast-h1: oklch(0.279 0.041 260.031);
   --ads-text-cast-h5: oklch(0.372 0.044 257.287);
   --ads-img-cast: oklch(0.968 0.007 247.896);
+  --ads-form-border: oklch(0.446 0.03 256.802);
 }
 
 .dark {

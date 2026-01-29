@@ -13,7 +13,7 @@ const hasDataMap = Array.isArray(data) && data.length > 0
 ---
 
 <Card clx="h-fit p-4 md:ml-4">
-  <h1 class="font-semibold text-lg mb-4 text-[var(--ads-text-cast-h1)]">
+  <h1 class="font-semibold text-lg mb-4 text-(--ads-text-cast-h1)">
     {title}
   </h1>
 
@@ -28,20 +28,20 @@ const hasDataMap = Array.isArray(data) && data.length > 0
           .map((d) => {
             if (!d.thumb) return null
             return (
-              <div class="group flex flex-col items-center rounded-lg border border-[var(--ads-border)] bg-[var(--ads-bg-default)] p-3 shadow-sm">
+              <div class="group flex flex-col items-center rounded-lg border border-(--ads-border) bg-(--ads-bg-default) p-3 shadow-sm">
                 <div class="relative">
                   <Image
                     src={d.thumb}
                     alt={d.tag}
                     width={120}
                     height={120}
-                    class="rounded-full object-cover ring-2 ring-[var(--ads-img-cast)]"
+                    class="rounded-full object-cover ring-2 ring-(--ads-img-cast)"
                     loading="lazy"
                     decoding="async"
                   />
                 </div>
 
-                <h5 class="mt-3 text-sm font-semibold text-[var(--ads-text-cast-h5)] text-center line-clamp-2">
+                <h5 class="mt-3 text-sm font-semibold text-(--ads-text-cast-h5) text-center line-clamp-2">
                   {d.tag}
                 </h5>
               </div>

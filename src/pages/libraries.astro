@@ -25,13 +25,13 @@ const sortMetadataFilms = data.sort(
 ---
 
 <Layout>
-  <Card className="flex flex-col bg-[var(--ads-bg-default)] p-4 rounded-none">
+  <Card className="flex flex-col bg-(--ads-bg-default) p-4 rounded-none">
     {
       sortMetadataFilms.map((m: UnifiedData) => {
         const { title, addedAt, librarySectionTitle, librarySectionID } = m
 
         return (
-          <div class="w-full my-2 bg-[var(--ads-bg-default)] rounded-lg border border-[var(--ads-border)] shadow-sm">
+          <div class="w-full my-2 bg-(--ads-bg-default) rounded-lg border border-(--ads-border) shadow-sm">
             <CardHeader>
               <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
                 <CardTitle>
@@ -44,7 +44,7 @@ const sortMetadataFilms = data.sort(
             <CardContent>
               <div class="flex flex-row justify-between items-baseline">
                 <Tag tag={librarySectionTitle} />
-                <Button className="bg-[var(--ads-btn-default)] rounded p-2 mr-4">
+                <Button className="bg-(--ads-btn-default) rounded p-2 mr-4">
                   <a
                     class="text-sm"
                     href={`/library/${String(librarySectionID)}/${m.ratingKey}`}

@@ -23,11 +23,11 @@ const getQualities = (url: string) => {
   label="Sélectionnez une qualité"
 >
   <ul
-    class="mt-2 bg-[var(--ads-bg-default)] border border-[var(--ads-border-qualities)] rounded-md shadow-md"
+    class="mt-2 bg-(--ads-bg-default) border border-(--ads-border-qualities) rounded-md shadow-md"
   >
     {
       qualities?.map((quality: { quality: string; url: string }) => (
-        <li class="px-4 py-2 hover:bg-[var(--ads-hover-qualities)] cursor-pointer">
+        <li class="px-4 py-2 hover:bg-(--ads-hover-qualities) cursor-pointer">
           <a href={`/media/${getQualities(quality.url)}`}>
             <b class="p-2 font-normal text-sm">{quality.quality}</b>
           </a>

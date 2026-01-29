@@ -1,6 +1,6 @@
 ---
 import Poster from "../feature/media/components/Poster.astro"
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 
 type Element = {
   title: string
@@ -15,7 +15,7 @@ type Props = {
 const { data }: Props = Astro.props
 ---
 
-<div class="flex flex-col bg-[var(--ads-bg-default)]">
+<div class="flex flex-col bg-(--ads-bg-default)">
   <ul
     class="grid
       grid-cols-2

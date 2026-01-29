@@ -5,8 +5,8 @@ type Props = {
 
 export default function Message({ message, error }: Props) {
   return error ? (
-    <p className="w-full my-4 text-[var(--ads-text-error)]">{error}</p>
+    <p className="w-full my-4 text-(--ads-text-error)">{error}</p>
   ) : (
-    <p className="w-full my-4 text-[var(--ads-text-success)]">{message}</p>
+    <p className="w-full my-4 text-(--ads-text-success)">{message}</p>
   )
 }

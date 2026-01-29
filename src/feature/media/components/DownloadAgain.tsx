@@ -12,7 +12,7 @@ export default function DownloadAgain({ loading }: { loading: boolean }) {
     <>
       {/* Overlay CUSTOM */}
       <div
-        className="fixed inset-0 bg-[var(--ads-bg-overlay)] z-40"
+        className="fixed inset-0 bg-(--ads-bg-overlay) z-40"
         onClick={resetModal}
       />
 

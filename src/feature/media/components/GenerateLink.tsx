@@ -24,7 +24,7 @@ export default function GenerateLink() {
 
     return (
       <Button
-        className={`m-1 px-2 py-1 bg-[var(--ads-btn-default)] text-[var(--ads-text-default)] rounded cursor-pointer text-sm`}
+        className={`m-1 px-2 py-1 bg-(--ads-btn-default) text-(--ads-text-default) rounded cursor-pointer text-sm`}
         onClick={handleClick}
       >
         {getStatus(downloading, link?.link)}
