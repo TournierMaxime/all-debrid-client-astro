@@ -80,8 +80,16 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --ads-bg-default: var(--color-white);
+  --ads-bg-overlay: color-mix(
+    in oklab,
+    var(--color-black) /* #000 = #000000 */ 50%,
+    transparent
+  );
   --ads-bg-body: oklch(0.929 0.013 255.508);
   --ads-border: oklch(0.929 0.013 255.508);
+  --ads-border-dropdown: oklch(0.704 0.04 256.788);
+  --ads-border-languages: oklch(0.872 0.01 258.338);
+  --ads-hover-languages: oklch(0.928 0.006 264.531);
   --ads-motrix: oklch(0.606 0.25 292.717);
   --ads-ds-get: oklch(0.723 0.219 149.579);
   --ads-hover-dl: oklch(0.928 0.006 264.531);
@@ -89,6 +97,14 @@
   --ads-btn-default: oklch(0.623 0.214 259.815);
   --ads-btn-delete: oklch(0.637 0.237 25.331);
   --ads-text-default: var(--color-white);
+  --ads-text-black: var(--color-black);
+  --ads-text-error: oklch(0.637 0.237 25.331);
+  --ads-text-success: oklch(0.723 0.219 149.579);
+  --ads-border-qualities: oklch(0.872 0.01 258.338);
+  --ads-hover-qualities: oklch(0.928 0.006 264.531);
+  --ads-text-cast-h1: oklch(0.279 0.041 260.031);
+  --ads-text-cast-h5: oklch(0.372 0.044 257.287);
+  --ads-img-cast: oklch(0.968 0.007 247.896);
 }
 
 .dark {

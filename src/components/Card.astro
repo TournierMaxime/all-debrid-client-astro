@@ -3,7 +3,7 @@ const { clx } = Astro.props
 ---
 
 <div
-  class={`flex flex-col w-full mb-4 border border-slate-200 rounded-lg p-1 bg-white shadow-sm ${clx ? clx : null}`}
+  class={`flex flex-col w-full mb-4 border border-[var(--ads-border)] rounded-lg p-1 bg-[var(--ads-bg-default)] shadow-sm ${clx ? clx : null}`}
 >
   <slot />
 </div>
