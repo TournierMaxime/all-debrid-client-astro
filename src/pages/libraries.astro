@@ -6,7 +6,8 @@ import { plexService } from "../services/plex"
 import moment from "moment"
 
 import Tag from "../components/Tag.astro"
-import Button from "../components/Button.astro"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface UnifiedData {
   ratingKey: string
@@ -24,32 +25,38 @@ const sortMetadataFilms = data.sort(
 ---
 
 <Layout>
-  <div class="flex flex-col bg-white p-4">
+  <Card className="flex flex-col bg-white p-4">
     {
       sortMetadataFilms.map((m: UnifiedData) => {
         const { title, addedAt, librarySectionTitle, librarySectionID } = m
 
         return (
-          <div class="w-full p-4 my-2 bg-white rounded-lg border border-slate-200 shadow-sm">
-            <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
-              <h2>{title}</h2>
+          <div class="w-full my-2 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <CardHeader>
+              <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
+                <CardTitle>
+                  <h2>{title}</h2>
+                </CardTitle>
 
-              <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
-            </div>
-            <div class="flex flex-row justify-between items-baseline">
-              <Tag tag={librarySectionTitle} />
-              <Button isDefaultBtn={true}>
-                <a
-                  class="text-sm"
-                  href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
-                >
-                  Consulter
-                </a>
-              </Button>
-            </div>
+                <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div class="flex flex-row justify-between items-baseline">
+                <Tag tag={librarySectionTitle} />
+                <Button className="bg-[var(--ads-btn-default)] rounded p-2 mr-4">
+                  <a
+                    class="text-sm"
+                    href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
+                  >
+                    Consulter
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
           </div>
         )
       })
     }
-  </div>
+  </Card>
 </Layout>

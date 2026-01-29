@@ -1,26 +1,36 @@
 import { useMedia } from "../context/MediaProvider"
-import GenericModal from "../../../components/Modal"
 import Provider from "./Provider"
 import Message from "./Message"
-import { Fragment } from "react"
+import { DialogContent, DialogTitle, Dialog } from "@/components/ui/dialog"
 
 export default function DownloadAgain({ loading }: { loading: boolean }) {
   const { isVisible, resetModal } = useMedia()
 
+  if (!isVisible) return null
+
   return (
-    <GenericModal
-      isOpen={isVisible}
-      onClose={() => resetModal()}
-      title={`Plateforme de téléchargement`}
-    >
-      {loading ? (
-        <h3 className="text-normal font-semibold">Chargement du lien</h3>
-      ) : (
-        <Fragment>
-          <Provider />
-          <Message message="Lien copié dans le presse-papier !" />
-        </Fragment>
-      )}
-    </GenericModal>
+    <>
+      {/* Overlay CUSTOM */}
+      <div className="fixed inset-0 bg-black/50 z-40" onClick={resetModal} />
+
+      <Dialog
+        modal={false}
+        open={isVisible}
+        onOpenChange={(open) => !open && resetModal()}
+      >
+        <DialogContent className="z-50">
+          <DialogTitle>Plateforme de téléchargement</DialogTitle>
+
+          {loading ? (
+            <h3 className="font-semibold">Chargement du lien</h3>
+          ) : (
+            <>
+              <Provider />
+              <Message message="Lien copié dans le presse-papier !" />
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

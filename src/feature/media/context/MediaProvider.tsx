@@ -159,7 +159,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       return (
         <li
           key={index}
-          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+          className="px-4 py-2 hover:bg-[var(--ads-hover-dl)] cursor-pointer"
           onClick={() => openModal(download.host, download.url)}
         >
           <b className="p-2 font-normal text-sm">{download.host}</b>
@@ -176,7 +176,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
           {download.links.map((link: DownloadLink, index: number) => (
             <li
               key={index}
-              className="px-4 py-2 hover:bg-gray-200 cursor-pointer block"
+              className="px-4 py-2 hover:bg-[var(--ads-hover-dl)] cursor-pointer block"
               onClick={() => openModal(link.host, link.url)}
             >
               <b>{link.host}</b>
