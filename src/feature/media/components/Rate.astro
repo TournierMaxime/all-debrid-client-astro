@@ -3,7 +3,7 @@ import Info from "../../../components/Info.astro"
 import type { Rating } from "../../../types/metadata"
 
 interface Props {
-  title: string
+  title?: string
   data: Rating[]
   type: "critic" | "audience"
 }
@@ -17,7 +17,11 @@ if (!data) {
 const filteredData = data?.filter((d) => d.type === type) ?? []
 ---
 
-{filteredData.length > 0 && <h3 class="font-semibold text-normal">{title}</h3>}
+{
+  filteredData.length > 0 && title ? (
+    <h3 class="font-semibold text-normal">{title}</h3>
+  ) : null
+}
 
 {
   type === "critic" &&

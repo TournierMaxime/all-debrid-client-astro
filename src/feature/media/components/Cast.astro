@@ -12,10 +12,10 @@ interface Props<T> {
 const hasDataMap = Array.isArray(data) && data.length > 0
 ---
 
-<Card clx="h-fit p-4 md:ml-4">
-  <h1 class="font-semibold text-lg mb-4 text-(--ads-text-cast-h1)">
+<Card title={title}>
+  <!--   <h1 class="font-semibold text-lg mb-4 text-(--ads-text-cast-h1)">
     {title}
-  </h1>
+  </h1> -->
 
   <div
     class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"

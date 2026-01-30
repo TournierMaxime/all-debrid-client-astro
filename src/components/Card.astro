@@ -1,9 +1,31 @@
 ---
-const { clx } = Astro.props
+import {
+  Card as CardWrapper,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card"
+
+const { clx, title, description } = Astro.props
 ---
 
-<div
-  class={`flex flex-col w-full mb-4 border border-(--ads-border) rounded-lg p-1 bg-(--ads-bg-default) shadow-sm ${clx ? clx : null}`}
+<CardWrapper
+  className={`flex flex-col w-full mb-4 border border-(--ads-border) rounded-lg bg-(--ads-bg-default) shadow-sm ${clx ? clx : null}`}
 >
-  <slot />
-</div>
+  {
+    title ? (
+      <CardHeader>
+        <CardTitle className="font-semibold text-normal md:mt-0 mb-2">
+          {title}
+        </CardTitle>
+        {description ? (
+          <CardDescription className="text-normal text-justify leading-8">
+            {description}
+          </CardDescription>
+        ) : null}
+      </CardHeader>
+    ) : null
+  }
+  <CardContent><slot /></CardContent>
+</CardWrapper>

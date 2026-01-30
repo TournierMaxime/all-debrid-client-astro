@@ -69,12 +69,11 @@ const thumb = Image.find((i) => i.type === "coverPoster")
     <div class="flex flex-col p-4">
       <div class="flex flex-col-reverse sm:flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
-          <Card clx="h-[max-content] md:ml-4 p-4">
-            <h1 class="font-semibold text-lg md:mt-0 mb-2">
-              {Metadata.title}
-            </h1>
-            <p class="text-normal text-justify leading-8">{Metadata.summary}</p>
-          </Card>
+          <Card
+            clx="h-[max-content]"
+            title={Metadata.title}
+            description={Metadata.summary}
+          />
           {Director && <Cast title="Réalisation" data={Director} />}
           {Role && <Cast title="Distribution" data={Role} />}
           {Writer && <Cast title="Scénario" data={Writer} />}
@@ -91,49 +90,33 @@ const thumb = Image.find((i) => i.type === "coverPoster")
             decoding="async"
             loading="lazy"
           />
-          <Card>
+          <Card clx="pt-2">
             <Rate title="Notes Presses" data={Rating} type={"critic"} />
             <Rate title="Notes Spectateurs" data={Rating} type={"audience"} />
           </Card>
-          <Card>
-            <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
+          <Card title="Fiche technique">
             <Info title="Durée" data={formatDuration(Metadata.duration)} />
             <Info title="Année" data={Metadata.year} />
             <Info title="Genre" dataMap={Genre} />
             <Info title="Pays" dataMap={Country} />
           </Card>
-          <Card>
-            <h2 class="font-semibold text-lg mb-4">
-              Spécifications techniques
-            </h2>
-            <h3 class="font-semibold text-normal ml-2">Taille du fichier</h3>
-            <span class="ml-2">
-              <Tag tag={formatBytes(size)} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Resolution</h3>
-            <span class="ml-2">
-              <Tag tag={videoResolution} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Image par seconde</h3>
-            <span class="ml-2">
-              <Tag tag={videoFrameRate} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Audio Codec</h3>
-            <span class="ml-2">
-              <Tag tag={audioCodec} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Video Codec</h3>
-            <span class="ml-2">
-              <Tag tag={videoCodec} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Extension du fichier</h3>
-            <span class="ml-2">
-              <Tag tag={extension} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Chemin</h3>
-            <Tag clx="ml-2 w-auto max-w-[900px]" tag={path} />
-            <h3 class="font-semibold text-normal ml-2">Fichier</h3>
-            <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
+          <Card title="Spécifications techniques">
+            <h3 class="font-semibold text-sm ml-2">Taille du fichier</h3>
+            <Tag clx="ml-2" tag={formatBytes(size)} />
+            <h3 class="font-semibold text-sm ml-2">Resolution</h3>
+            <Tag clx="ml-2" tag={videoResolution} />
+            <h3 class="font-semibold text-sm ml-2">Image par seconde</h3>
+            <Tag clx="ml-2" tag={videoFrameRate} />
+            <h3 class="font-semibold text-sm ml-2">Audio Codec</h3>
+            <Tag clx="ml-2" tag={audioCodec} />
+            <h3 class="font-semibold text-sm ml-2">Video Codec</h3>
+            <Tag clx="ml-2" tag={videoCodec} />
+            <h3 class="font-semibold text-sm ml-2">Extension du fichier</h3>
+            <Tag clx="ml-2" tag={extension} />
+            <h3 class="font-semibold text-sm ml-2">Chemin</h3>
+            <Tag clx="ml-2" tag={path} />
+            <h3 class="font-semibold text-sm ml-2">Fichier</h3>
+            <Tag clx="ml-2" tag={file} />
             <Button
               isDeleteBtn={true}
               onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}

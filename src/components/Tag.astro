@@ -2,9 +2,8 @@
 const { tag, color = "", clx = "" } = Astro.props
 ---
 
-<button
-  title={tag}
-  class={`bg-(--ads-bg-default) text-left text-(--ads-text-black) text-sm font-normal px-2 py-1 m-1 rounded border border-(--ads-border-dropdown) truncate ${color} ${clx ? clx : "w-auto"}`}
+<div
+  class={`bg-(--ads-bg-default) text-left text-(--ads-text-black) text-sm font-normal px-2 py-1 m-1 rounded border border-(--ads-border-dropdown) truncate ${color} ${clx}`}
 >
   {tag}
-</button>
+</div>
