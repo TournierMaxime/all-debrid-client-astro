@@ -2,13 +2,14 @@ import Provider from "./Provider"
 import Message from "./Message"
 import { useMedia } from "../context/MediaProvider"
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function GenerateLink() {
   const { link, isCopy, downloading, handleClick } = useMedia()
 
   const getStatus = (status: boolean, a?: string) => {
     if (status === true) {
-      return "Chargement"
+      return <Spinner />
     }
 
     if (a !== "" || undefined) {

@@ -13,12 +13,12 @@ const { title, subtitle, data, dataMap } = Astro.props
 const hasDataMap = Array.isArray(dataMap) && dataMap.length > 0
 ---
 
-{title ? <h3 class="font-semibold text-normal ml-2">{title}</h3> : null}
-{subtitle ? <h5 class="font-semibold text-sm ml-2">{subtitle}</h5> : null}
+{title ? <h3 class="font-semibold text-sm">{title}</h3> : null}
+{subtitle ? <h5 class="font-semibold text-sm">{subtitle}</h5> : null}
 
 {
   hasDataMap && (
-    <ul class="ml-2 flex flex-row flex-wrap">
+    <ul class="flex flex-row flex-wrap">
       {dataMap.map((d) => (
         <li>
           <Tag tag={d.tag} />
@@ -28,6 +28,6 @@ const hasDataMap = Array.isArray(dataMap) && dataMap.length > 0
   )
 }
 
-{!hasDataMap && !data && <Tag clx="ml-2" tag="Non" />}
+{!hasDataMap && !data && <Tag tag="Non" />}
 
-{data && <Tag clx="ml-2" tag={data} />}
+{data && <Tag tag={data} />}

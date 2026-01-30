@@ -13,10 +13,6 @@ const hasDataMap = Array.isArray(data) && data.length > 0
 ---
 
 <Card title={title}>
-  <!--   <h1 class="font-semibold text-lg mb-4 text-(--ads-text-cast-h1)">
-    {title}
-  </h1> -->
-
   <div
     class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
   >
@@ -35,7 +31,7 @@ const hasDataMap = Array.isArray(data) && data.length > 0
                     alt={d.tag}
                     width={120}
                     height={120}
-                    class="rounded-full object-cover ring-2 ring-(--ads-img-cast)"
+                    class="rounded-full object-cover ring-2 ring-(--ads-img-cast) w-20 h-20"
                     loading="lazy"
                     decoding="async"
                   />

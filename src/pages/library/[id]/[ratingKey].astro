@@ -62,6 +62,10 @@ const videoCodec = Media.videoCodec ?? ""
 const extension = Media.container ?? ""
 
 const thumb = Image.find((i) => i.type === "coverPoster")
+
+const criticRatings = Rating?.some((r) => r.type === "critic") ?? false
+
+const audienceRatings = Rating?.some((r) => r.type === "audience") ?? false
 ---
 
 <Layout>
@@ -78,6 +82,27 @@ const thumb = Image.find((i) => i.type === "coverPoster")
           {Role && <Cast title="Distribution" data={Role} />}
           {Writer && <Cast title="Scénario" data={Writer} />}
           {Producer && <Cast title="Production" data={Producer} />}
+          <Card title="Emplacement du fichier" clx="flex flex-col truncate">
+            <ul>
+              <li class="py-2">
+                <h6 class="font-semibold text-sm">Chemin</h6>
+                <p class="text-sm">{path}</p>
+              </li>
+              <li class="py-2">
+                <h6 class="font-semibold text-sm">Fichier</h6>
+                <p class="text-sm">
+                  {file}
+                </p>
+              </li>
+              <li class="py-2">
+                <Button
+                  isDeleteBtn={true}
+                  onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+                  title="Supprimer"
+                />
+              </li>
+            </ul>
+          </Card>
         </div>
         <div class="md:w-1/12"></div>
         <div class="flex flex-col w-full md:w-3/12 rounded">
@@ -90,10 +115,21 @@ const thumb = Image.find((i) => i.type === "coverPoster")
             decoding="async"
             loading="lazy"
           />
-          <Card clx="pt-2">
-            <Rate title="Notes Presses" data={Rating} type={"critic"} />
-            <Rate title="Notes Spectateurs" data={Rating} type={"audience"} />
-          </Card>
+          {
+            criticRatings && (
+              <Card title="Notes Presses">
+                <Rate data={Rating} type="critic" />
+              </Card>
+            )
+          }
+
+          {
+            audienceRatings && (
+              <Card title="Notes Spectateurs">
+                <Rate data={Rating} type="audience" />
+              </Card>
+            )
+          }
           <Card title="Fiche technique">
             <Info title="Durée" data={formatDuration(Metadata.duration)} />
             <Info title="Année" data={Metadata.year} />
@@ -101,27 +137,18 @@ const thumb = Image.find((i) => i.type === "coverPoster")
             <Info title="Pays" dataMap={Country} />
           </Card>
           <Card title="Spécifications techniques">
-            <h3 class="font-semibold text-sm ml-2">Taille du fichier</h3>
-            <Tag clx="ml-2" tag={formatBytes(size)} />
-            <h3 class="font-semibold text-sm ml-2">Resolution</h3>
-            <Tag clx="ml-2" tag={videoResolution} />
-            <h3 class="font-semibold text-sm ml-2">Image par seconde</h3>
-            <Tag clx="ml-2" tag={videoFrameRate} />
-            <h3 class="font-semibold text-sm ml-2">Audio Codec</h3>
-            <Tag clx="ml-2" tag={audioCodec} />
-            <h3 class="font-semibold text-sm ml-2">Video Codec</h3>
-            <Tag clx="ml-2" tag={videoCodec} />
-            <h3 class="font-semibold text-sm ml-2">Extension du fichier</h3>
-            <Tag clx="ml-2" tag={extension} />
-            <h3 class="font-semibold text-sm ml-2">Chemin</h3>
-            <Tag clx="ml-2" tag={path} />
-            <h3 class="font-semibold text-sm ml-2">Fichier</h3>
-            <Tag clx="ml-2" tag={file} />
-            <Button
-              isDeleteBtn={true}
-              onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
-              title="Supprimer"
-            />
+            <h3 class="font-semibold text-sm">Taille du fichier</h3>
+            <Tag tag={formatBytes(size)} />
+            <h3 class="font-semibold text-sm">Resolution</h3>
+            <Tag tag={videoResolution} />
+            <h3 class="font-semibold text-sm">Image par seconde</h3>
+            <Tag tag={videoFrameRate} />
+            <h3 class="font-semibold text-sm">Audio Codec</h3>
+            <Tag tag={audioCodec} />
+            <h3 class="font-semibold text-sm">Video Codec</h3>
+            <Tag tag={videoCodec} />
+            <h3 class="font-semibold text-sm">Extension du fichier</h3>
+            <Tag tag={extension} />
           </Card>
         </div>
       </div>
