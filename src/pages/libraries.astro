@@ -7,7 +7,33 @@ import moment from "moment"
 
 import Tag from "../components/Tag.astro"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import { Field, FieldLabel } from "@/components/ui/field"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { RowsPerPageSelect } from "@/components/RowsPerPageSelect"
 
 interface UnifiedData {
   ratingKey: string
@@ -17,7 +43,7 @@ interface UnifiedData {
   librarySectionTitle: string
 }
 
-const data = await plexService.getLibrary("1")
+const data = await plexService.getLibrary("1", { offset: "0", limit: "10" })
 
 const sortMetadataFilms = data.sort(
   (a: UnifiedData, b: UnifiedData) => b.addedAt - a.addedAt,
@@ -25,26 +51,31 @@ const sortMetadataFilms = data.sort(
 ---
 
 <Layout>
-  <Card className="flex flex-col bg-(--ads-bg-default) p-4 rounded-none">
-    {
-      sortMetadataFilms.map((m: UnifiedData) => {
-        const { title, addedAt, librarySectionTitle, librarySectionID } = m
+  <Table className="bg-(--ads-bg-default) p-4 rounded-none">
+    <TableHeader>
+      <TableRow>
+        <TableHead>Titre</TableHead>
+        <TableHead>Catégorie</TableHead>
+        <TableHead>Date</TableHead>
+        <TableHead>Détails</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {
+        sortMetadataFilms.map((m: UnifiedData) => {
+          const { title, addedAt, librarySectionTitle, librarySectionID } = m
 
-        return (
-          <div class="w-full my-2 bg-(--ads-bg-default) rounded-lg border border-(--ads-border) shadow-sm">
-            <CardHeader>
-              <div class="flex flex-col-reverse sm:flex-row sm:justify-between">
-                <CardTitle>
-                  <h2>{title}</h2>
-                </CardTitle>
-
-                <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div class="flex flex-row justify-between items-baseline">
+          return (
+            <TableRow>
+              <TableCell>{title}</TableCell>
+              <TableCell>
                 <Tag tag={librarySectionTitle} />
-                <Button className="bg-(--ads-btn-default) rounded p-2 mr-4">
+              </TableCell>
+              <TableCell>
+                <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
+              </TableCell>
+              <TableCell>
+                <Button className="bg-(--ads-btn-default) rounded mr-4">
                   <a
                     class="text-sm"
                     href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
@@ -52,11 +83,40 @@ const sortMetadataFilms = data.sort(
                     Consulter
                   </a>
                 </Button>
-              </div>
-            </CardContent>
-          </div>
-        )
-      })
-    }
-  </Card>
+              </TableCell>
+            </TableRow>
+          )
+        })
+      }
+    </TableBody>
+  </Table>
+  <Field
+    orientation="horizontal"
+    className="bg-(--ads-bg-default) p-4 rounded-none"
+  >
+    <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>
+    <RowsPerPageSelect />
+  </Field>
+  <Pagination className="bg-(--ads-bg-default) p-4 rounded-none">
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious href="#" />
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#">1</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#" isActive> 2 </PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationLink href="#">3</PaginationLink>
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationEllipsis />
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationNext href="#" />
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
 </Layout>
