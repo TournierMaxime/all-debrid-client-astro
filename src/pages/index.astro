@@ -1,16 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro"
 
 import { zaService } from "../services/za"
-import Medias from './medias.astro';
+import Medias from "./medias.astro"
 
 const response = await zaService.getFilms()
 const { films } = response
-
 ---
 
 <Layout>
-    <Medias data={films} />
+  <Medias data={films} />
 </Layout>
-
-

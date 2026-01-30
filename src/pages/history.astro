@@ -9,6 +9,14 @@ import moment from "moment"
 import Tag from "../components/Tag.astro"
 import Button from "../components/Button.astro"
 
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
 
 import { formatBytes } from "../constants/utils"
@@ -35,29 +43,34 @@ const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
 ---
 
 <Layout>
-  <div class="flex flex-col bg-white">
+  <div class="flex flex-col bg-(--ads-bg-default)">
     <div class="m-2">
       {
         sortedLinks.map((data: Link) => (
-          <div class="flex flex-col md:flex-row md:justify-between flex-1 min-w-0 md:min-w-[250px] border border-slate-200 rounded-lg p-4 my-2 bg-white shadow-sm">
-            <div class="min-w-0">
-              <p class="truncate">{data.filename}</p>
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle>
+                <h3 class="truncate">{data.filename}</h3>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <Button
                 isDefaultBtn={true}
                 onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
                 title="Télécharger"
               />
+
               <Button
                 isDeleteBtn={true}
                 onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
                 title="Supprimer"
               />
               <Tag tag={formatBytes(data.size)} />
-            </div>
-            <div>
+            </CardContent>
+            <CardFooter>
               <Tag tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")} />
-            </div>
-          </div>
+            </CardFooter>
+          </Card>
         ))
       }
     </div>

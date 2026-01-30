@@ -7,7 +7,7 @@ import { actions } from "astro:actions"
 function Inner() {
   const [link, setLink] = useState<string | null>(null)
   const [loading, setIsLoading] = useState<boolean>(false)
-  const { openModal, copyToClipboard, resetModal } = useMedia()
+  const { openModal, copyToClipboard } = useMedia()
 
   useEffect(() => {
     const handler = async (e: Event) => {

@@ -62,23 +62,47 @@ const videoCodec = Media.videoCodec ?? ""
 const extension = Media.container ?? ""
 
 const thumb = Image.find((i) => i.type === "coverPoster")
+
+const criticRatings = Rating?.some((r) => r.type === "critic") ?? false
+
+const audienceRatings = Rating?.some((r) => r.type === "audience") ?? false
 ---
 
 <Layout>
-  <div class="bg-white p-4">
+  <div class="bg-(--ads-bg-default) p-4">
     <div class="flex flex-col p-4">
       <div class="flex flex-col-reverse sm:flex-col md:flex-row w-full">
         <div class="flex flex-col md:w-8/12 w-full">
-          <Card clx="h-[max-content] md:ml-4 p-4">
-            <h1 class="font-semibold text-lg md:mt-0 mb-2">
-              {Metadata.title}
-            </h1>
-            <p class="text-normal text-justify leading-8">{Metadata.summary}</p>
-          </Card>
+          <Card
+            clx="h-[max-content]"
+            title={Metadata.title}
+            description={Metadata.summary}
+          />
           {Director && <Cast title="Réalisation" data={Director} />}
           {Role && <Cast title="Distribution" data={Role} />}
           {Writer && <Cast title="Scénario" data={Writer} />}
           {Producer && <Cast title="Production" data={Producer} />}
+          <Card title="Emplacement du fichier" clx="flex flex-col truncate">
+            <ul>
+              <li class="py-2">
+                <h6 class="font-semibold text-sm">Chemin</h6>
+                <p class="text-sm">{path}</p>
+              </li>
+              <li class="py-2">
+                <h6 class="font-semibold text-sm">Fichier</h6>
+                <p class="text-sm">
+                  {file}
+                </p>
+              </li>
+              <li class="py-2">
+                <Button
+                  isDeleteBtn={true}
+                  onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
+                  title="Supprimer"
+                />
+              </li>
+            </ul>
+          </Card>
         </div>
         <div class="md:w-1/12"></div>
         <div class="flex flex-col w-full md:w-3/12 rounded">
@@ -87,58 +111,44 @@ const thumb = Image.find((i) => i.type === "coverPoster")
             alt={Metadata.title}
             width={240}
             height={320}
-            class="rounded-lg shadow-sm object-cover w-full h-full max-w-[240px] max-h-[320px] border border-slate-200 mb-4"
+            class="rounded-lg shadow-sm object-cover w-full h-full max-w-60 max-h-80 border border-(--ads-border) mb-4"
             decoding="async"
             loading="lazy"
           />
-          <Card>
-            <Rate title="Notes Presses" data={Rating} type={"critic"} />
-            <Rate title="Notes Spectateurs" data={Rating} type={"audience"} />
-          </Card>
-          <Card>
-            <h2 class="font-semibold text-lg mb-4">Fiche technique</h2>
+          {
+            criticRatings && (
+              <Card title="Notes Presses">
+                <Rate data={Rating} type="critic" />
+              </Card>
+            )
+          }
+
+          {
+            audienceRatings && (
+              <Card title="Notes Spectateurs">
+                <Rate data={Rating} type="audience" />
+              </Card>
+            )
+          }
+          <Card title="Fiche technique">
             <Info title="Durée" data={formatDuration(Metadata.duration)} />
             <Info title="Année" data={Metadata.year} />
             <Info title="Genre" dataMap={Genre} />
             <Info title="Pays" dataMap={Country} />
           </Card>
-          <Card>
-            <h2 class="font-semibold text-lg mb-4">
-              Spécifications techniques
-            </h2>
-            <h3 class="font-semibold text-normal ml-2">Taille du fichier</h3>
-            <span class="ml-2">
-              <Tag tag={formatBytes(size)} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Resolution</h3>
-            <span class="ml-2">
-              <Tag tag={videoResolution} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Image par seconde</h3>
-            <span class="ml-2">
-              <Tag tag={videoFrameRate} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Audio Codec</h3>
-            <span class="ml-2">
-              <Tag tag={audioCodec} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Video Codec</h3>
-            <span class="ml-2">
-              <Tag tag={videoCodec} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Extension du fichier</h3>
-            <span class="ml-2">
-              <Tag tag={extension} />
-            </span>
-            <h3 class="font-semibold text-normal ml-2">Chemin</h3>
-            <Tag clx="ml-2 w-auto max-w-[900px]" tag={path} />
-            <h3 class="font-semibold text-normal ml-2">Fichier</h3>
-            <Tag clx="ml-2 w-auto max-w-[900px]" tag={file} />
-            <Button
-              isDeleteBtn={true}
-              onclick={`window.dispatchEvent(new CustomEvent("delete-metadata-item", { detail: { ids: "${ratingKey}" } }))`}
-              title="Supprimer"
-            />
+          <Card title="Spécifications techniques">
+            <h3 class="font-semibold text-sm">Taille du fichier</h3>
+            <Tag tag={formatBytes(size)} />
+            <h3 class="font-semibold text-sm">Resolution</h3>
+            <Tag tag={videoResolution} />
+            <h3 class="font-semibold text-sm">Image par seconde</h3>
+            <Tag tag={videoFrameRate} />
+            <h3 class="font-semibold text-sm">Audio Codec</h3>
+            <Tag tag={audioCodec} />
+            <h3 class="font-semibold text-sm">Video Codec</h3>
+            <Tag tag={videoCodec} />
+            <h3 class="font-semibold text-sm">Extension du fichier</h3>
+            <Tag tag={extension} />
           </Card>
         </div>
       </div>

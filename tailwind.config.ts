@@ -4,9 +4,7 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdoc,svelte,ts,tsx,vue}"],
   theme: {
     screens: {
-      ["mob-s"]: "320px",
-      ["mob-m"]: "375px",
-      ["mob-l"]: "424px",
+      xs: "320px",
       sm: "425px",
       md: "767px",
       lg: "1023px",
