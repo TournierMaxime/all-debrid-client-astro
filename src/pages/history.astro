@@ -10,16 +10,19 @@ import Tag from "../components/Tag.astro"
 import Button from "../components/Button.astro"
 
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
 
 import { formatBytes } from "../constants/utils"
+
+import { AlertMessage } from "@/feature/media/components/Message"
 
 type History = {
   status: string
@@ -40,39 +43,62 @@ const response = await allDebridService.getUserLinks()
 const { links } = response.data
 
 const sortedLinks = links.sort((a: any, b: any) => b.date - a.date)
+
+const description =
+  "Les fichiers ici présents concernent uniquement les films ayant déjà été téléchargés.\nAfin de pouvoir les re-télécharger plus facilement via cette page, si les films ont été supprimés du NAS."
 ---
 
 <Layout>
   <div class="flex flex-col bg-(--ads-bg-default)">
     <div class="m-2">
-      {
-        sortedLinks.map((data: Link) => (
-          <Card className="mb-4">
-            <CardHeader>
-              <CardTitle>
-                <h3 class="truncate">{data.filename}</h3>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button
-                isDefaultBtn={true}
-                onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
-                title="Télécharger"
-              />
-
-              <Button
-                isDeleteBtn={true}
-                onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
-                title="Supprimer"
-              />
-              <Tag tag={formatBytes(data.size)} />
-            </CardContent>
-            <CardFooter>
-              <Tag tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")} />
-            </CardFooter>
-          </Card>
-        ))
-      }
+      <AlertMessage
+        title="Historique de téléchargement"
+        description={description}
+      />
+      <Table className="bg-(--ads-bg-default) p-4 rounded-none">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Titre</TableHead>
+            <TableHead>Lien</TableHead>
+            <TableHead>Suppression</TableHead>
+            <TableHead>Taille</TableHead>
+            <TableHead>Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {
+            sortedLinks.map((data: Link) => (
+              <TableRow className="mb-4">
+                <TableCell className="max-w-md">
+                  <p class="truncate">{data.filename}</p>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    isDefaultBtn={true}
+                    onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
+                    title="Télécharger"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button
+                    isDeleteBtn={true}
+                    onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
+                    title="Supprimer"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Tag tag={formatBytes(data.size)} />
+                </TableCell>
+                <TableCell>
+                  <Tag
+                    tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          }
+        </TableBody>
+      </Table>
     </div>
   </div>
   <DownloadAgainWrapper client:only="react" />
