@@ -87,10 +87,6 @@ if (end < totalPages - 1) {
 if (totalPages > 1) {
   pages.push(totalPages)
 }
-
-const sortMetadataFilms = data.data.sort(
-  (a: UnifiedData, b: UnifiedData) => b.addedAt - a.addedAt,
-)
 ---
 
 <Layout>
@@ -118,7 +114,7 @@ const sortMetadataFilms = data.data.sort(
       </TableHeader>
       <TableBody>
         {
-          sortMetadataFilms.map((m: UnifiedData) => {
+          data.data.map((m: UnifiedData) => {
             const { title, addedAt, librarySectionTitle, librarySectionID } = m
 
             return (
@@ -174,11 +170,11 @@ const sortMetadataFilms = data.data.sort(
         {
           pages.map((p) =>
             p === -1 ? (
-              <PaginationItem>
+              <PaginationItem className="hidden md:flex">
                 <PaginationEllipsis />
               </PaginationItem>
             ) : (
-              <PaginationItem>
+              <PaginationItem className="hidden md:flex">
                 <PaginationLink
                   href={`?section=${section}&page=${p}&limit=${limit}`}
                   isActive={p === page}

@@ -8,6 +8,7 @@ const SearchForm = () => {
   const { handleSearch } = useSearch()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev)
@@ -15,12 +16,15 @@ const SearchForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     try {
       await handleSearch()
+      setIsLoading(false)
     } catch (error: any) {
       console.log(error)
     } finally {
       setIsOpen(false)
+      setIsLoading(false)
     }
   }
 
@@ -30,7 +34,7 @@ const SearchForm = () => {
         <FaSearch className="md:w-10 md:h-10 w-7.5 h-7.5 max-w-10 cursor-pointer mr-4" />
       </div>
       <Modal isOpen={isOpen} onClose={handleOpen} title="Moteur de recherche">
-        <Form handleSubmit={handleSubmit} />
+        <Form handleSubmit={handleSubmit} isLoading={isLoading} />
       </Modal>
     </div>
   )

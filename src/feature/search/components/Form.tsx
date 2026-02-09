@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/ui/spinner"
 
 const Form = ({
   handleSubmit,
+  isLoading,
 }: {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
+  isLoading: boolean
 }) => {
   const { search, setSearch } = useSearch()
 
@@ -50,13 +53,18 @@ const Form = ({
           </RadioGroup>
         </div>
       </div>
-
-      <Button
-        type="submit"
-        className="flex justify-center bg-(--ads-btn-default) px-4 py-2 rounded-md text-(--ads-text-default) mt-4 transition cursor-pointer"
-      >
-        Valider
-      </Button>
+      {isLoading ? (
+        <Button className="flex justify-center bg-(--ads-btn-default) px-4 py-2 rounded-md text-(--ads-text-default) mt-4">
+          <Spinner />
+        </Button>
+      ) : (
+        <Button
+          type="submit"
+          className="flex justify-center bg-(--ads-btn-default) px-4 py-2 rounded-md text-(--ads-text-default) mt-4 transition cursor-pointer"
+        >
+          Valider
+        </Button>
+      )}
     </form>
   )
 }
