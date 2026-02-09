@@ -11,7 +11,7 @@ import {
 
 type AlertProps = {
   open: boolean
-  onCancel: (param?: any) => void
+  onCancel?: (param?: any) => void
   onConfirm?: () => void
   title: string
   description?: string
@@ -32,7 +32,11 @@ export default function Alert({
   return (
     <>
       <div className="fixed inset-0 bg-(--ads-bg-overlay) z-40" />
-      <Dialog modal={false} open={open} onOpenChange={(v) => !v && onCancel()}>
+      <Dialog
+        modal={false}
+        open={open}
+        onOpenChange={(v) => (onCancel ? !v && onCancel() : !v)}
+      >
         <DialogContent className="z-50">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -40,7 +44,7 @@ export default function Alert({
           </DialogHeader>
           {isChoice ? (
             <DialogFooter>
-              <DialogClose>
+              <DialogClose asChild>
                 <Button className="cursor-pointer" onClick={onCancel}>
                   Annuler
                 </Button>
