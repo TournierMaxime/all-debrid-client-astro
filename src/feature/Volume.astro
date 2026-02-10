@@ -1,0 +1,47 @@
+---
+import Capacity from "./Capacity.astro"
+import { nasService } from "../services/nas"
+
+export interface Share {
+  additional: {
+    volume_status: {
+      freespace: number
+      readonly: boolean
+      totalspace: number
+    }
+  }
+  isdir: boolean
+  name: string
+  path: string
+}
+
+interface Data {
+  data: {
+    offset: number
+    shares: Share[]
+    total: number
+  }
+  success: boolean
+}
+
+const sid = await nasService.getSid()
+
+let videoShare
+
+if (sid) {
+  const capacityResponse: Data = await nasService.getCapacity()
+  const { shares } = capacityResponse.data
+
+  videoShare = capacityResponse && shares.find((v: Share) => v.name === "video")
+}
+---
+
+<div class="bg-(--ads-bg-default) p-4">
+  {
+    videoShare ? (
+      <Capacity data={videoShare} />
+    ) : (
+      <p>Impossible de récupérer la capacité du NAS</p>
+    )
+  }
+</div>

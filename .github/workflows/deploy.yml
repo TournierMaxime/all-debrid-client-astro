@@ -19,6 +19,9 @@ jobs:
       SECRET_API_PLEX_LOCAL: ${{ secrets.SECRET_API_PLEX_LOCAL }}
       SECRET_PLEX_TOKEN: ${{ secrets.SECRET_PLEX_TOKEN }}
       SECRET_PLEX_ENDPOINT: ${{ secrets.SECRET_PLEX_ENDPOINT }}
+      SECRET_NAS_ENDPOINT: ${{ secrets.SECRET_NAS_ENDPOINT }}
+      SECRET_NAS_ACCOUNT: ${{ secrets.SECRET_NAS_ACCOUNT }}
+      SECRET_NAS_PWD: ${{ secrets.SECRET_NAS_PWD }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
 
     steps:
