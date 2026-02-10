@@ -1,7 +1,6 @@
 import { useMedia } from "../context/MediaProvider"
 import Provider from "./Provider"
 import Message from "./Message"
-import { DialogContent, DialogTitle, Dialog } from "@/components/ui/dialog"
 import Alert from "./Alert"
 
 export default function DownloadAgain({ loading }: { loading: boolean }) {

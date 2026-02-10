@@ -1,13 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro"
+import Medias from "./medias.astro"
 
 import { zaService } from "../services/za"
-import Medias from "./medias.astro"
+
+import Volume from "../feature/Volume.astro"
 
 const response = await zaService.getFilms()
 const { films } = response
 ---
 
 <Layout>
+  <Volume />
   <Medias data={films} />
 </Layout>

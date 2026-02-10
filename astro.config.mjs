@@ -13,6 +13,18 @@ export default defineConfig({
   trailingSlash: "never",
   env: {
     schema: {
+      SECRET_NAS_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_NAS_ACCOUNT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_NAS_PWD: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       NODE_ENV: envField.string({
         context: "server",
         access: "secret",

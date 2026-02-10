@@ -1,0 +1,43 @@
+---
+import type { Share } from "./Volume.astro"
+import { formatBytes } from "../constants/utils"
+import { Progress } from "@/components/ui/progress"
+
+const { data } = Astro.props as { data: Share }
+
+const { totalspace, freespace } = data.additional.volume_status
+
+const used = totalspace - freespace
+
+const percentUsed = (used / totalspace) * 100
+---
+
+<div class="flex flex-col gap-2 w-full">
+  <div
+    class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1"
+  >
+    <div class="text-sm font-semibold">
+      Capacité du NAS ({formatBytes(totalspace)})
+    </div>
+
+    <div class="text-sm text-muted-foreground">
+      {percentUsed.toFixed(1)}% utilisé • {formatBytes(used)}
+    </div>
+  </div>
+
+  <Progress
+    className={`w-full h-2 ${
+      percentUsed < 60
+        ? "[&>div]:bg-green-700"
+        : percentUsed < 85
+          ? "[&>div]:bg-orange-700"
+          : "[&>div]:bg-red-700"
+    }`}
+    max={100}
+    value={Number(percentUsed.toFixed(1))}
+  />
+
+  <div class="text-sm text-muted-foreground">
+    {formatBytes(freespace)} restant
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import { zaService, allDebridService } from "../services/za"
 import { plexService } from "../services/plex"
+import { nasService } from "../services/nas"
 
 export const server = {
   // --- Actions ZA Service ---
@@ -58,6 +59,7 @@ export const server = {
       return await allDebridService.getRedirectLink(link)
     },
   }),
+
   saveLink: defineAction({
     input: z.object({ link: z.string() }),
     handler: async ({ link }) => {
@@ -109,6 +111,21 @@ export const server = {
     }),
     handler: async ({ ids }) => {
       return plexService.deleteMetadataItem(ids)
+    },
+  }),
+
+  // --- Actions NAS Service ---
+
+  getSid: defineAction({
+    handler: async () => {
+      return await nasService.getSid()
+    },
+  }),
+
+  getCapacity: defineAction({
+    input: z.object({ sid: z.string() }),
+    handler: async ({ sid }) => {
+      return await nasService.getCapacity(sid)
     },
   }),
 }
