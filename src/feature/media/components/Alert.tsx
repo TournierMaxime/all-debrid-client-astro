@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 
 type AlertProps = {
-  open: boolean
+  open?: boolean
   onCancel?: (param?: any) => void
   onConfirm?: () => void
   title: string

@@ -1,15 +1,13 @@
 ---
+import CatchError from "@/components/CatchError.astro"
 import Layout from "../layouts/Layout.astro"
 import { zaService } from "../services/za"
 import Medias from "./medias.astro"
 
-// On récupère les paramètres depuis l'URL (searchParams)
 const query = Astro.url.searchParams.get("query")
 const filter = Astro.url.searchParams.get("filter")
 
-// On vérifie s'ils existent
 if (!query || !filter) {
-  // Optionnel : rediriger vers l'accueil si les paramètres manquent
   // return Astro.redirect('/');
   throw new Error("Query and filter parameters are required")
 }
@@ -21,5 +19,11 @@ const response = await zaService.search({
 ---
 
 <Layout>
-  <Medias data={response} />
+  {
+    response.message ? (
+      <CatchError error={response.message} />
+    ) : (
+      <Medias data={response} />
+    )
+  }
 </Layout>
