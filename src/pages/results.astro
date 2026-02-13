@@ -8,19 +8,23 @@ const query = Astro.url.searchParams.get("query")
 const filter = Astro.url.searchParams.get("filter")
 
 if (!query || !filter) {
-  // return Astro.redirect('/');
-  throw new Error("Query and filter parameters are required")
+  return Astro.redirect("/")
 }
 
-const response = await zaService.search({
-  query,
-  filter: filter as "films" | "series",
-})
+let response
+try {
+  response = await zaService.search({
+    query,
+    filter: filter as "films" | "series",
+  })
+} catch (e) {
+  response = { message: "Une erreur technique est survenue." }
+}
 ---
 
 <Layout>
   {
-    response.message ? (
+    response && response.message ? (
       <CatchError error={response.message} />
     ) : (
       <Medias data={response} />

@@ -54,7 +54,9 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const handleSearch = async () => {
     if (!state.search.query) return
 
-    await searchData(actions.search(state?.search))
+    navigate(
+      `/results?query=${encodeURIComponent(state.search.query)}&filter=${state.search.filter}`,
+    )
 
     dispatch({
       type: "SET_SEARCH",
