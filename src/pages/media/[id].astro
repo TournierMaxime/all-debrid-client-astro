@@ -24,8 +24,6 @@ import { EnumFilmSerie, type Media } from "../../feature/media/type/media"
 import MediaWrapper from "../../wrappers/MediaWrapper"
 import { AlertMessage } from "@/feature/media/components/Message"
 
-export const prerender = false
-
 const { id } = Astro.params
 
 if (!id) {
@@ -45,21 +43,37 @@ if (id.includes("film")) {
   throw new Error("Invalid ID parameter")
 }
 
-const check = await allDebridService.check(data.title ?? data.originalTitle)
+const {
+  title,
+  originalTitle,
+  duration,
+  origin,
+  releaseDate,
+  image,
+  qualities,
+  availableLanguages,
+} = data
 
-const { isOnNAS } = check
+const normalizeTitle = data.title.split("[")[0].trim()
+
+const [checkResult, secondCheckResult] = await Promise.all([
+  allDebridService.check(normalizeTitle),
+  allDebridService.check(originalTitle),
+])
+
+const isOnNAS = checkResult.isOnNAS || secondCheckResult.isOnNAS
 ---
 
 <Layout>
   <Card className="flex flex-col bg-(--ads-bg-default) rounded-none">
     <CardHeader>
-      <CardTitle> {data.title}</CardTitle>
+      <CardTitle> {title}</CardTitle>
       <CardDescription>
         <ul class="flex flex-row flex-wrap my-2">
-          <li><Tag tag={data.originalTitle} /></li>
-          <li><Tag tag={data.duration} /></li>
-          <li><Tag tag={data.origin} /></li>
-          <li><Tag tag={data.releaseDate} /></li>
+          <li><Tag tag={originalTitle} /></li>
+          <li><Tag tag={duration} /></li>
+          <li><Tag tag={origin} /></li>
+          <li><Tag tag={releaseDate} /></li>
         </ul>
       </CardDescription>
       {
@@ -77,8 +91,8 @@ const { isOnNAS } = check
       >
         <Poster
           clx="w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
-          title={data.title}
-          src={data.image}
+          title={title}
+          src={image}
         />
         <div class="flex flex-col w-full mb-4">
           <Details data={data} />
@@ -89,9 +103,9 @@ const { isOnNAS } = check
         !isOnNAS && (
           <div class="flex md:flex-row md:justify-between flex-col w-full">
             {id.includes("film") ? (
-              <Qualities qualities={data.qualities} />
+              <Qualities qualities={qualities} />
             ) : (
-              <Languages languages={data.availableLanguages} />
+              <Languages languages={availableLanguages} />
             )}
 
             <MediaWrapper
