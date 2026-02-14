@@ -50,6 +50,17 @@ class ZA {
     })
     return response.json()
   }
+
+  async check(title?: string) {
+    const response = await fetch(`${this.apiAllDebridLocal}/check/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title }),
+    })
+    return response.json()
+  }
 }
 
 class AllDebrid extends ZA {
