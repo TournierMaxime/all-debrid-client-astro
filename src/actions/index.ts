@@ -125,7 +125,7 @@ export const server = {
   getCapacity: defineAction({
     input: z.object({ sid: z.string() }),
     handler: async ({ sid }) => {
-      return await nasService.getCapacity(sid)
+      return await nasService.getCapacity()
     },
   }),
 }

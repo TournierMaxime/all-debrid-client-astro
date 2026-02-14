@@ -1,5 +1,13 @@
 ---
+import { AlertMessage } from "@/feature/media/components/Message"
 const { error } = Astro.props as { error: string }
 ---
 
-<b class="flex flex-row justify-center text-(--ads-text-error)">{error}</b>
+<div class="bg-(--ads-bg-default) p-2">
+  <AlertMessage
+    title={error}
+    backgroundColor="bg-(--ads-error-bg-default)"
+    borderColor="border-(--ads-error-border-default)"
+    color="text-(--ads-error-text-default)"
+  />
+</div>

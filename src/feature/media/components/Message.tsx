@@ -16,12 +16,22 @@ export default function Message({ message, error }: Props) {
 export function AlertMessage({
   title,
   description,
+  backgroundColor = "bg-(--ads-alert-bg-default)",
+  borderColor = "border-(--ads-alert-border-default)",
+  color = "text-(--ads-alert-text-default)",
+  clx,
 }: {
   title: string
-  description: string
+  description?: string
+  backgroundColor?: string
+  borderColor?: string
+  color?: string
+  clx?: string
 }) {
   return (
-    <Alert className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded mb-2">
+    <Alert
+      className={`${backgroundColor} ${borderColor} ${color} p-4 rounded mb-2 ${clx ?? ""}`}
+    >
       <AlertTitle className="mb-2 text-[16px]">{title}</AlertTitle>
       <AlertDescription className="text-[14px]">{description}</AlertDescription>
     </Alert>
