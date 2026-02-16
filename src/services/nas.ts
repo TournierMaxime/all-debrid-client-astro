@@ -43,6 +43,26 @@ class NAS {
 
     return response.json()
   }
+
+  async renameFile(path: string, name: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/entry.cgi?version=2&method=rename&api=SYNO.FileStation.Rename&path=["${path}"]&name=["${name}"]&_sid=${sid}`,
+    )
+
+    return response.json()
+  }
+
+  async moveFile(path: string, destFolderPath: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/entry.cgi?version=3&method=start&api=SYNO.FileStation.CopyMove&path=["${path}"]&dest_folder_path=${destFolderPath}&remove_src=true&_sid=${sid}`,
+    )
+
+    return response.json()
+  }
 }
 
 export const nasService = new NAS()
