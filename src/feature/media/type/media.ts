@@ -110,21 +110,21 @@ enum EnumFilmSerie {
 }
 
 export type {
-  MediaAction,
-  MediaState,
-  Media,
-  Medias,
-  DownLoadsEpisode,
-  AvailableSeasons,
   AvailableLanguages,
-  Qualities,
-  DownLoads,
-  LinkData,
-  DownloadLink,
+  AvailableSeasons,
   DownloadEpisode,
+  DownloadLink,
+  DownLoads,
+  DownLoadsEpisode,
   FilmDownloadsProps,
-  SerieDownloadsProps,
+  LinkData,
+  Media,
+  MediaAction,
+  Medias,
+  MediaState,
   PropsFilmSerie,
+  Qualities,
+  SerieDownloadsProps,
 }
 
 export { EnumFilmSerie }

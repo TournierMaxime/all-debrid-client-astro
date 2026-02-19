@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useReducer, useRef } from "react"
-import type {
-  SearchAction,
-  SearchState,
-  SearchContextType,
-  SearchProps,
-} from "../type/search"
-import type { Medias, Media } from "../../../feature/media/type/media"
 import { actions } from "astro:actions"
 import { navigate } from "astro:transitions/client"
+
+import type { Media, Medias } from "../../../feature/media/type/media"
+import type {
+  SearchAction,
+  SearchContextType,
+  SearchProps,
+  SearchState,
+} from "../type/search"
 
 // Définition du contexte
 const SearchContext = createContext<SearchContextType | null>(null)
@@ -45,7 +46,7 @@ const reducer = (state: SearchState, action: SearchAction): SearchState => {
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const initialDataRef = useRef<any>(undefined)
+  const initialDataRef = useRef<unknown>(undefined)
 
   const setSearch = (payload: SearchProps) => {
     dispatch({ type: "SET_SEARCH", payload })
@@ -67,10 +68,10 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }
 
-  const fetchData = async (service: Promise<any>) => {
+  const fetchData = async (service: Promise<Medias[]>) => {
     dispatch({ type: "SET_LOADING", payload: true })
     try {
-      const response: Medias[] = await service
+      const response = await service
       dispatch({
         type: "SET_DATA",
         payload: { medias: response, media: undefined },
@@ -79,44 +80,44 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
       if (!initialDataRef.current) {
         initialDataRef.current = response
       }
-    } catch (error: any) {
-      dispatch({ type: "SET_ERROR", payload: error })
+    } catch (error: unknown) {
+      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
-  const fetchOneMedia = async (service: Promise<any>) => {
+  const fetchOneMedia = async (service: Promise<Media>) => {
     dispatch({ type: "SET_LOADING", payload: true })
     try {
-      const response: Media = await service
+      const response = await service
       dispatch({
         type: "SET_DATA",
         payload: { media: response, medias: undefined },
       })
-    } catch (error: any) {
-      dispatch({ type: "SET_ERROR", payload: error })
+    } catch (error: unknown) {
+      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
-  const searchData = async (service: Promise<any>) => {
+  const searchData = async (service: Promise<Medias[]>) => {
     try {
       const response: Medias[] = await service
       dispatch({ type: "SET_DATA", payload: { medias: response } })
       navigate(
         `/results?query=${state.search.query}&filter=${state.search.filter}`,
       )
-    } catch (error: any) {
-      dispatch({ type: "SET_ERROR", payload: error })
+    } catch (error: unknown) {
+      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
   const resetSearch = () => {
-    dispatch({ type: "SET_DATA", payload: initialDataRef.current })
+    dispatch({ type: "SET_DATA", payload: (initialDataRef.current as { medias?: Medias[] | undefined; media?: Media | undefined; }) || { medias: [], media: undefined } })
     dispatch({ type: "SET_ERROR", payload: undefined })
     fetchData(actions.getFilms())
   }

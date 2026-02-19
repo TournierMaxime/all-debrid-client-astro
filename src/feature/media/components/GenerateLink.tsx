@@ -1,8 +1,10 @@
-import Provider from "./Provider"
-import { Message } from "../../../components/Alert"
-import { useMedia } from "../context/MediaProvider"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+
+import { Message } from "../../../components/Alert"
+import { useMedia } from "../context/MediaProvider"
+
+import Provider from "./Provider"
 
 export default function GenerateLink() {
   const { link, isCopy, downloading, handleClick } = useMedia()

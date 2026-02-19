@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { MediaProvider } from "../feature/media/context/MediaProvider"
-import DownloadAgain from "../feature/media/components/DownloadAgain"
-import { useMedia } from "../feature/media/context/MediaProvider"
 import { actions } from "astro:actions"
+
+import DownloadAgain from "../feature/media/components/DownloadAgain"
+import { MediaProvider } from "../feature/media/context/MediaProvider"
+import { useMedia } from "../feature/media/context/MediaProvider"
 
 function Inner() {
   const [link, setLink] = useState<string | null>(null)
@@ -22,7 +23,8 @@ function Inner() {
         setLink(unlock.data.link)
         openModal(unlock.data.host, unlock.data.link)
         copyToClipboard(unlock.data.link)
-      } catch (e) {
+      } catch (e: unknown) {
+        console.error(e)
         openModal("Erreur", "")
       } finally {
         setIsLoading(false)

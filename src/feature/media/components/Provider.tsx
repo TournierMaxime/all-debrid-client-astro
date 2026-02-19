@@ -1,4 +1,5 @@
 import { PUBLIC_DS, PUBLIC_MOTRIX } from "astro:env/client"
+
 import { Button } from "@/components/ui/button"
 
 export default function Provider() {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { actions } from "astro:actions"
+
 import Alert from "../components/Alert"
 
 export default function DeleteSaveLinkWrapper() {
@@ -8,8 +9,8 @@ export default function DeleteSaveLinkWrapper() {
   const description = `Ce lien est sur le point d'être supprimé de l'historique.\nÊtes-vous sûr de vouloir continuer ?\nCette action est irréversible.`
 
   useEffect(() => {
-    const handler = (e: any) => {
-      setLinkToDelete(e.detail.link)
+    const handler = (e: unknown) => {
+      setLinkToDelete((e as CustomEvent).detail.link)
       setOpen(true)
     }
 

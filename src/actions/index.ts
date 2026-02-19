@@ -1,8 +1,9 @@
 import { defineAction } from "astro:actions"
 import { z } from "astro:schema"
-import { zaService, allDebridService } from "../services/za"
-import { plexService } from "../services/plex"
+
 import { nasService } from "../services/nas"
+import { plexService } from "../services/plex"
+import { allDebridService, zaService } from "../services/za"
 
 export const server = {
   // --- Actions ZA Service ---
@@ -123,8 +124,7 @@ export const server = {
   }),
 
   getCapacity: defineAction({
-    input: z.object({ sid: z.string() }),
-    handler: async ({ sid }) => {
+    handler: async () => {
       return await nasService.getCapacity()
     },
   }),

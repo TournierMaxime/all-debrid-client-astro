@@ -1,8 +1,10 @@
-import { FaSearch } from "react-icons/fa"
-import Modal from "../../../components/Modal"
 import React, { useState } from "react"
-import Form from "./Form"
+import { FaSearch } from "react-icons/fa"
+
+import Modal from "../../../components/Modal"
 import { useSearch } from "../context/SearchContext"
+
+import Form from "./Form"
 
 const SearchForm = () => {
   const { handleSearch } = useSearch()
@@ -20,7 +22,7 @@ const SearchForm = () => {
     try {
       await handleSearch()
       setIsLoading(false)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error)
     } finally {
       setIsOpen(false)

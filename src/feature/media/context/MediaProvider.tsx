@@ -1,14 +1,28 @@
 import React, { createContext, useContext, useReducer } from "react"
+import { actions } from "astro:actions"
 import copy from "copy-to-clipboard"
+
 import type {
   DownloadEpisode,
   DownloadLink,
   MediaAction,
   MediaState,
 } from "../type/media"
-import { actions } from "astro:actions"
 
-const MediaContext = createContext<any>(null)
+type MediaContextValue = MediaState & {
+  handleDownloadLink: (link: string) => Promise<void>
+  openModal: (currentHost: string, currentUrl: string) => void
+  resetModal: () => void
+  copyToClipboard: (text: string) => Promise<void>
+  getDownLoads: (download: DownloadLink, index: number) => React.ReactNode
+  getDownLoadsSeries: (
+    download: DownloadEpisode,
+    index: number,
+  ) => React.ReactNode
+  handleClick: () => Promise<void>
+}
+
+const MediaContext = createContext<MediaContextValue | null>(null)
 
 const initialState: MediaState = {
   downloading: false,
@@ -75,7 +89,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
         const links = resGetRedirectLink?.data?.links
 
-        const { data: resSaveLink } = await actions.saveLink({ link: links[0] })
+        await actions.saveLink({ link: links[0] })
 
         if (!Array.isArray(links) || links.length === 0) {
           throw new Error("Aucun lien de redirection retourné par AllDebrid")
@@ -108,11 +122,13 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
           },
         })
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Erreur inconnue"
       console.error("Erreur lors de la récupération du lien:", error)
       dispatch({
         type: "SET_LINK",
-        payload: { link: "", error: error.message },
+        payload: { link: "", error: errorMessage },
       })
     } finally {
       dispatch({ type: "SET_DOWNLOADING", payload: false })

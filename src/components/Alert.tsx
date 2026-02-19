@@ -1,23 +1,22 @@
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog"
-
 import {
   Alert as AlertShadcn,
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 type AlertProps = {
   open?: boolean
-  onCancel?: (param?: any) => void
+  onCancel?: (param?: unknown) => void
   onConfirm?: () => void
   title: string
   description?: string
