@@ -16,10 +16,9 @@ import Rate from "../../../feature/media/components/Rate.astro"
 import Card from "../../../components/Card.astro"
 import { Button as BtnShadcn } from "@/components/ui/button"
 
-import { formatDuration } from "../../../constants/utils"
+import { formatDuration, formatBytes } from "../../../lib/utils"
 import DeleteMetadataItemWrapper from "../../../wrappers/DeleteMetadataItemWrapper"
 
-import { formatBytes } from "../../../constants/utils"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { nasService } from "@/services/nas"
