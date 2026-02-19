@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import { actions } from "astro:actions"
-import Alert from "@/feature/media/components/Alert"
+import Alert from "@/components/Alert"
 
 export default function DeleteMetadataItemWrapper() {
   const [open, setOpen] = useState(false)

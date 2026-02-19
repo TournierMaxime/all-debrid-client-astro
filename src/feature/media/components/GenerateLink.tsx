@@ -1,5 +1,5 @@
 import Provider from "./Provider"
-import Message from "./Message"
+import { Message } from "../../../components/Alert"
 import { useMedia } from "../context/MediaProvider"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
