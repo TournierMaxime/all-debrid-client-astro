@@ -9,3 +9,4 @@ services:
 
     volumes:
       - .:/var/app
+      - /var/app/node_modules
