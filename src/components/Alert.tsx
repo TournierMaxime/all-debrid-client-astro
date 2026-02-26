@@ -60,7 +60,7 @@ export default function Alert({
                 </Button>
               </DialogClose>
               <Button
-                className="bg-(--ads-btn-delete) cursor-pointer"
+                className="bg-(--ads-btn-delete) cursor-pointer mb-4 md:mb-0"
                 onClick={onConfirm}
               >
                 Confirmer

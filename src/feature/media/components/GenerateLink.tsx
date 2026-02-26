@@ -1,29 +1,23 @@
 import { Button } from "@/components/ui/button"
-import { Spinner } from "@/components/ui/spinner"
 
 import { Message } from "../../../components/Alert"
+import useDetailsMedia from "../../../hooks/useDetailsMedia"
 import { useMedia } from "../context/MediaProvider"
 
 import Provider from "./Provider"
 
 export default function GenerateLink() {
   const { link, isCopy, downloading, handleClick } = useMedia()
-
-  const getStatus = (status: boolean, a?: string) => {
-    if (status === true) {
-      return <Spinner />
-    }
-
-    if (a !== "" || undefined) {
-      return "Copier le lien"
-    }
-
-    return "Générer le lien"
-  }
+  const { getStatus } = useDetailsMedia()
 
   const getGeneratedLink = () => {
     if (isCopy === true) return <Provider />
-    if (link?.error) return <Message error={link?.error} />
+    if (link && link.error) {
+      return <Message error={link.error} />
+    }
+    if (link && link.link === undefined) {
+      return <Message error={"Erreur lors de la génération du lien"} />
+    }
 
     return (
       <Button
@@ -38,7 +32,9 @@ export default function GenerateLink() {
   return (
     <div className="flex flex-col items-center">
       {getGeneratedLink()}
-      <Message message={link?.message} />
+      {link && link.link !== undefined ? (
+        <Message message={link?.message} />
+      ) : null}
     </div>
   )
 }

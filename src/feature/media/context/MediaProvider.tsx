@@ -67,7 +67,6 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
   const handleDownloadLink = async (link: string) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
-      console.log("Récupération du lien avec AllDebrid:", link)
 
       const { data: resGetLink, error: errGetLink } = await actions.getLink({
         link,
@@ -89,7 +88,8 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
         const links = resGetRedirectLink?.data?.links
 
-        await actions.saveLink({ link: links[0] })
+        const res = await actions.saveLink({ link: links[0] })
+        const success = res.data.status
 
         if (!Array.isArray(links) || links.length === 0) {
           throw new Error("Aucun lien de redirection retourné par AllDebrid")
@@ -109,6 +109,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
             payload: {
               link: resGetUnlockLink?.data?.link,
               message: "Lien récupéré avec succès",
+              success,
             },
           })
         }

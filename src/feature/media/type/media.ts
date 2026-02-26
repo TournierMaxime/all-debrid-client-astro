@@ -41,6 +41,7 @@ interface LinkData {
   message?: string
   link: string
   error?: string
+  success?: string
 }
 
 interface DownLoadsEpisode {

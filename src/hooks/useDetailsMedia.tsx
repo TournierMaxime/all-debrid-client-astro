@@ -1,12 +1,12 @@
 import { Spinner } from "@/components/ui/spinner"
 
 const useDetailsMedia = () => {
-  const getStatus = (status: boolean, a?: string) => {
+  const getStatus = (status: boolean, link: string) => {
     if (status === true) {
       return <Spinner />
     }
 
-    if (a !== "" || undefined) {
+    if (link && link !== "") {
       return "Copier le lien"
     }
 
