@@ -8,6 +8,9 @@ import { defineConfig, envField } from "astro/config"
 export default defineConfig({
   output: "server",
   trailingSlash: "never",
+  security: {
+    checkOrigin: false,
+  },
   env: {
     schema: {
       SECRET_NAS_ENDPOINT: envField.string({
