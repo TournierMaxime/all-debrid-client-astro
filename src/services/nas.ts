@@ -16,7 +16,13 @@ class NAS {
 
   private async login() {
     const response = await fetch(
-      `${this.apiNas}/webapi/auth.cgi?api=SYNO.API.Auth&account=${this.account}&passwd=${this.pwd}&version=6&method=login`,
+      `${this.apiNas}/webapi/auth.cgi?api=SYNO.API.Auth&account=${this.account}&passwd=${this.pwd}&version=6&method=login&format=cookie`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
     )
 
     const json = await response.json()
@@ -39,6 +45,12 @@ class NAS {
 
     const response = await fetch(
       `${this.apiNas}/webapi/entry.cgi?version=2&method=list_share&api=SYNO.FileStation.List&additional=volume_status&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
     )
 
     return response.json()
@@ -49,6 +61,12 @@ class NAS {
 
     const response = await fetch(
       `${this.apiNas}/webapi/entry.cgi?version=2&method=rename&api=SYNO.FileStation.Rename&path=["${path}"]&name=["${name}"]&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
     )
 
     return response.json()
@@ -59,6 +77,38 @@ class NAS {
 
     const response = await fetch(
       `${this.apiNas}/webapi/entry.cgi?version=3&method=start&api=SYNO.FileStation.CopyMove&path=["${path}"]&dest_folder_path=${destFolderPath}&remove_src=true&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async createDownloadTask(url: string, destination: string) {
+    const sid = await this.getSid()
+
+    const params = new URLSearchParams()
+    params.append("api", "SYNO.DownloadStation2.Task")
+    params.append("version", "2")
+    params.append("method", "create")
+    params.append("type", "url")
+    params.append("url", url)
+    params.append("destination", destination)
+    params.append("create_list", "false")
+
+    const response = await fetch(
+      `${nasService.apiNas}/webapi/DownloadStation/entry.cgi?_sid=${sid}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: params.toString(),
+      },
     )
 
     return response.json()
