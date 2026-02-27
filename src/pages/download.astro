@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro"
+//import { nasService } from "@/services/nas"
+
+const id = Astro.url.searchParams.get("id")
+
+/* const res = await nasService.createDownloadTask(
+  "https://xp9khl.debrid.it/dl/4gkhuqa341c/King.Kong.2005.EXTENDED.MULTi.VFF.2160p.10bit.4KLight.HDR.BluRay.x265.HE-AAC.7.1-Wawacity.motorcycles.mkv",
+  "video/Films",
+) */
+---
+
+<Layout>
+  <div class="bg-(--ads-bg-default) p-4">
+    <h1 class="text-2xl font-bold">Page de téléchargement</h1>
+    <p>ID du téléchargement : {id}</p>
+  </div>
+</Layout>

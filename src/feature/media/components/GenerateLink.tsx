@@ -20,8 +20,13 @@ export default function GenerateLink() {
   }
 
   const getGeneratedLink = () => {
-    if (isCopy === true) return <Provider />
-    if (link?.error) return <Message error={link?.error} />
+    if (isCopy === true) return <Provider link={link?.link} />
+    if (link && link.error) {
+      return <Message error={link.error} />
+    }
+    if (link && link.link === undefined) {
+      return <Message error={"Erreur lors de la génération du lien"} />
+    }
 
     return (
       <Button

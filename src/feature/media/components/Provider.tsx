@@ -1,7 +1,8 @@
-import { PUBLIC_DS, PUBLIC_MOTRIX } from "astro:env/client"
+import { PUBLIC_MOTRIX } from "astro:env/client"
+
 import { Button } from "@/components/ui/button"
 
-export default function Provider() {
+export default function Provider({ link }: { link?: string }) {
   return (
     <ul className="flex flex-row justify-around mt-4">
       <li>
@@ -15,17 +16,19 @@ export default function Provider() {
           </a>
         </Button>
       </li>
-      <li>
-        <Button className="bg-(--ads-ds-get) rounded p-2">
-          <a
-            target="_blank"
-            className="text-(--ads-text-default)"
-            href={PUBLIC_DS}
-          >
-            Download Station
-          </a>
-        </Button>
-      </li>
+      {link && (
+        <li>
+          <Button className="bg-(--ads-ds-get) rounded p-2">
+            <a
+              target="_blank"
+              className="text-(--ads-text-default)"
+              href={`/download?id=${encodeURIComponent(link)}`}
+            >
+              Download Station
+            </a>
+          </Button>
+        </li>
+      )}
     </ul>
   )
 }
