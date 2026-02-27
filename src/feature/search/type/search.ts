@@ -1,4 +1,4 @@
-import type { Medias, Media } from "../../../feature/media/type/media"
+import type { Media, Medias } from "../../../feature/media/type/media"
 
 type SearchProps = {
   query: string
@@ -25,9 +25,9 @@ type SearchContextType = SearchState & {
   setSearch: (payload: SearchProps) => void
   handleSearch: () => Promise<void>
   resetSearch: () => void
-  fetchData: (service: Promise<any>) => Promise<void>
-  searchData: (service: Promise<any>) => Promise<void>
-  fetchOneMedia: (service: Promise<any>) => Promise<void>
+  fetchData: (service: Promise<Medias[]>) => Promise<void>
+  searchData: (service: Promise<Medias[]>) => Promise<void>
+  fetchOneMedia: (service: Promise<Media>) => Promise<void>
 }
 
 type SearchAction =
@@ -37,9 +37,9 @@ type SearchAction =
   | { type: "SET_LOADING"; payload: boolean }
 
 export type {
+  Search,
+  SearchAction,
+  SearchContextType,
   SearchProps,
   SearchState,
-  SearchContextType,
-  SearchAction,
-  Search,
 }

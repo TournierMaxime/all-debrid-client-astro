@@ -1,6 +1,7 @@
-import { useMedia } from "../context/MediaProvider"
-import GenerateLink from "./GenerateLink"
 import GenericModal from "../../../components/Modal"
+import { useMedia } from "../context/MediaProvider"
+
+import GenerateLink from "./GenerateLink"
 
 export default function Modal() {
   const { isVisible, resetModal, provider } = useMedia()

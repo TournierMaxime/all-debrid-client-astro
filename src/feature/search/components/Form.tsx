@@ -1,10 +1,12 @@
 import React from "react"
-import { useSearch } from "../../../feature/search/context/SearchContext"
+
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/ui/spinner"
+
+import { useSearch } from "../../../feature/search/context/SearchContext"
 
 const Form = ({
   handleSubmit,

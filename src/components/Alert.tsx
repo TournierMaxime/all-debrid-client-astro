@@ -1,22 +1,32 @@
+import {
+  Alert as AlertShadcn,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog"
 
 type AlertProps = {
   open?: boolean
-  onCancel?: (param?: any) => void
+  onCancel?: (param?: unknown) => void
   onConfirm?: () => void
   title: string
   description?: string
   isChoice?: boolean
   children?: React.ReactNode
+}
+
+type MessageProps = {
+  message?: string
+  error?: string
 }
 
 export default function Alert({
@@ -50,7 +60,7 @@ export default function Alert({
                 </Button>
               </DialogClose>
               <Button
-                className="bg-(--ads-btn-delete) cursor-pointer"
+                className="bg-(--ads-btn-delete) cursor-pointer mb-4 md:mb-0"
                 onClick={onConfirm}
               >
                 Confirmer
@@ -61,5 +71,38 @@ export default function Alert({
         </DialogContent>
       </Dialog>
     </>
+  )
+}
+
+export function Message({ message, error }: MessageProps) {
+  return error ? (
+    <p className="w-full my-4 text-(--ads-text-error)">{error}</p>
+  ) : (
+    <p className="w-full my-4 text-(--ads-text-success)">{message}</p>
+  )
+}
+
+export function AlertMessage({
+  title,
+  description,
+  backgroundColor = "bg-(--ads-alert-bg-default)",
+  borderColor = "border-(--ads-alert-border-default)",
+  color = "text-(--ads-alert-text-default)",
+  clx,
+}: {
+  title: string
+  description?: string
+  backgroundColor?: string
+  borderColor?: string
+  color?: string
+  clx?: string
+}) {
+  return (
+    <AlertShadcn
+      className={`${backgroundColor} ${borderColor} ${color} p-4 rounded mb-2 ${clx ?? ""}`}
+    >
+      <AlertTitle className="mb-2 text-[16px]">{title}</AlertTitle>
+      <AlertDescription className="text-[14px]">{description}</AlertDescription>
+    </AlertShadcn>
   )
 }

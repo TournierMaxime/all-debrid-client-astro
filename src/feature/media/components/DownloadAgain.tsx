@@ -1,7 +1,7 @@
+import Alert, { Message } from "../../../components/Alert"
 import { useMedia } from "../context/MediaProvider"
+
 import Provider from "./Provider"
-import Message from "./Message"
-import Alert from "./Alert"
 
 export default function DownloadAgain({ loading }: { loading: boolean }) {
   const { isVisible, resetModal } = useMedia()

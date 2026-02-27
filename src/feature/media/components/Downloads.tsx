@@ -1,7 +1,7 @@
 import DropDown from "../../../components/DropDown"
 import { useMedia } from "../../../feature/media/context/MediaProvider"
-import { EnumFilmSerie } from "../type/media"
 import type { PropsFilmSerie } from "../type/media"
+import { EnumFilmSerie } from "../type/media"
 
 export default function Downloads({
   downloads,

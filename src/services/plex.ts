@@ -1,7 +1,8 @@
+ 
 import {
   SECRET_API_PLEX_LOCAL,
-  SECRET_PLEX_TOKEN,
   SECRET_PLEX_ENDPOINT,
+  SECRET_PLEX_TOKEN,
 } from "astro:env/server"
 
 class Plex {
