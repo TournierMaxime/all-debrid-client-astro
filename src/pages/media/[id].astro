@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/card"
 
 import { zaService } from "../../services/za"
-import { zaFullUrl } from "../../constants/utils"
 
 import { allDebridService } from "../../services/za"
 
@@ -30,8 +29,12 @@ if (!id) {
   throw new Error("ID parameter is missing")
 }
 
+const domain = await zaService.getDomainName()
+
+if (!domain) throw new Error("No domain available")
+
 const decodeURI = decodeURIComponent(id)
-const url = `${zaFullUrl}/?${decodeURI}`
+const url = `${domain}/?${decodeURI}`
 
 let data: Media
 

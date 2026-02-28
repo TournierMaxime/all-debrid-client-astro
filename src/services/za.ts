@@ -8,6 +8,9 @@ import type { SearchProps } from "../feature/search/type/search"
 
 class ZA {
   public apiAllDebridLocal = SECRET_API_ALLDEBRID_LOCAL
+  private domainName: string | null = null
+  private checkEvery24H = 24 * 60 * 60 * 1000 // 24 hours
+  private expiresAt = 0
 
   async getFilms() {
     const response = await fetch(`${this.apiAllDebridLocal}/films/`, {
@@ -61,6 +64,36 @@ class ZA {
       body: JSON.stringify({ title }),
     })
     return response.json()
+  }
+
+  async checkDomainName() {
+    const response = await fetch(`${this.apiAllDebridLocal}/check-wawacity/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const data = await response.json()
+
+    if (data && data.domain) {
+      this.domainName = data.domain
+      this.expiresAt = Date.now() + this.checkEvery24H
+
+      return this.domainName
+    }
+
+    return response.json()
+  }
+
+  async getDomainName() {
+    // Si on a déjà un domaine valide
+    if (this.domainName && Date.now() < this.expiresAt) {
+      return this.domainName
+    }
+
+    // Sinon on recheck
+    return this.checkDomainName()
   }
 }
 

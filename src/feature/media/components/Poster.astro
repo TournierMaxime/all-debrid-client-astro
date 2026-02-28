@@ -1,16 +1,20 @@
 ---
 import { Image } from "astro:assets"
-import { zaFullUrl } from "../../../constants/utils"
+import { zaService } from "@/services/za"
 
 const { title, src, clx } = Astro.props
 
 if (!title || !src) {
   return null
 }
+
+const domain = await zaService.getDomainName()
+
+if (!domain) throw new Error("No domain available")
 ---
 
 <Image
-  src={`${zaFullUrl + src}`}
+  src={`${domain + src}`}
   alt={title ?? "Film title not provided"}
   width={360}
   height={480}
