@@ -11,6 +11,7 @@ class ZA {
   private domainName: string | null = null
   private checkEvery24H = 24 * 60 * 60 * 1000 // 24 hours
   private expiresAt = 0
+  private domainPromise: Promise<string | null> | null = null
 
   async getFilms() {
     const response = await fetch(`${this.apiAllDebridLocal}/films/`, {
@@ -66,7 +67,7 @@ class ZA {
     return response.json()
   }
 
-  async checkDomainName() {
+  async checkDomainName(): Promise<string | null> {
     const response = await fetch(`${this.apiAllDebridLocal}/check-wawacity/`, {
       method: "GET",
       headers: {
@@ -83,17 +84,26 @@ class ZA {
       return this.domainName
     }
 
-    return response.json()
+    return null
   }
 
-  async getDomainName() {
-    // Si on a déjà un domaine valide
+  async getDomainName(): Promise<string | null> {
     if (this.domainName && Date.now() < this.expiresAt) {
       return this.domainName
     }
 
-    // Sinon on recheck
-    return this.checkDomainName()
+    // Si un check est déjà en cours, on attend le même
+    if (this.domainPromise) {
+      return this.domainPromise
+    }
+
+    this.domainPromise = this.checkDomainName()
+
+    const result = await this.domainPromise
+
+    this.domainPromise = null
+
+    return result
   }
 }
 
