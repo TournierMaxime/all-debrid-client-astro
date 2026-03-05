@@ -113,6 +113,86 @@ class NAS {
 
     return response.json()
   }
+
+  async resumeTask(id: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=resume&id=${id}&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async pauseTask(id: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=pause&id=${id}&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async deleteTask(id: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=delete&id=${id}&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async task() {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=list&additional=detail,file&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
+
+  async infoTask(id: string) {
+    const sid = await this.getSid()
+
+    const response = await fetch(
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=${id}&additional=detail&_sid=${sid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+
+    return response.json()
+  }
 }
 
 export const nasService = new NAS()
