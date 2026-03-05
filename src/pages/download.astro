@@ -1,13 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro"
-//import { nasService } from "@/services/nas"
+import { nasService } from "@/services/nas"
 
 const id = Astro.url.searchParams.get("id")
 
-/* const res = await nasService.createDownloadTask(
-  "https://xp9khl.debrid.it/dl/4gkhuqa341c/King.Kong.2005.EXTENDED.MULTi.VFF.2160p.10bit.4KLight.HDR.BluRay.x265.HE-AAC.7.1-Wawacity.motorcycles.mkv",
-  "video/Films",
-) */
+if (!id) {
+  return null
+}
+
+const process = async () => {
+  const create = await nasService.createDownloadTask(id, "video/Films")
+
+  const createId = create?.data?.task_id[0]
+
+  const pause = await nasService.pauseTask(createId)
+}
+
+await process()
 ---
 
 <Layout>
