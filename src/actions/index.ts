@@ -129,12 +129,32 @@ export const server = {
     },
   }),
 
+  pauseTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return nasService.pauseTask(id)
+    },
+  }),
+
   deleteTask: defineAction({
     input: z.object({
       id: z.string(),
     }),
     handler: async ({ id }) => {
       return nasService.deleteTask(id)
+    },
+  }),
+
+  createDownloadTask: defineAction({
+    input: z.object({
+      url: z.string(),
+      destination: z.string(),
+    }),
+
+    handler: async ({ url, destination }) => {
+      return nasService.createDownloadTask(url, destination)
     },
   }),
 }

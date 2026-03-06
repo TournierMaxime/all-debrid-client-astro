@@ -1,0 +1,17 @@
+---
+import { nasService } from "@/services/nas"
+import Layout from "../../layouts/Layout.astro"
+
+const { id } = Astro.params
+
+if (!id) return
+
+const response = await nasService.infoTask(id)
+---
+
+<Layout>
+  <div class="bg-(--ads-bg-default) p-4">
+    <h1 class="text-2xl font-bold">Page de téléchargement</h1>
+    <p>ID du téléchargement : {response.data.tasks[0].id}</p>
+  </div>
+</Layout>

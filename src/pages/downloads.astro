@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table"
 import moment from "moment"
 import Button from "../components/Button.astro"
+import { Button as BtnShadcn } from "@/components/ui/button"
 import DeleteTaskWrapper from "@/wrappers/DeleteTaskWrapper"
 import { AlertMessage } from "@/components/Alert"
 
@@ -39,6 +40,7 @@ if (!task) {
               <TableHead>Status</TableHead>
               <TableHead>Taille</TableHead>
               <TableHead>Création</TableHead>
+              <TableHead>Détails</TableHead>
               <TableHead>Supprimer</TableHead>
             </TableRow>
           </TableHeader>
@@ -53,6 +55,16 @@ if (!task) {
                   {moment
                     .unix(t.additional.detail.create_time)
                     .format("DD/MM/YYYY à HH:mm")}
+                </TableCell>
+                <TableCell>
+                  <BtnShadcn
+                    size={"sm"}
+                    className="bg-(--ads-btn-default) rounded mr-4"
+                  >
+                    <a class="text-sm" href={`/download/${t.id}`}>
+                      Consulter
+                    </a>
+                  </BtnShadcn>
                 </TableCell>
                 <TableCell>
                   <Button
