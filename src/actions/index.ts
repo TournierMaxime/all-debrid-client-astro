@@ -128,4 +128,13 @@ export const server = {
       return await nasService.getCapacity()
     },
   }),
+
+  deleteTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return nasService.deleteTask(id)
+    },
+  }),
 }

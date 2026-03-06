@@ -4,6 +4,8 @@ import {
   SECRET_NAS_PWD,
 } from "astro:env/server"
 
+import type { Tasks } from "@/types/nas"
+
 class NAS {
   public apiNas = SECRET_NAS_ENDPOINT
   public account = SECRET_NAS_ACCOUNT
@@ -162,7 +164,7 @@ class NAS {
     return response.json()
   }
 
-  async task() {
+  async task(): Promise<Tasks> {
     const sid = await this.getSid()
 
     const response = await fetch(

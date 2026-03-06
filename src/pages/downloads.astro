@@ -1,0 +1,72 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { nasService } from "@/services/nas"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import moment from "moment"
+import Button from "../components/Button.astro"
+import DeleteTaskWrapper from "@/wrappers/DeleteTaskWrapper"
+import { AlertMessage } from "@/components/Alert"
+
+const task = await nasService.task()
+
+if (!task) {
+  return null
+}
+---
+
+<Layout>
+  <div class="bg-(--ads-bg-default) p-4">
+    {
+      task.data.tasks.length === 0 ? (
+        <AlertMessage
+          title="Aucun téléchargement en cours"
+          description="Il n'y a actuellement aucun téléchargement en cours sur votre NAS."
+        />
+      ) : (
+        <Table className="bg-(--ads-bg-default) p-4 rounded-none">
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Titre</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Taille</TableHead>
+              <TableHead>Création</TableHead>
+              <TableHead>Supprimer</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {task.data.tasks.map((t) => (
+              <TableRow>
+                <TableCell>{t.id}</TableCell>
+                <TableCell>{t.title}</TableCell>
+                <TableCell>{t.status}</TableCell>
+                <TableCell>{t.size}</TableCell>
+                <TableCell>
+                  {moment
+                    .unix(t.additional.detail.create_time)
+                    .format("DD/MM/YYYY à HH:mm")}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    isDeleteBtn={true}
+                    onclick={`window.dispatchEvent(new CustomEvent("delete-task", { detail: { id: "${t.id}" } }))`}
+                    title="Supprimer"
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )
+    }
+  </div>
+  <DeleteTaskWrapper client:only="react" />
+</Layout>
