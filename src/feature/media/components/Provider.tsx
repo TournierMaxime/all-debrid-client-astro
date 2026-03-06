@@ -17,9 +17,7 @@ export default function Provider({ link }: { link?: string }) {
 
       const createId = create?.data?.task_id[0]
 
-      const { data: pause } = await actions.pauseTask({ id: createId })
-
-      window.location.href = `/downloads`
+      window.location.href = `/download/${createId}`
     }
 
     await process()

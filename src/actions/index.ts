@@ -129,6 +129,24 @@ export const server = {
     },
   }),
 
+  infoTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return nasService.infoTask(id)
+    },
+  }),
+
+  resumeTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return nasService.resumeTask(id)
+    },
+  }),
+
   pauseTask: defineAction({
     input: z.object({
       id: z.string(),

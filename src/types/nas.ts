@@ -50,6 +50,13 @@ export interface TaskInfo {
       uri: string
       waiting_seconds: number
     }
+    transfer: {
+      downloaded_pieces: number
+      size_downloaded: number
+      size_uploaded: number
+      speed_download: number
+      speed_upload: number
+    }
   }
   id: string
   size: number

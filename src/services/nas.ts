@@ -184,7 +184,7 @@ class NAS {
     const sid = await this.getSid()
 
     const response = await fetch(
-      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=${id}&additional=detail&_sid=${sid}`,
+      `${this.apiNas}/webapi/DownloadStation/task.cgi?api=SYNO.DownloadStation.Task&version=1&method=getinfo&id=${id}&additional=detail,transfer&_sid=${sid}`,
       {
         method: "GET",
         headers: {
