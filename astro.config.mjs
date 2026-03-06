@@ -71,6 +71,8 @@ export default defineConfig({
   integrations: [react()],
 
   vite: {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     plugins: [tailwindcss()],
   },
 
