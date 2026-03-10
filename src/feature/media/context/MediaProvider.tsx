@@ -77,22 +77,36 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       if (resGetLink && resGetLink?.link) {
-        const { link } = resGetLink
+        const { uri, id } = resGetLink
 
-        const { data: resGetRedirectLink, error: errGetRedirectLink } =
-          await actions.getRedirectLink({ link })
-
-        if (errGetRedirectLink) {
-          throw new Error(errGetRedirectLink.message)
-        }
+        const { data: resGetRedirectLink } = await actions.getRedirectLink({
+          link: uri + id,
+        })
 
         const links = resGetRedirectLink?.data?.links
+
+        if (!Array.isArray(links) || links.length === 0) {
+          dispatch({
+            type: "SET_LINK",
+            payload: {
+              link: "",
+              error: resGetRedirectLink.error.message,
+            },
+          })
+          return
+        }
 
         const res = await actions.saveLink({ link: links[0] })
         const success = res.data.status
 
         if (!Array.isArray(links) || links.length === 0) {
-          throw new Error("Aucun lien de redirection retourné par AllDebrid")
+          dispatch({
+            type: "SET_LINK",
+            payload: {
+              link: "",
+              message: "Aucun lien de redirection retourné par AllDebrid",
+            },
+          })
         }
 
         const { data: resGetUnlockLink, error: errGetUnlockLink } =
@@ -101,14 +115,15 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
         if (errGetUnlockLink) {
           dispatch({
             type: "SET_LINK",
-            payload: { link: "", error: errGetUnlockLink.message },
+            payload: { link: "", message: resGetUnlockLink.error.message },
           })
         } else {
           dispatch({
             type: "SET_LINK",
             payload: {
               link: resGetUnlockLink?.data?.link,
-              message: "Lien récupéré avec succès",
+              message:
+                resGetUnlockLink?.error?.message ?? "Lien récupéré avec succès",
               success,
             },
           })
@@ -126,7 +141,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Erreur inconnue"
-      console.error("Erreur lors de la récupération du lien:", error)
+
       dispatch({
         type: "SET_LINK",
         payload: { link: "", error: errorMessage },

@@ -16,7 +16,11 @@ export default function GenerateLink() {
       return <Message error={link.error} />
     }
     if (link && link.link === undefined) {
-      return <Message error={"Erreur lors de la génération du lien"} />
+      return (
+        <Message
+          error={link.message ?? "Erreur lors de la génération du lien"}
+        />
+      )
     }
 
     return (
