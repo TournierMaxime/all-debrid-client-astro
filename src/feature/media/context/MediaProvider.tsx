@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useReducer } from "react"
-import { actions } from "astro:actions"
 import copy from "copy-to-clipboard"
 
 import type {
@@ -8,6 +7,7 @@ import type {
   MediaAction,
   MediaState,
 } from "../type/media"
+import { getFinalDownloadLink } from "../utils/handleDownloadLink"
 
 type MediaContextValue = MediaState & {
   handleDownloadLink: (link: string) => Promise<void>
@@ -68,83 +68,33 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
-      const { data: resGetLink, error: errGetLink } = await actions.getLink({
-        link,
-      })
+      const finalLink = await getFinalDownloadLink(link)
 
-      if (errGetLink) {
-        throw new Error(errGetLink.message)
-      }
-
-      if (resGetLink && resGetLink?.link) {
-        const { uri, id } = resGetLink
-
-        const { data: resGetRedirectLink } = await actions.getRedirectLink({
-          link: uri + id,
-        })
-
-        const links = resGetRedirectLink?.data?.links
-
-        if (!Array.isArray(links) || links.length === 0) {
-          dispatch({
-            type: "SET_LINK",
-            payload: {
-              link: "",
-              error: resGetRedirectLink.error.message,
-            },
-          })
-          return
-        }
-
-        const res = await actions.saveLink({ link: links[0] })
-        const success = res.data.status
-
-        if (!Array.isArray(links) || links.length === 0) {
-          dispatch({
-            type: "SET_LINK",
-            payload: {
-              link: "",
-              message: "Aucun lien de redirection retourné par AllDebrid",
-            },
-          })
-        }
-
-        const { data: resGetUnlockLink, error: errGetUnlockLink } =
-          await actions.getUnlockLink({ link: links[0] })
-
-        if (errGetUnlockLink) {
-          dispatch({
-            type: "SET_LINK",
-            payload: { link: "", message: resGetUnlockLink.error.message },
-          })
-        } else {
-          dispatch({
-            type: "SET_LINK",
-            payload: {
-              link: resGetUnlockLink?.data?.link,
-              message:
-                resGetUnlockLink?.error?.message ?? "Lien récupéré avec succès",
-              success,
-            },
-          })
-        }
-      } else {
-        console.error("Erreur: Lien non récupéré correctement.")
+      if (!finalLink) {
         dispatch({
           type: "SET_LINK",
           payload: {
             link: "",
-            error: "Erreur: Lien non récupéré correctement.",
+            error: "Impossible de récupérer le lien de téléchargement",
           },
         })
+        return
       }
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Erreur inconnue"
 
       dispatch({
         type: "SET_LINK",
-        payload: { link: "", error: errorMessage },
+        payload: {
+          link: finalLink,
+          message: "Lien récupéré avec succès",
+        },
+      })
+    } catch (error) {
+      dispatch({
+        type: "SET_LINK",
+        payload: {
+          link: "",
+          error: error instanceof Error ? error.message : "Erreur inconnue",
+        },
       })
     } finally {
       dispatch({ type: "SET_DOWNLOADING", payload: false })
