@@ -136,7 +136,10 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       download.host !== "Premium" &&
       download.host !== "Netu" &&
       download.host !== "Vidoza" &&
-      download.host !== "Anonyme"
+      download.host !== "Anonyme" &&
+      download.host !== "Uploady" &&
+      download.host !== "Vidlox" &&
+      download.host !== "MyStream"
     ) {
       return (
         <li
