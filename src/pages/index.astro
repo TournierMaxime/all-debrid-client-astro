@@ -5,19 +5,16 @@ import Medias from "./medias.astro"
 import { zaService } from "../services/za"
 
 import Volume from "../feature/nas/Volume.astro"
-import { AlertMessage } from "@/components/Alert"
+import Announcement from "@/components/Announcement.astro"
 
 const response = await zaService.getFilms()
 const { films } = response
+
+const annoucement = false
 ---
 
 <Layout>
-  <div class="bg-(--ads-bg-default) p-4">
-    <AlertMessage
-      title="Information"
-      description={`Un grand nombre de liens ne sont plus accessible via l'api alldebrid. Une alternative est en cours de développement. En attendant il est préférable d'utiliser l'ancienne méthode en passant par zone-annuaire.`}
-    />
-  </div>
+  {annoucement && <Announcement />}
   <Volume />
   <Medias data={films} />
 </Layout>

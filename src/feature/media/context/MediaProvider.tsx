@@ -31,6 +31,7 @@ const initialState: MediaState = {
   isCopy: false,
   isVisible: false,
   dlProtectedLink: "",
+  noLink: false,
 }
 
 const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
@@ -38,7 +39,11 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
     case "SET_DOWNLOADING":
       return { ...state, downloading: action.payload }
     case "SET_LINK":
-      return { ...state, link: action.payload }
+      return {
+        ...state,
+        link: action.payload,
+        noLink: action.payload?.noLink ?? false,
+      }
     case "SET_PROVIDER":
       return { ...state, provider: action.payload }
     case "SET_IS_COPY":
@@ -55,6 +60,7 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
         isCopy: false,
         dlProtectedLink: "",
         provider: "",
+        noLink: false,
       }
     default:
       return state
@@ -75,16 +81,32 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
           type: "SET_LINK",
           payload: {
             link: "",
-            error: "Impossible de récupérer le lien de téléchargement",
+            error: "Impossible de récupérer le lien",
           },
         })
+        return
+      }
+
+      // fallback vers dl-protect
+      if (!finalLink.unlockLink) {
+        dispatch({
+          type: "SET_LINK",
+          payload: {
+            link: "",
+            message: "Redirection vers la page de téléchargement",
+            noLink: true,
+          },
+        })
+        setTimeout(() => {
+          window.location.href = finalLink.dlProtectedLink
+        }, 3000)
         return
       }
 
       dispatch({
         type: "SET_LINK",
         payload: {
-          link: finalLink,
+          link: finalLink.unlockLink,
           message: "Lien récupéré avec succès",
         },
       })

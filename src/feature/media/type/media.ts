@@ -42,6 +42,7 @@ interface LinkData {
   link: string
   error?: string
   success?: string
+  noLink?: boolean
 }
 
 interface DownLoadsEpisode {
@@ -70,6 +71,7 @@ type MediaState = {
   isCopy: boolean
   isVisible: boolean
   dlProtectedLink: string
+  noLink: boolean
 }
 
 type MediaAction =

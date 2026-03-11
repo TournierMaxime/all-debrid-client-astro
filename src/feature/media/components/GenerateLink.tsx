@@ -7,7 +7,7 @@ import { useMedia } from "../context/MediaProvider"
 import Provider from "./Provider"
 
 export default function GenerateLink() {
-  const { link, isCopy, downloading, handleClick } = useMedia()
+  const { link, isCopy, downloading, handleClick, noLink } = useMedia()
   const { getStatus } = useDetailsMedia()
 
   const getGeneratedLink = () => {
@@ -27,8 +27,9 @@ export default function GenerateLink() {
       <Button
         className={`m-1 px-2 py-1 bg-(--ads-btn-default) text-(--ads-text-default) rounded cursor-pointer text-sm`}
         onClick={handleClick}
+        disabled={noLink}
       >
-        {getStatus(downloading, link?.link)}
+        {getStatus(downloading, link?.link, noLink)}
       </Button>
     )
   }
