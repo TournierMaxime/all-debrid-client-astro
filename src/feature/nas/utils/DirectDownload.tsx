@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { actions } from "astro:actions"
 import { PUBLIC_MOTRIX } from "astro:env/client"
 
 import { AlertMessage } from "@/components/Alert"
@@ -13,20 +14,26 @@ export default function DirectDownload() {
   const [link, setLink] = useState("")
   const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const trimmed = link.trim()
 
     if (!trimmed) return
 
-    if (!isValidDebridLink(trimmed)) {
+    const { data: getUnlockLink } = await actions.getUnlockLink({ link })
+
+    if (!getUnlockLink) return
+
+    const allDebridLink = getUnlockLink.data.link
+
+    if (!isValidDebridLink(allDebridLink)) {
       setError("Lien invalide. Seuls les liens AllDebrid sont autorisés.")
       return
     }
 
     setError("")
-    handleDownload(trimmed)
+    handleDownload(allDebridLink)
     setLink("")
   }
 
