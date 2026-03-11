@@ -6,16 +6,36 @@ import { Button as BtnShadcn } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { handleDownload } from "@/feature/media/components/Provider"
 
+import { isValidDebridLink } from "./isValidDebridLink"
+
 export default function DirectDownload() {
   const [showForm, setShowForm] = useState(false)
   const [link, setLink] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!link.trim()) return
+    const trimmed = link.trim()
 
-    handleDownload(link)
+    if (!trimmed) return
+
+    if (!isValidDebridLink(trimmed)) {
+      setError("Lien invalide. Seuls les liens AllDebrid sont autorisés.")
+      return
+    }
+
+    setError("")
+    handleDownload(trimmed)
+    setLink("")
+  }
+
+  const handleChange = (value: string) => {
+    setLink(value)
+
+    if (error) {
+      setError("")
+    }
   }
 
   return (
@@ -50,11 +70,16 @@ export default function DirectDownload() {
           <Textarea
             name="link"
             value={link}
-            onChange={(e) => setLink(e.target.value)}
-            placeholder="Coller un lien de téléchargement"
-            className="bg-(--ads-bg-default) border border-(--ads-border-default) rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-(--ads-primary-default)"
+            onChange={(e) => handleChange(e.target.value)}
+            placeholder="Coller un lien AllDebrid"
+            className={`bg-(--ads-bg-default) border rounded px-4 py-2 focus:outline-none focus:ring-2 w-full
+              ${
+                error
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-(--ads-border-default) focus:ring-(--ads-primary-default)"
+              }`}
           />
-
+          <i className="text-red-500">{error}</i>
           <BtnShadcn
             type="submit"
             disabled={!link.trim()}
