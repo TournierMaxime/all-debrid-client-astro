@@ -101,8 +101,8 @@ export function AlertMessage({
     <AlertShadcn
       className={`${backgroundColor} ${borderColor} ${color} p-4 rounded mb-2 ${clx ?? ""}`}
     >
-      <AlertTitle className="mb-2 text-[16px]">{title}</AlertTitle>
-      <AlertDescription className="text-[14px]">{description}</AlertDescription>
+      <AlertTitle className="mb-2 text-[18px]">{title}</AlertTitle>
+      <AlertDescription className="text-[16px]">{description}</AlertDescription>
     </AlertShadcn>
   )
 }
