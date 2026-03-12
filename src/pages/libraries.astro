@@ -24,8 +24,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-/* import { Field, FieldLabel } from "@/components/ui/field"
-import { RowsPerPageSelect } from "@/components/RowsPerPageSelect" */
 
 interface UnifiedData {
   ratingKey: string
@@ -147,13 +145,7 @@ if (totalPages > 1) {
         }
       </TableBody>
     </Table>
-    <!--   <Field
-    orientation="horizontal"
-    className="bg-(--ads-bg-default) p-4 rounded-none"
-  >
-    <FieldLabel htmlFor="select-rows-per-page">Données par page</FieldLabel>
-    <RowsPerPageSelect client:load value={limit} />
-  </Field> -->
+
     <Pagination className="bg-(--ads-bg-default) p-4 rounded-none">
       <PaginationContent>
         {

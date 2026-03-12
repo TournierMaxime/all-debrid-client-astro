@@ -3,6 +3,7 @@ import CatchError from "@/components/CatchError.astro"
 import Layout from "../layouts/Layout.astro"
 import { zaService } from "../services/za"
 import Medias from "./medias.astro"
+import Loader from "@/components/Loader.astro"
 
 const query = Astro.url.searchParams.get("query")
 const filter = Astro.url.searchParams.get("filter")
@@ -27,7 +28,9 @@ try {
     response && response.message ? (
       <CatchError error={response.message} />
     ) : (
-      <Medias data={response} />
+      <Medias server:defer data={response}>
+        <Loader slot="fallback" />
+      </Medias>
     )
   }
 </Layout>

@@ -6,6 +6,7 @@ import { zaService } from "../services/za"
 
 import Volume from "../feature/nas/Volume.astro"
 import Announcement from "@/components/Announcement.astro"
+import Loader from "@/components/Loader.astro"
 
 const response = await zaService.getFilms()
 const { films } = response
@@ -15,6 +16,10 @@ const annoucement = false
 
 <Layout>
   {annoucement && <Announcement />}
-  <Volume />
-  <Medias data={films} />
+  <Volume server:defer>
+    <Loader slot="fallback" />
+  </Volume>
+  <Medias server:defer data={films}>
+    <Loader slot="fallback" />
+  </Medias>
 </Layout>
