@@ -28,6 +28,11 @@ jobs:
       - name: 📦 Cloner le dépôt
         uses: actions/checkout@v3
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: 🔢 Increment version
         run: npm version patch --no-git-tag-version
 
