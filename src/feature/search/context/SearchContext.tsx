@@ -2,7 +2,8 @@ import React, { createContext, useContext, useReducer, useRef } from "react"
 import { actions } from "astro:actions"
 import { navigate } from "astro:transitions/client"
 
-import type { Media, Medias } from "../../../feature/media/type/media"
+import type { Media, Medias } from "@/feature/media/type/media"
+
 import type {
   SearchAction,
   SearchContextType,
@@ -81,7 +82,10 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         initialDataRef.current = response
       }
     } catch (error: unknown) {
-      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
+      dispatch({
+        type: "SET_ERROR",
+        payload: error instanceof Error ? error.message : String(error),
+      })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -96,7 +100,10 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         payload: { media: response, medias: undefined },
       })
     } catch (error: unknown) {
-      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
+      dispatch({
+        type: "SET_ERROR",
+        payload: error instanceof Error ? error.message : String(error),
+      })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -110,14 +117,23 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         `/results?query=${state.search.query}&filter=${state.search.filter}`,
       )
     } catch (error: unknown) {
-      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : String(error) })
+      dispatch({
+        type: "SET_ERROR",
+        payload: error instanceof Error ? error.message : String(error),
+      })
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
   const resetSearch = () => {
-    dispatch({ type: "SET_DATA", payload: (initialDataRef.current as { medias?: Medias[] | undefined; media?: Media | undefined; }) || { medias: [], media: undefined } })
+    dispatch({
+      type: "SET_DATA",
+      payload: (initialDataRef.current as {
+        medias?: Medias[] | undefined
+        media?: Media | undefined
+      }) || { medias: [], media: undefined },
+    })
     dispatch({ type: "SET_ERROR", payload: undefined })
     fetchData(actions.getFilms())
   }

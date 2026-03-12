@@ -1,43 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro"
 
-import DownloadAgainWrapper from "../wrappers/DownloadAgainWrapper"
+import DownloadAgainWrapper from "@/wrappers/DownloadAgainWrapper"
 
-import { allDebridService } from "../services/za"
+import { allDebridService } from "@/services/za"
 
-import moment from "moment"
-import Tag from "../components/Tag.astro"
-import Button from "../components/Button.astro"
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-
-import DeleteSaveLinkWrapper from "../wrappers/DeleteSaveLinkWrapper"
-
-import { formatBytes } from "../lib/utils"
+import DeleteSaveLinkWrapper from "@/wrappers/DeleteSaveLinkWrapper"
 
 import { AlertMessage } from "@/components/Alert"
-
-type History = {
-  status: string
-  data: {
-    links: Link[]
-  }
-}
-
-type Link = {
-  link: string
-  date: number
-  host: string
-  filename: string
-  size: number
-}
+import HistoryTable from "@/feature/media/components/tables/HistoryTable.astro"
 
 const response = await allDebridService.getUserLinks()
 const { links } = response.data
@@ -55,50 +26,7 @@ const description =
         title="Historique de téléchargement"
         description={description}
       />
-      <Table className="bg-(--ads-bg-default) p-4 rounded-none">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Titre</TableHead>
-            <TableHead>Lien</TableHead>
-            <TableHead>Suppression</TableHead>
-            <TableHead>Taille</TableHead>
-            <TableHead>Date</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {
-            sortedLinks.map((data: Link) => (
-              <TableRow className="mb-4">
-                <TableCell className="max-w-md">
-                  <p class="truncate">{data.filename}</p>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    isDefaultBtn={true}
-                    onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
-                    title="Télécharger"
-                  />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    isDeleteBtn={true}
-                    onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
-                    title="Supprimer"
-                  />
-                </TableCell>
-                <TableCell>
-                  <Tag tag={formatBytes(data.size)} />
-                </TableCell>
-                <TableCell>
-                  <Tag
-                    tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")}
-                  />
-                </TableCell>
-              </TableRow>
-            ))
-          }
-        </TableBody>
-      </Table>
+      <HistoryTable data={sortedLinks} />
     </div>
   </div>
   <DownloadAgainWrapper client:only="react" />

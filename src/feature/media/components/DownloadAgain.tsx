@@ -1,4 +1,5 @@
-import Alert, { Message } from "../../../components/Alert"
+import Alert, { Message } from "@/components/Alert"
+
 import { useMedia } from "../context/MediaProvider"
 
 import Provider from "./Provider"

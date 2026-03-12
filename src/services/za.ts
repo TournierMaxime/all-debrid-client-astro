@@ -4,7 +4,7 @@ import {
   SECRET_OFFICIAL_ALLDEBRID_API,
 } from "astro:env/server"
 
-import type { SearchProps } from "../feature/search/type/search"
+import type { SearchProps } from "@/feature/search/type/search"
 
 class ZA {
   public apiAllDebridLocal = SECRET_API_ALLDEBRID_LOCAL

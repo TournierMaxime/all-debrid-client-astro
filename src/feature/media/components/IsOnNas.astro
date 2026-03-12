@@ -1,0 +1,14 @@
+---
+import { AlertMessage } from "@/components/Alert"
+
+const { isOnNAS } = Astro.props
+---
+
+{
+  isOnNAS && (
+    <AlertMessage
+      title="Ce film est déjà présent sur le NAS"
+      description="Afin d'éviter les doublons et la surcharge de données, ce média ne pourra pas être accessible au téléchargement. Si vous voulez changer la qualité du média, veuillez supprimer le fichier correspondant du NAS et réessayer."
+    />
+  )
+}

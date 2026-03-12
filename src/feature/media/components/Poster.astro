@@ -2,7 +2,7 @@
 import { Image } from "astro:assets"
 import { zaService } from "@/services/za"
 
-const { title, src, clx } = Astro.props
+const { title, src, alt, clx } = Astro.props
 
 if (!title || !src) {
   return null
@@ -19,6 +19,4 @@ if (!domain) throw new Error("No domain available")
   width={360}
   height={480}
   class={`object-cover rounded-t-lg ${clx ?? null}`}
-  decoding="async"
-  loading="lazy"
 />

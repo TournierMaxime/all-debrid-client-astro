@@ -1,14 +1,14 @@
 ---
-import Poster from "../feature/media/components/Poster.astro"
+import Poster from "@/feature/media/components/Poster.astro"
 import { Card, CardTitle } from "@/components/ui/card"
 
-type Element = {
+interface Element {
   title: string
   image: string
   link: string
 }
 
-type Props = {
+interface Props {
   data: Element[]
 }
 
@@ -33,7 +33,7 @@ const { data }: Props = Astro.props
         const splitUrlImg = image.split("/").slice(3).join("/")
 
         return (
-          <Card className="m-2">
+          <Card className="m-2 cursor-pointer">
             <li>
               <a href={`/media/${id}`}>
                 <Poster

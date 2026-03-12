@@ -1,7 +1,7 @@
+import { Message } from "@/components/Alert"
 import { Button } from "@/components/ui/button"
+import useDetailsMedia from "@/hooks/useDetailsMedia"
 
-import { Message } from "../../../components/Alert"
-import useDetailsMedia from "../../../hooks/useDetailsMedia"
 import { useMedia } from "../context/MediaProvider"
 
 import Provider from "./Provider"

@@ -1,9 +1,9 @@
 import { defineAction } from "astro:actions"
 import { z } from "astro:schema"
 
-import { nasService } from "../services/nas"
-import { plexService } from "../services/plex"
-import { allDebridService, zaService } from "../services/za"
+import { nasService } from "@/services/nas"
+import { plexService } from "@/services/plex"
+import { allDebridService, zaService } from "@/services/za"
 
 export const server = {
   // --- Actions ZA Service ---

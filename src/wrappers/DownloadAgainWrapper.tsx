@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { actions } from "astro:actions"
 
-import DownloadAgain from "../feature/media/components/DownloadAgain"
-import { MediaProvider } from "../feature/media/context/MediaProvider"
-import { useMedia } from "../feature/media/context/MediaProvider"
+import DownloadAgain from "@/feature/media/components/DownloadAgain"
+import { MediaProvider } from "@/feature/media/context/MediaProvider"
+import { useMedia } from "@/feature/media/context/MediaProvider"
 
 function Inner() {
   const [link, setLink] = useState<string | null>(null)

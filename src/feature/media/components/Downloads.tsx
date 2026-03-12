@@ -1,5 +1,6 @@
-import DropDown from "../../../components/DropDown"
-import { useMedia } from "../../../feature/media/context/MediaProvider"
+import DropDown from "@/components/DropDown"
+import { useMedia } from "@/feature/media/context/MediaProvider"
+
 import type { PropsFilmSerie } from "../type/media"
 import { EnumFilmSerie } from "../type/media"
 

@@ -1,4 +1,5 @@
-import GenericModal from "../../../components/Modal"
+import GenericModal from "@/components/Modal"
+
 import { useMedia } from "../context/MediaProvider"
 
 import GenerateLink from "./GenerateLink"

@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { FaSearch } from "react-icons/fa"
 
-import Modal from "../../../components/Modal"
+import Modal from "@/components/Modal"
+
 import { useSearch } from "../context/SearchContext"
 
 import Form from "./Form"

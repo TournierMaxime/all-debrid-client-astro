@@ -1,12 +1,13 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro"
 import Medias from "./medias.astro"
 
-import { zaService } from "../services/za"
+import { zaService } from "@/services/za"
 
-import Volume from "../feature/nas/Volume.astro"
+import Volume from "@/feature/nas/Volume.astro"
 import Announcement from "@/components/Announcement.astro"
 import Loader from "@/components/Loader.astro"
+import Skeleton from "@/components/Skeleton.astro"
 
 const response = await zaService.getFilms()
 const { films } = response
@@ -20,6 +21,11 @@ const annoucement = false
     <Loader slot="fallback" />
   </Volume>
   <Medias server:defer data={films}>
-    <Loader slot="fallback" />
+    <div
+      slot="fallback"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 mx-auto"
+    >
+      {Array.from({ length: 4 }).map(() => <Skeleton />)}
+    </div>
   </Medias>
 </Layout>

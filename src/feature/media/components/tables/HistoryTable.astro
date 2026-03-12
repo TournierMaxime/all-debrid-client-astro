@@ -1,0 +1,69 @@
+---
+import moment from "moment"
+import Tag from "@/components/Tag.astro"
+import Button from "@/components/Button.astro"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import { formatBytes } from "@/lib/utils"
+
+interface Link {
+  link: string
+  date: number
+  host: string
+  filename: string
+  size: number
+}
+
+const { data } = Astro.props
+---
+
+<Table className="bg-(--ads-bg-default) p-4 rounded-none">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Titre</TableHead>
+      <TableHead>Lien</TableHead>
+      <TableHead>Suppression</TableHead>
+      <TableHead>Taille</TableHead>
+      <TableHead>Date</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {
+      data.map((data: Link) => (
+        <TableRow className="mb-4">
+          <TableCell className="max-w-md">
+            <p class="truncate">{data.filename}</p>
+          </TableCell>
+          <TableCell>
+            <Button
+              isDefaultBtn={true}
+              onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
+              title="Télécharger"
+            />
+          </TableCell>
+          <TableCell>
+            <Button
+              isDeleteBtn={true}
+              onclick={`window.dispatchEvent(new CustomEvent("delete-link", { detail: { link: "${data.link}" } }))`}
+              title="Supprimer"
+            />
+          </TableCell>
+          <TableCell>
+            <Tag tag={formatBytes(data.size)} />
+          </TableCell>
+          <TableCell>
+            <Tag tag={moment.unix(data.date).format("DD/MM/YYYY à HH:mm")} />
+          </TableCell>
+        </TableRow>
+      ))
+    }
+  </TableBody>
+</Table>

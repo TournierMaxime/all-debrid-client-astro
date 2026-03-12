@@ -1,11 +1,15 @@
 ---
 import moment from "moment"
+import app from "../../package.json"
+
+const { version } = app
 ---
 
 <footer
-  class="flex flex-rox justify-center p-4 bg-white border-t-2 border-slate-200"
+  class="flex flex-col items-center p-4 bg-white border-t-2 border-slate-200"
 >
   <span class="font-normal text-sm"
     >AllDebrid Scraper - {moment().format("YYYY")}</span
   >
+  <span class="font-normal text-sm">Version {version}</span>
 </footer>

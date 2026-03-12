@@ -1,0 +1,67 @@
+---
+import moment from "moment"
+
+import Tag from "@/components/Tag.astro"
+import { Button } from "@/components/ui/button"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+interface UnifiedData {
+  ratingKey: string
+  title: string
+  addedAt: number
+  librarySectionID: number
+  librarySectionTitle: string
+}
+
+const { data } = Astro.props
+---
+
+<Table className="bg-(--ads-bg-default) p-4 rounded-none">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Titre</TableHead>
+      <TableHead>Catégorie</TableHead>
+      <TableHead>Date</TableHead>
+      <TableHead>Détails</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {
+      data.data.map((m: UnifiedData) => {
+        const { title, addedAt, librarySectionTitle, librarySectionID } = m
+
+        return (
+          <TableRow>
+            <TableCell>{title}</TableCell>
+            <TableCell>
+              <Tag tag={librarySectionTitle} />
+            </TableCell>
+            <TableCell>
+              <Tag tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")} />
+            </TableCell>
+            <TableCell>
+              <Button
+                size={"sm"}
+                className="bg-(--ads-btn-default) rounded mr-4 cursor-pointer"
+              >
+                <a
+                  class="text-sm"
+                  href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
+                >
+                  Consulter
+                </a>
+              </Button>
+            </TableCell>
+          </TableRow>
+        )
+      })
+    }
+  </TableBody>
+</Table>

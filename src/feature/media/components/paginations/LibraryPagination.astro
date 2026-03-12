@@ -1,0 +1,88 @@
+---
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
+const { page, section, limit, totalPages } = Astro.props
+
+const windowSize = 1
+
+const pages: number[] = []
+
+const start = Math.max(2, page - windowSize)
+const end = Math.min(totalPages - 1, page + windowSize)
+
+// Page 1 toujours
+pages.push(1)
+
+// Ellipsis avant
+if (start > 2) {
+  pages.push(-1) // -1 = ellipsis
+}
+
+// Fenêtre centrale
+for (let p = start; p <= end; p++) {
+  pages.push(p)
+}
+
+// Ellipsis après
+if (end < totalPages - 1) {
+  pages.push(-1)
+}
+
+// Dernière page
+if (totalPages > 1) {
+  pages.push(totalPages)
+}
+---
+
+<Pagination className="bg-(--ads-bg-default) p-4 rounded-none">
+  <PaginationContent>
+    {
+      page > 1 && (
+        <PaginationItem>
+          <PaginationPrevious
+            text="Précédent"
+            href={`?section=${section}&page=${page - 1}&limit=${limit}`}
+          />
+        </PaginationItem>
+      )
+    }
+
+    {
+      pages.map((p) =>
+        p === -1 ? (
+          <PaginationItem className="hidden md:flex">
+            <PaginationEllipsis />
+          </PaginationItem>
+        ) : (
+          <PaginationItem className="hidden md:flex">
+            <PaginationLink
+              href={`?section=${section}&page=${p}&limit=${limit}`}
+              isActive={p === page}
+            >
+              {p}
+            </PaginationLink>
+          </PaginationItem>
+        ),
+      )
+    }
+
+    {
+      page < totalPages && (
+        <PaginationItem>
+          <PaginationNext
+            text="Suivant"
+            href={`?section=${section}&page=${page + 1}&limit=${limit}`}
+          />
+        </PaginationItem>
+      )
+    }
+  </PaginationContent>
+</Pagination>

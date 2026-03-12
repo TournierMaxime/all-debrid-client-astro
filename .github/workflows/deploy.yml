@@ -28,6 +28,9 @@ jobs:
       - name: 📦 Cloner le dépôt
         uses: actions/checkout@v3
 
+      - name: 🔢 Increment version
+        run: npm version patch --no-git-tag-version
+
       - name: 🛑 Stop des conteneurs (si en cours)
         run: docker compose down || true
         working-directory: /var/app

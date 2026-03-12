@@ -1,4 +1,4 @@
-import type { Media, Medias } from "../../../feature/media/type/media"
+import type { Media, Medias } from "@/feature/media/type/media"
 
 type SearchProps = {
   query: string

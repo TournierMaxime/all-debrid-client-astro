@@ -1,37 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import LibraryPagination from "@/feature/media/components/paginations/LibraryPagination.astro"
+import Layout from "@/layouts/Layout.astro"
 
-import { plexService } from "../services/plex"
+import { plexService } from "@/services/plex"
 
-import moment from "moment"
-
-import Tag from "../components/Tag.astro"
-import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-
-interface UnifiedData {
-  ratingKey: string
-  title: string
-  addedAt: number
-  librarySectionID: number
-  librarySectionTitle: string
-}
+import LibraryTable from "@/feature/media/components/tables/LibraryTable.astro"
 
 const SECTIONS = [
   { value: "1", label: "Films" },
@@ -55,36 +28,6 @@ const data = await plexService.getLibrary(section, {
 
 const totalItems = data.total
 const totalPages = Math.ceil(totalItems / Number(limit))
-
-const windowSize = 1
-
-const pages: number[] = []
-
-const start = Math.max(2, page - windowSize)
-const end = Math.min(totalPages - 1, page + windowSize)
-
-// Page 1 toujours
-pages.push(1)
-
-// Ellipsis avant
-if (start > 2) {
-  pages.push(-1) // -1 = ellipsis
-}
-
-// Fenêtre centrale
-for (let p = start; p <= end; p++) {
-  pages.push(p)
-}
-
-// Ellipsis après
-if (end < totalPages - 1) {
-  pages.push(-1)
-}
-
-// Dernière page
-if (totalPages > 1) {
-  pages.push(totalPages)
-}
 ---
 
 <Layout>
@@ -101,94 +44,13 @@ if (totalPages > 1) {
         ))
       }
     </select>
-    <Table className="bg-(--ads-bg-default) p-4 rounded-none">
-      <TableHeader>
-        <TableRow>
-          <TableHead>Titre</TableHead>
-          <TableHead>Catégorie</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead>Détails</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {
-          data.data.map((m: UnifiedData) => {
-            const { title, addedAt, librarySectionTitle, librarySectionID } = m
+    <LibraryTable data={data} />
 
-            return (
-              <TableRow>
-                <TableCell>{title}</TableCell>
-                <TableCell>
-                  <Tag tag={librarySectionTitle} />
-                </TableCell>
-                <TableCell>
-                  <Tag
-                    tag={moment.unix(addedAt).format("DD/MM/YYYY à HH:mm")}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    size={"sm"}
-                    className="bg-(--ads-btn-default) rounded mr-4"
-                  >
-                    <a
-                      class="text-sm"
-                      href={`/library/${String(librarySectionID)}/${m.ratingKey}`}
-                    >
-                      Consulter
-                    </a>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            )
-          })
-        }
-      </TableBody>
-    </Table>
-
-    <Pagination className="bg-(--ads-bg-default) p-4 rounded-none">
-      <PaginationContent>
-        {
-          page > 1 && (
-            <PaginationItem>
-              <PaginationPrevious
-                text="Précédent"
-                href={`?section=${section}&page=${page - 1}&limit=${limit}`}
-              />
-            </PaginationItem>
-          )
-        }
-
-        {
-          pages.map((p) =>
-            p === -1 ? (
-              <PaginationItem className="hidden md:flex">
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem className="hidden md:flex">
-                <PaginationLink
-                  href={`?section=${section}&page=${p}&limit=${limit}`}
-                  isActive={p === page}
-                >
-                  {p}
-                </PaginationLink>
-              </PaginationItem>
-            ),
-          )
-        }
-
-        {
-          page < totalPages && (
-            <PaginationItem>
-              <PaginationNext
-                text="Suivant"
-                href={`?section=${section}&page=${page + 1}&limit=${limit}`}
-              />
-            </PaginationItem>
-          )
-        }
-      </PaginationContent>
-    </Pagination>
+    <LibraryPagination
+      page={page}
+      totalPages={totalPages}
+      section={section}
+      limit={limit}
+    />
   </div>
 </Layout>
