@@ -44,8 +44,11 @@ const { data } = Astro.props
           </TableCell>
           <TableCell>
             <Button
+              id={`btn-${data.link}`}
               isDefaultBtn={true}
-              onclick={`window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
+              onclick={`this.classList.add('pointer-events-none', 'opacity-50');
+              this.innerHTML = 'Chargement...';
+              window.dispatchEvent(new CustomEvent("download-again", { detail: { link: "${data.link}" } }))`}
               title="Télécharger"
             />
           </TableCell>

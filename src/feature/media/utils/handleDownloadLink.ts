@@ -1,12 +1,33 @@
 import { actions } from "astro:actions"
 
-interface FinalDownloadLink {
+import type { LinkData } from "../type/media"
+
+export interface FinalDownloadLink {
   dlProtectedLink: string
   unlockLink?: string
 }
 
+export const handleDownload = async (link: string | LinkData) => {
+  if (!link) {
+    return null
+  }
+
+  const process = async () => {
+    const { data: create } = await actions.createDownloadTask({
+      url: link,
+      destination: "video/Films",
+    })
+
+    const createId = create?.data?.task_id[0]
+
+    window.location.href = `/download/${createId}`
+  }
+
+  await process()
+}
+
 export const getFinalDownloadLink = async (
-  link: string,
+  link: string | LinkData,
 ): Promise<FinalDownloadLink | null> => {
   const { data: resGetLink } = await actions.getLink({ link })
 

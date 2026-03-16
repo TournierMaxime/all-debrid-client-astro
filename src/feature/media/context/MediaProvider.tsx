@@ -1,16 +1,21 @@
 import React, { createContext, useContext, useReducer } from "react"
+import { actions } from "astro:actions"
 import copy from "copy-to-clipboard"
 
 import type {
   DownloadEpisode,
   DownloadLink,
+  LinkData,
   MediaAction,
   MediaState,
 } from "../type/media"
-import { getFinalDownloadLink } from "../utils/handleDownloadLink"
+import {
+  type FinalDownloadLink,
+  getFinalDownloadLink,
+} from "../utils/handleDownloadLink"
 
 type MediaContextValue = MediaState & {
-  handleDownloadLink: (link: string) => Promise<void>
+  handleDownloadLink: (link: string | LinkData) => Promise<void>
   openModal: (currentHost: string, currentUrl: string) => void
   resetModal: () => void
   copyToClipboard: (text: string) => Promise<void>
@@ -20,6 +25,7 @@ type MediaContextValue = MediaState & {
     index: number,
   ) => React.ReactNode
   handleClick: () => Promise<void>
+  createDownloadTask: (unlockLink: string) => Promise<string>
 }
 
 const MediaContext = createContext<MediaContextValue | null>(null)
@@ -70,7 +76,18 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
 export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mediaReducer, initialState)
 
-  const handleDownloadLink = async (link: string) => {
+  const createDownloadTask = async (unlockLink: string): Promise<string> => {
+    const { data: create } = await actions.createDownloadTask({
+      url: unlockLink,
+      destination: "video/Films",
+    })
+
+    const createId = create?.data?.task_id[0]
+
+    return (window.location.href = `/download/${createId}`)
+  }
+
+  const handleDownloadLink = async (link: string | LinkData) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
@@ -110,6 +127,12 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
           message: "Lien récupéré avec succès",
         },
       })
+
+      const { unlockLink } = finalLink
+
+      if (unlockLink) {
+        await createDownloadTask(unlockLink)
+      }
     } catch (error) {
       dispatch({
         type: "SET_LINK",
@@ -213,6 +236,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
         getDownLoads,
         getDownLoadsSeries,
         handleClick,
+        createDownloadTask,
       }}
     >
       {children}

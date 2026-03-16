@@ -12,7 +12,7 @@ const useDetailsMedia = () => {
 
     if (noLink) return "Ouverture de la page de téléchargement"
 
-    return "Générer le lien"
+    return "Télécharger"
   }
 
   return {

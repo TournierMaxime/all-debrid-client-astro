@@ -5,7 +5,7 @@ import { PUBLIC_MOTRIX } from "astro:env/client"
 import { AlertMessage } from "@/components/Alert"
 import { Button as BtnShadcn } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { handleDownload } from "@/feature/media/components/Provider"
+import { handleDownload } from "@/feature/media/utils/handleDownloadLink"
 
 import { isValidDebridLink } from "./isValidDebridLink"
 
