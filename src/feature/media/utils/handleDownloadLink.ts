@@ -5,6 +5,7 @@ import type { LinkData } from "../type/media"
 export interface FinalDownloadLink {
   dlProtectedLink: string
   unlockLink?: string
+  title?: string
 }
 
 export const handleDownload = async (link: string | LinkData) => {
@@ -28,6 +29,7 @@ export const handleDownload = async (link: string | LinkData) => {
 
 export const getFinalDownloadLink = async (
   link: string | LinkData,
+  title: string,
 ): Promise<FinalDownloadLink | null> => {
   const { data: resGetLink } = await actions.getLink({ link })
 
@@ -48,7 +50,7 @@ export const getFinalDownloadLink = async (
 
   const firstLink = links[0]
 
-  await actions.saveLink({ link: firstLink })
+  await actions.saveLink({ link: firstLink, title })
 
   const { data: resGetUnlockLink } = await actions.getUnlockLink({
     link: firstLink,
@@ -57,5 +59,6 @@ export const getFinalDownloadLink = async (
   return {
     dlProtectedLink,
     unlockLink: resGetUnlockLink?.data?.link,
+    title,
   }
 }

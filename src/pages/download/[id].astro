@@ -1,16 +1,18 @@
 ---
-import Loader from "@/components/Loader.astro"
+import Loader from "@/components/shared/Loader.astro"
 import Layout from "@/layouts/Layout.astro"
 import { DownloadTask } from "@/feature/media/components/DownloadTask"
 
 const { id } = Astro.params
 
 if (!id) return
+
+const title = Astro.url.searchParams.get("title") as string
 ---
 
 <Layout>
   <div class="bg-(--ads-bg-default) p-4">
-    <DownloadTask client:load taskId={id} server:defer>
+    <DownloadTask client:load taskId={id} title={title} server:defer>
       <Loader slot="fallback" />
     </DownloadTask>
   </div>
