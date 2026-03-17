@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react"
 import { actions } from "astro:actions"
 
-import Alert from "@/components/Alert"
+import Alert from "@/components/shared/Alert"
 
 export default function DeleteTaskWrapper() {
   const [open, setOpen] = useState(false)

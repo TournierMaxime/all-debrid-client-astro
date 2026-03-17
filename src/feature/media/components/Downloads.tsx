@@ -1,4 +1,4 @@
-import DropDown from "@/components/DropDown"
+import DropDown from "@/components/shared/DropDown"
 import { useMedia } from "@/feature/media/context/MediaProvider"
 
 import type { PropsFilmSerie } from "../type/media"

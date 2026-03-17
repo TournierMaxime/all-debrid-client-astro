@@ -5,9 +5,9 @@ import Medias from "./medias.astro"
 import { zaService } from "@/services/za"
 
 import Volume from "@/feature/nas/Volume.astro"
-import Announcement from "@/components/Announcement.astro"
-import Loader from "@/components/Loader.astro"
-import Skeleton from "@/components/Skeleton.astro"
+import Announcement from "@/components/shared/Announcement.astro"
+import Loader from "@/components/shared/Loader.astro"
+import Skeleton from "@/components/shared/Skeleton.astro"
 
 const response = await zaService.getFilms()
 const { films } = response

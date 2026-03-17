@@ -2,7 +2,7 @@
 import { Image } from "astro:assets"
 import { zaService } from "@/services/za"
 
-const { title, src, alt, clx } = Astro.props
+const { title, src, clx } = Astro.props
 
 if (!title || !src) {
   return null

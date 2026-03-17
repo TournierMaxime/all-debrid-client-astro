@@ -1,9 +1,9 @@
 ---
-import CatchError from "@/components/CatchError.astro"
+import CatchError from "@/components/shared/CatchError.astro"
 import Layout from "@/layouts/Layout.astro"
 import { zaService } from "@/services/za"
 import Medias from "./medias.astro"
-import Loader from "@/components/Loader.astro"
+import Loader from "@/components/shared/Loader.astro"
 
 const query = Astro.url.searchParams.get("query")
 const filter = Astro.url.searchParams.get("filter")

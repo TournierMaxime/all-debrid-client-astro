@@ -1,14 +1,12 @@
 ---
-import { plexEndpoint, plexToken } from "@/constants/utils"
-
 import { Image as Img } from "astro:assets"
 
-import Tag from "@/components/Tag.astro"
-import Info from "@/components/Info.astro"
-import Button from "@/components/Button.astro"
+import Tag from "@/components/shared/Tag.astro"
+import Info from "@/components/shared/Info.astro"
+import Button from "@/components/shared/Button.astro"
 import Cast from "@/feature/media/components/Cast.astro"
 import Rate from "@/feature/media/components/Rate.astro"
-import Card from "@/components/Card.astro"
+import Card from "@/components/shared/Card.astro"
 import { Button as BtnShadcn } from "@/components/ui/button"
 
 import { formatDuration, formatBytes } from "@/lib/utils"
@@ -16,7 +14,7 @@ import DeleteMetadataItemWrapper from "@/wrappers/DeleteMetadataItemWrapper"
 
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { AlertMessage } from "@/components/Alert"
+import { AlertMessage } from "@/components/shared/Alert"
 
 import type { LibraryMetadata } from "@/types/metadata"
 import { plexService } from "@/services/plex"

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { actions } from "astro:actions"
 import { PUBLIC_MOTRIX } from "astro:env/client"
 
-import { AlertMessage } from "@/components/Alert"
+import { AlertMessage } from "@/components/shared/Alert"
 import { Button as BtnShadcn } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { handleDownload } from "@/feature/media/utils/handleDownloadLink"

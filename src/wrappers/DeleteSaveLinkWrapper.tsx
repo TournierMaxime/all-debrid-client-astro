@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { actions } from "astro:actions"
 
-import Alert from "@/components/Alert"
+import Alert from "@/components/shared/Alert"
 
 export default function DeleteSaveLinkWrapper() {
   const [open, setOpen] = useState(false)

@@ -8,9 +8,10 @@ import type { TaskInfo } from "@/types/nas"
 
 interface DownloadTaskProps {
   taskId: string
+  title: string
 }
 
-export function DownloadTask({ taskId }: DownloadTaskProps) {
+export function DownloadTask({ taskId, title }: DownloadTaskProps) {
   const [progress, setProgress] = useState(0)
   const [status, setStatus] = useState<
     "downloading" | "paused" | "finished" | "error"
@@ -64,7 +65,7 @@ export function DownloadTask({ taskId }: DownloadTaskProps) {
 
   return (
     <div className="p-4 bg-(--ads-bg-default) rounded-md">
-      <h2 className="font-bold text-normal mb-2">{info?.title}</h2>
+      <h2 className="font-bold text-normal mb-2 truncate">{title}</h2>
 
       <Progress value={progress} max={100} className="mb-2" />
 
