@@ -1,0 +1,38 @@
+---
+interface Props {
+  title?: string
+  clx?: string
+  isDefaultBtn?: boolean
+  isDeleteBtn?: boolean
+  onclick?: any
+  id?: string
+}
+
+const { title, clx, onclick, isDefaultBtn, isDeleteBtn } = Astro.props as Props
+---
+
+{
+  isDefaultBtn ? (
+    <button
+      class={`m-1 px-2 py-1 bg-(--ads-btn-default) text-(--ads-text-default) rounded cursor-pointer text-sm ${clx ?? null}`}
+      onclick={onclick}
+      title={title}
+    >
+      {title}
+      <slot />
+    </button>
+  ) : null
+}
+
+{
+  isDeleteBtn ? (
+    <button
+      class={`m-1 px-2 py-1 bg-(--ads-btn-delete) text-(--ads-text-default) rounded cursor-pointer text-sm ${clx ?? null}`}
+      onclick={onclick}
+      title={title}
+    >
+      {title}
+      <slot />
+    </button>
+  ) : null
+}
