@@ -6,12 +6,17 @@ import {
 
 import type { SearchProps } from "@/feature/search/type/search"
 
+interface Domain {
+  domain: string | null
+  expiresAt: number
+}
+
 class ZA {
   public apiAllDebridLocal = SECRET_API_ALLDEBRID_LOCAL
   private domainName: string | null = null
   private checkEvery24H = 24 * 60 * 60 * 1000 // 24 hours
   private expiresAt = 0
-  private domainPromise: Promise<string | null> | null = null
+  private domainPromise: Promise<Domain | null> | null = null
 
   async getFilms() {
     const response = await fetch(`${this.apiAllDebridLocal}/films/`, {
@@ -67,7 +72,7 @@ class ZA {
     return response.json()
   }
 
-  async checkDomainName(): Promise<string | null> {
+  async checkDomainName(): Promise<Domain | null> {
     const response = await fetch(`${this.apiAllDebridLocal}/check-wawacity/`, {
       method: "GET",
       headers: {
@@ -81,15 +86,15 @@ class ZA {
       this.domainName = data.domain
       this.expiresAt = Date.now() + this.checkEvery24H
 
-      return this.domainName
+      return { domain: this.domainName, expiresAt: this.expiresAt }
     }
 
     return null
   }
 
-  async getDomainName(): Promise<string | null> {
+  async getDomainName(): Promise<Domain | null> {
     if (this.domainName && Date.now() < this.expiresAt) {
-      return this.domainName
+      return { domain: this.domainName, expiresAt: this.expiresAt }
     }
 
     // Si un check est déjà en cours, on attend le même

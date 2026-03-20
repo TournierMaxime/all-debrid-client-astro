@@ -1,0 +1,18 @@
+---
+import { zaService } from "@/services/za"
+import { AlertMessage } from "./Alert"
+import CheckDomain from "@/feature/nas/utils/CheckDomain"
+
+const getDomainName = await zaService.getDomainName()
+
+if (!getDomainName) throw new Error("No domain available")
+
+const title = "Information"
+const description = `Actuellement le nom de domaine de wawacity est: ${getDomainName.domain}`
+---
+
+<div class="bg-(--ads-bg-default) p-4">
+  <AlertMessage title={title} description={description}>
+    <CheckDomain client:load expiresAt={getDomainName.expiresAt} />
+  </AlertMessage>
+</div>

@@ -89,6 +89,7 @@ export function AlertMessage({
   borderColor = "border-(--ads-alert-border-default)",
   color = "text-(--ads-alert-text-default)",
   clx,
+  children,
 }: {
   title: string
   description?: string
@@ -96,13 +97,17 @@ export function AlertMessage({
   borderColor?: string
   color?: string
   clx?: string
+  children?: React.ReactNode
 }) {
   return (
     <AlertShadcn
       className={`${backgroundColor} ${borderColor} ${color} p-4 rounded mb-2 ${clx ?? ""}`}
     >
       <AlertTitle className="mb-2 text-[18px]">{title}</AlertTitle>
-      <AlertDescription className="text-[16px]">{description}</AlertDescription>
+      <AlertDescription className="text-[16px] mb-2">
+        {description}
+      </AlertDescription>
+      {children}
     </AlertShadcn>
   )
 }
