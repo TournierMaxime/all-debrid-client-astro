@@ -129,6 +129,26 @@ export const server = {
     },
   }),
 
+  renameFile: defineAction({
+    input: z.object({
+      path: z.string(),
+      name: z.string(),
+    }),
+    handler: async ({ path, name }) => {
+      return await nasService.renameFile(path, name)
+    },
+  }),
+
+  moveFile: defineAction({
+    input: z.object({
+      path: z.string(),
+      destFolderPath: z.string(),
+    }),
+    handler: async ({ path, destFolderPath }) => {
+      return await nasService.moveFile(path, destFolderPath)
+    },
+  }),
+
   infoTask: defineAction({
     input: z.object({
       id: z.string(),
