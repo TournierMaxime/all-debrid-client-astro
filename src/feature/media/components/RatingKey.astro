@@ -87,7 +87,11 @@ const currentSection = path.split("/volume1").slice(-1)[0]
               <li class="py-2">
                 <h6 class="font-semibold text-sm">Chemin</h6>
                 <p class="text-sm truncate">{path}</p>
-                <MoveFile currentSection={currentSection} />
+                <MoveFile
+                  client:load
+                  realPath={realPath}
+                  currentSection={currentSection}
+                />
               </li>
               <li class="py-2">
                 <h6 class="font-semibold text-sm">Fichier</h6>

@@ -12,7 +12,8 @@ interface RenameFileProps {
 }
 
 interface MoveFileProps {
-  currentSection?: string
+  currentSection: string
+  realPath: string
 }
 
 export const RenameFile = ({ file, extension, realPath }: RenameFileProps) => {
@@ -48,22 +49,38 @@ export const RenameFile = ({ file, extension, realPath }: RenameFileProps) => {
   )
 }
 
-export const MoveFile = ({ currentSection }: MoveFileProps) => {
+export const MoveFile = ({ currentSection, realPath }: MoveFileProps) => {
+  const [destFolder, setDestFolder] = useState(currentSection)
+
   const SECTIONS = [
     { value: "/video/Films", label: "Films" },
     { value: "/homes/Hoggy/Films", label: "Films Privés" },
   ]
 
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!realPath || !currentSection) return
+
+    await actions.moveFile({
+      path: realPath,
+      destFolderPath: destFolder,
+    })
+
+    window.location.href = "/libraries"
+  }
+
   return (
-    <form method="post" className="flex gap-2 mt-1">
-      <input type="hidden" name="dest_folder_path" value="move" />
-      <select className="bg-(--ads-bg-default) border border-[--ads-border-dropdown] p-1 rounded text-sm flex-1">
+    <form onSubmit={handleSubmit} className="flex gap-2 mt-1">
+      <select
+        value={destFolder}
+        onChange={(e) => {
+          setDestFolder(e.target.value)
+        }}
+        className="bg-(--ads-bg-default) border border-[--ads-border-dropdown] p-1 rounded text-sm flex-1"
+      >
         {SECTIONS.map((s, index: number) => (
-          <option
-            key={index}
-            value={s.value}
-            selected={s.value === currentSection}
-          >
+          <option key={index} value={s.value}>
             {s.label}
           </option>
         ))}
