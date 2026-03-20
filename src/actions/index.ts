@@ -80,23 +80,6 @@ export const server = {
     },
   }),
 
-  getLibrary: defineAction({
-    input: z.object({
-      sectionId: z.string(),
-      params: z
-        .object({
-          type: z.string().optional(),
-          offset: z.string().optional(),
-          limit: z.string().optional(),
-        })
-        .optional(),
-    }),
-
-    handler: async ({ sectionId, params }) => {
-      return await plexService.getLibrary(sectionId, params)
-    },
-  }),
-
   deleteSaveLink: defineAction({
     input: z.object({
       link: z.string(),
@@ -126,6 +109,26 @@ export const server = {
   getCapacity: defineAction({
     handler: async () => {
       return await nasService.getCapacity()
+    },
+  }),
+
+  renameFile: defineAction({
+    input: z.object({
+      path: z.string(),
+      name: z.string(),
+    }),
+    handler: async ({ path, name }) => {
+      return await nasService.renameFile(path, name)
+    },
+  }),
+
+  moveFile: defineAction({
+    input: z.object({
+      path: z.string(),
+      destFolderPath: z.string(),
+    }),
+    handler: async ({ path, destFolderPath }) => {
+      return await nasService.moveFile(path, destFolderPath)
     },
   }),
 
@@ -173,6 +176,34 @@ export const server = {
 
     handler: async ({ url, destination }) => {
       return nasService.createDownloadTask(url, destination)
+    },
+  }),
+
+  // --- Actions Plex Service ---
+
+  getLibraryMetadata: defineAction({
+    input: z.object({
+      ratingKey: z.string(),
+    }),
+    handler: async ({ ratingKey }) => {
+      return await plexService.getLibraryMetadata(ratingKey)
+    },
+  }),
+
+  getLibrary: defineAction({
+    input: z.object({
+      sectionId: z.string(),
+      params: z
+        .object({
+          type: z.string().optional(),
+          offset: z.string().optional(),
+          limit: z.string().optional(),
+        })
+        .optional(),
+    }),
+
+    handler: async ({ sectionId, params }) => {
+      return await plexService.getLibrary(sectionId, params)
     },
   }),
 }

@@ -7,19 +7,16 @@ import Button from "@/components/shared/Button.astro"
 import Cast from "@/feature/media/components/Cast.astro"
 import Rate from "@/feature/media/components/Rate.astro"
 import Card from "@/components/shared/Card.astro"
-import { Button as BtnShadcn } from "@/components/ui/button"
 
 import { formatDuration, formatBytes } from "@/lib/utils"
 import DeleteMetadataItemWrapper from "@/wrappers/DeleteMetadataItemWrapper"
 
-import { Field } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import { AlertMessage } from "@/components/shared/Alert"
 
 import type { LibraryMetadata } from "@/types/metadata"
 import { plexService } from "@/services/plex"
 
-import { nasService } from "@/services/nas"
+import { MoveFile, RenameFile } from "@/wrappers/FileStationWrapper"
 
 const { ratingKey } = Astro.props
 
@@ -69,38 +66,6 @@ const audienceRatings = Rating?.some((r) => r.type === "audience") ?? false
 
 const realPath = `${path.split("/volume1").slice(-1)[0]}/${file}`
 const currentSection = path.split("/volume1").slice(-1)[0]
-
-const SECTIONS = [
-  { value: "/video/Films", label: "Films" },
-  { value: "/homes/Hoggy/Films", label: "Films Privés" },
-]
-
-if (Astro.request.method === "POST") {
-  try {
-    const formData = await Astro.request.formData()
-    const action = formData.get("action")?.toString() // On identifie l'action
-
-    // ACTION : DÉPLACER
-    if (action === "move") {
-      const destFolder = formData.get("destFolderPath")?.toString()
-      if (destFolder) {
-        await nasService.moveFile(realPath, destFolder)
-        return Astro.redirect(Astro.url.pathname)
-      }
-    }
-
-    // ACTION : RENOMMER
-    if (action === "rename") {
-      const newName = formData.get("name")?.toString()
-      if (newName) {
-        await nasService.renameFile(realPath, `${newName}.${extension}`)
-        return Astro.redirect(Astro.url.pathname)
-      }
-    }
-  } catch (error) {
-    console.error("Erreur Synology :", error)
-  }
-}
 ---
 
 <div>
@@ -121,46 +86,20 @@ if (Astro.request.method === "POST") {
             <ul>
               <li class="py-2">
                 <h6 class="font-semibold text-sm">Chemin</h6>
-                <p class="text-sm truncate">{path}</p>
-                <form method="post" class="flex gap-2 mt-1">
-                  <input type="hidden" name="action" value="move" />
-                  <select
-                    name="destFolderPath"
-                    class="bg-(--ads-bg-default) border border-[--ads-border-dropdown] p-1 rounded text-sm flex-1"
-                  >
-                    {
-                      SECTIONS.map((s) => (
-                        <option
-                          value={s.value}
-                          selected={s.value === currentSection}
-                        >
-                          {s.label}
-                        </option>
-                      ))
-                    }
-                  </select>
-                  <BtnShadcn className="cursor-pointer" type="submit"
-                    >Déplacer</BtnShadcn
-                  >
-                </form>
+                <MoveFile
+                  client:load
+                  realPath={realPath}
+                  currentSection={currentSection}
+                />
               </li>
               <li class="py-2">
                 <h6 class="font-semibold text-sm">Fichier</h6>
-                <form method="post">
-                  <input type="hidden" name="action" value="rename" />
-                  <Field orientation="horizontal">
-                    <Input
-                      id="file"
-                      type="text"
-                      name="name"
-                      placeholder={file}
-                      defaultValue={file}
-                    />
-                    <BtnShadcn className="cursor-pointer" type="submit"
-                      >Renommer</BtnShadcn
-                    >
-                  </Field>
-                </form>
+                <RenameFile
+                  client:load
+                  realPath={realPath}
+                  file={file}
+                  extension={extension}
+                />
                 <AlertMessage
                   clx="mt-4"
                   title="Renommer un fichier"
@@ -181,7 +120,6 @@ if (Astro.request.method === "POST") {
         <div class="md:w-1/12"></div>
         <div class="flex flex-col w-full md:w-3/12 rounded">
           <Img
-            client:visible
             src={posterUrl}
             alt={Metadata.title}
             width={240}

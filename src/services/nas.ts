@@ -74,7 +74,7 @@ class NAS {
     return response.json()
   }
 
-  async moveFile(path: string, destFolderPath: string) {
+  async moveFile(path?: string, destFolderPath?: string) {
     const sid = await this.getSid()
 
     const response = await fetch(
