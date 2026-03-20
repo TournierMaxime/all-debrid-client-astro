@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react"
 import { actions } from "astro:actions"
 
-import Alert from "@/components/Alert"
+import Alert from "@/components/shared/Alert"
 import { Button as BtnShadcn } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ interface RenameFileProps {
   file: string
   realPath: string
   extension: string
+  currentSection: string
 }
 
 interface MoveFileProps {
@@ -17,8 +18,17 @@ interface MoveFileProps {
   realPath: string
 }
 
-export const RenameFile = ({ file, extension, realPath }: RenameFileProps) => {
-  const [name, setName] = useState(file)
+export const RenameFile = ({
+  file,
+  extension,
+  realPath,
+  currentSection,
+}: RenameFileProps) => {
+  const fileWithoutExtension = file
+    .split(`.${extension}`)
+    .slice(0, 1)
+    .toString()
+  const [name, setName] = useState(fileWithoutExtension)
   const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -33,7 +43,11 @@ export const RenameFile = ({ file, extension, realPath }: RenameFileProps) => {
     setSuccess(true)
 
     setTimeout(() => {
-      window.location.href = "/libraries"
+      if (currentSection === "/video/Films") {
+        window.location.href = "/libraries?section=1&page=1&limit=10"
+      } else if (currentSection === "/homes/Hoggy/Films") {
+        window.location.href = "/libraries?section=5&page=1&limit=10"
+      }
     }, 3000)
   }
 
