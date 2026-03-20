@@ -38,6 +38,12 @@ export const server = {
     },
   }),
 
+  checkDomainName: defineAction({
+    handler: async () => {
+      return await zaService.checkDomainName()
+    },
+  }),
+
   // --- Actions AllDebrid Service ---
 
   getLink: defineAction({

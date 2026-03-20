@@ -8,13 +8,13 @@ if (!title || !src) {
   return null
 }
 
-const domain = await zaService.getDomainName()
+const getDomainName = await zaService.getDomainName()
 
-if (!domain) throw new Error("No domain available")
+if (!getDomainName) throw new Error("No domain available")
 ---
 
 <Image
-  src={`${domain + src}`}
+  src={`${getDomainName.domain + src}`}
   alt={title ?? "Film title not provided"}
   width={360}
   height={480}

@@ -25,12 +25,12 @@ import IsOnNas from "./IsOnNas.astro"
 
 const { id } = Astro.props
 
-const domain = await zaService.getDomainName()
+const getDomainName = await zaService.getDomainName()
 
-if (!domain) throw new Error("No domain available")
+if (!getDomainName) throw new Error("No domain available")
 
 const decodeURI = decodeURIComponent(id)
-const url = `${domain}/?${decodeURI}`
+const url = `${getDomainName.domain}/?${decodeURI}`
 
 let data: Media
 
