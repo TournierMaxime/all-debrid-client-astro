@@ -10,7 +10,6 @@ export default function MediaWrapper({
   data: Media
   type: PropsFilmSerie["type"]
 }) {
-  const { title } = data
   return (
     <MediaProvider>
       <Downloads
@@ -18,7 +17,7 @@ export default function MediaWrapper({
         type={type}
         downloadsEpisode={data.downloadsEpisode}
       />
-      <Modal title={title} />
+      <Modal />
     </MediaProvider>
   )
 }

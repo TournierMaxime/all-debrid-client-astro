@@ -21,10 +21,9 @@ type MediaContextValue = MediaState & {
     download: DownloadEpisode,
     index: number,
   ) => React.ReactNode
-  handleClick: (title: string) => Promise<void>
+  handleClick: () => Promise<void>
   createDownloadTask: (
     unlockLink: string,
-    title?: string,
   ) => Promise<{ id: string; title: string; path: string }>
 }
 
@@ -78,34 +77,29 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDownloadTask = async (
     unlockLink: string,
-    title?: string,
   ): Promise<{ id: string; title: string; path: string }> => {
-    const { data: create } = await actions.createDownloadTask({
+    const { data: create } = await actions.createTask({
       url: unlockLink,
-      destination: "video/Films",
     })
 
-    const createId = create?.data?.task_id[0]
+    const createId = create.data
     const path = `/download/${createId}`
 
     const url = new URL(path, window.location.origin)
-    if (title) {
-      url.searchParams.set("title", title)
-    }
     window.location.href = url.toString()
 
     return {
       id: createId,
       path,
-      title: title ?? unlockLink,
+      title: unlockLink,
     }
   }
 
-  const handleDownloadLink = async (link: string | LinkData, title: string) => {
+  const handleDownloadLink = async (link: string | LinkData) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
-      const finalLink = await getFinalDownloadLink(link, title)
+      const finalLink = await getFinalDownloadLink(link)
 
       if (!finalLink) {
         dispatch({
@@ -145,7 +139,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       const { unlockLink } = finalLink
 
       if (unlockLink) {
-        await createDownloadTask(unlockLink, title)
+        await createDownloadTask(unlockLink)
       }
     } catch (error) {
       dispatch({
@@ -231,11 +225,11 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  const handleClick = async (title: string) => {
+  const handleClick = async () => {
     if (state.link?.link) {
       await copyToClipboard(state.link.link)
     } else {
-      await handleDownloadLink(state.dlProtectedLink, title)
+      await handleDownloadLink(state.dlProtectedLink)
     }
   }
 

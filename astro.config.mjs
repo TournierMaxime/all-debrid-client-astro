@@ -13,6 +13,14 @@ export default defineConfig({
   },
   env: {
     schema: {
+      SECRET_GOPEED_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      PUBLIC_GOPEED: envField.string({
+        context: "client",
+        access: "public",
+      }),
       SECRET_NAS_ENDPOINT: envField.string({
         context: "server",
         access: "secret",

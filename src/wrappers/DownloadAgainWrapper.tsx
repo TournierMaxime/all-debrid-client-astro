@@ -15,7 +15,7 @@ function Inner() {
       try {
         const { data: unlock } = await actions.getUnlockLink({ link })
         const finalLink = unlock.data.link
-        await createDownloadTask(finalLink, unlock.data.filename)
+        await createDownloadTask(finalLink)
       } catch (e: unknown) {
         console.error(e)
       } finally {

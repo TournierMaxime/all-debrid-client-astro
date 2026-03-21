@@ -1,6 +1,7 @@
 import { defineAction } from "astro:actions"
 import { z } from "astro:schema"
 
+import { gopeedService } from "@/services/gopeed"
 import { nasService } from "@/services/nas"
 import { plexService } from "@/services/plex"
 import { allDebridService, zaService } from "@/services/za"
@@ -138,42 +139,6 @@ export const server = {
     },
   }),
 
-  infoTask: defineAction({
-    input: z.object({
-      id: z.string(),
-    }),
-    handler: async ({ id }) => {
-      return nasService.infoTask(id)
-    },
-  }),
-
-  resumeTask: defineAction({
-    input: z.object({
-      id: z.string(),
-    }),
-    handler: async ({ id }) => {
-      return nasService.resumeTask(id)
-    },
-  }),
-
-  pauseTask: defineAction({
-    input: z.object({
-      id: z.string(),
-    }),
-    handler: async ({ id }) => {
-      return nasService.pauseTask(id)
-    },
-  }),
-
-  deleteTask: defineAction({
-    input: z.object({
-      id: z.string(),
-    }),
-    handler: async ({ id }) => {
-      return nasService.deleteTask(id)
-    },
-  }),
-
   createDownloadTask: defineAction({
     input: z.object({
       url: z.string(),
@@ -210,6 +175,55 @@ export const server = {
 
     handler: async ({ sectionId, params }) => {
       return await plexService.getLibrary(sectionId, params)
+    },
+  }),
+
+  // --- Gopeed service ---
+
+  createTask: defineAction({
+    input: z.object({
+      url: z.string(),
+    }),
+    handler: async ({ url }) => {
+      const resolve = await gopeedService.resolve(url)
+      const id = resolve.data.id
+      return gopeedService.createTask(id)
+    },
+  }),
+
+  getTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return gopeedService.getTask(id)
+    },
+  }),
+
+  continueTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return gopeedService.continueTask(id)
+    },
+  }),
+
+  pauseTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return gopeedService.pauseTask(id)
+    },
+  }),
+
+  deleteTask: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return gopeedService.deleteTask([id])
     },
   }),
 }

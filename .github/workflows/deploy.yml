@@ -23,6 +23,8 @@ jobs:
       SECRET_NAS_ACCOUNT: ${{ secrets.SECRET_NAS_ACCOUNT }}
       SECRET_NAS_PWD: ${{ secrets.SECRET_NAS_PWD }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
+      SECRET_GOPEED_TOKEN: ${{ secrets.SECRET_GOPEED_TOKEN }}
+      PUBLIC_GOPEED: ${{ secrets.PUBLIC_GOPEED }}
 
     steps:
       - name: 📦 Cloner le dépôt

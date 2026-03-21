@@ -29,7 +29,6 @@ export const handleDownload = async (link: string | LinkData) => {
 
 export const getFinalDownloadLink = async (
   link: string | LinkData,
-  title: string,
 ): Promise<FinalDownloadLink | null> => {
   const { data: resGetLink } = await actions.getLink({ link })
 
@@ -50,7 +49,7 @@ export const getFinalDownloadLink = async (
 
   const firstLink = links[0]
 
-  await actions.saveLink({ link: firstLink, title })
+  await actions.saveLink({ link: firstLink })
 
   const { data: resGetUnlockLink } = await actions.getUnlockLink({
     link: firstLink,
@@ -59,6 +58,5 @@ export const getFinalDownloadLink = async (
   return {
     dlProtectedLink,
     unlockLink: resGetUnlockLink?.data?.link,
-    title,
   }
 }

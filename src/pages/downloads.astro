@@ -1,14 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro"
-import { nasService } from "@/services/nas"
 
 import DeleteTaskWrapper from "@/wrappers/DeleteTaskWrapper"
 import { AlertMessage } from "@/components/shared/Alert"
 import DownloadTable from "@/feature/media/components/tables/DownloadTable.astro"
+import { gopeedService } from "@/services/gopeed"
 
-const task = await nasService.task()
+const tasks = await gopeedService.getTasks()
 
-if (!task) {
+if (!tasks) {
   return null
 }
 ---
@@ -16,13 +16,13 @@ if (!task) {
 <Layout>
   <div class="bg-(--ads-bg-default) p-4">
     {
-      task.data.tasks.length === 0 ? (
+      tasks.data.length === 0 ? (
         <AlertMessage
           title="Aucun téléchargement en cours"
           description="Il n'y a actuellement aucun téléchargement en cours sur votre NAS."
         />
       ) : (
-        <DownloadTable task={task} />
+        <DownloadTable tasks={tasks} />
       )
     }
   </div>

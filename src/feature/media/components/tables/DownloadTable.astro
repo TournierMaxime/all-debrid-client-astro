@@ -10,10 +10,10 @@ import {
 import moment from "moment"
 import Button from "@/components/shared/Button.astro"
 import { Button as BtnShadcn } from "@/components/ui/button"
-import type { Task } from "@/types/nas"
 import { formatBytes } from "@/lib/utils"
+import type { Task } from "@/types/gopeed"
 
-const { task } = Astro.props
+const { tasks } = Astro.props
 ---
 
 <Table className="bg-(--ads-bg-default) p-4 rounded-none">
@@ -30,21 +30,20 @@ const { task } = Astro.props
   </TableHeader>
   <TableBody>
     {
-      task.data.tasks.map((t: Task) => (
+      tasks.data.map((t: Task) => (
         <TableRow>
           <TableCell>{t.id}</TableCell>
-          <TableCell>{t.title}</TableCell>
+          <TableCell>{t.name}</TableCell>
           <TableCell>{t.status}</TableCell>
-          <TableCell>{formatBytes(t.size)}</TableCell>
+          <TableCell>{formatBytes(t.meta.res.size)}</TableCell>
           <TableCell>
-            {moment
-              .unix(t.additional.detail.create_time)
-              .format("DD/MM/YYYY à HH:mm")}
+            {moment(t.createdAt).format("DD/MM/YYYY à HH:mm")}
           </TableCell>
           <TableCell>
             <BtnShadcn
               size={"sm"}
               className="bg-(--ads-btn-default) rounded mr-4 cursor-pointer"
+              disabled={t.status === "done"}
             >
               <a class="text-sm" href={`/download/${t.id}`}>
                 Consulter
