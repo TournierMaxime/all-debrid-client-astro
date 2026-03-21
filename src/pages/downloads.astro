@@ -4,7 +4,6 @@ import { nasService } from "@/services/nas"
 
 import DeleteTaskWrapper from "@/wrappers/DeleteTaskWrapper"
 import { AlertMessage } from "@/components/shared/Alert"
-import DirectDownload from "@/feature/nas/utils/DirectDownload"
 import DownloadTable from "@/feature/media/components/tables/DownloadTable.astro"
 
 const task = await nasService.task()
@@ -16,7 +15,6 @@ if (!task) {
 
 <Layout>
   <div class="bg-(--ads-bg-default) p-4">
-    <DirectDownload client:load />
     {
       task.data.tasks.length === 0 ? (
         <AlertMessage
