@@ -12,8 +12,18 @@ import Button from "@/components/shared/Button.astro"
 import { Button as BtnShadcn } from "@/components/ui/button"
 import { formatBytes } from "@/lib/utils"
 import type { Task } from "@/types/gopeed"
+import Tag from "@/components/shared/Tag.astro"
 
 const { tasks } = Astro.props
+
+const statusStyles: Record<string, string> = {
+  ready: "bg-slate-300",
+  error: "bg-red-500 text-white",
+  wait: "bg-orange-500 text-white",
+  running: "bg-blue-700 text-white",
+  pause: "bg-yellow-400",
+  done: "bg-green-700 text-white",
+}
 ---
 
 <Table className="bg-(--ads-bg-default) p-4 rounded-none">
@@ -32,14 +42,21 @@ const { tasks } = Astro.props
     {
       tasks.data.map((t: Task) => (
         <TableRow>
-          <TableCell>{t.id}</TableCell>
-          <TableCell>{t.name}</TableCell>
-          <TableCell>{t.status}</TableCell>
-          <TableCell>{formatBytes(t.meta.res.size)}</TableCell>
-          <TableCell>
-            {moment(t.createdAt).format("DD/MM/YYYY à HH:mm")}
+          <TableCell className="w-[14%]">{t.id}</TableCell>
+          <TableCell className="w-[14%]">{t.name}</TableCell>
+          <TableCell className="w-[14%]">
+            <Tag
+              tag={t.status}
+              color={`border-none ${statusStyles[t.status]}`}
+            />
           </TableCell>
-          <TableCell>
+          <TableCell className="w-[14%]">
+            {formatBytes(t.meta.res.size)}
+          </TableCell>
+          <TableCell className="w-[14%]">
+            {moment(t.createdAt).fromNow()}
+          </TableCell>
+          <TableCell className="w-[14%]">
             <BtnShadcn
               size={"sm"}
               className="bg-(--ads-btn-default) rounded mr-4 cursor-pointer"
@@ -50,7 +67,7 @@ const { tasks } = Astro.props
               </a>
             </BtnShadcn>
           </TableCell>
-          <TableCell>
+          <TableCell className="w-[14%]">
             <Button
               isDeleteBtn={true}
               onclick={`window.dispatchEvent(new CustomEvent("delete-task", { detail: { id: ["${t.id}"] } }))`}
