@@ -220,10 +220,10 @@ export const server = {
 
   deleteTask: defineAction({
     input: z.object({
-      id: z.string(),
+      id: z.array(z.string()).min(1),
     }),
     handler: async ({ id }) => {
-      return gopeedService.deleteTask([id])
+      return gopeedService.deleteTask(id)
     },
   }),
 }

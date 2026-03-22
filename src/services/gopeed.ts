@@ -98,14 +98,15 @@ class Gopeed {
   }
 
   async deleteTask(id: string[]): Promise<DeleteTaskResponse> {
+    const params = new URLSearchParams()
+
+    id.forEach((id) => params.append("id", id))
+
     const response = await fetch(
-      `${this.apiGopeed}/${this.apiVersion}/tasks?force=true`,
+      `${this.apiGopeed}/${this.apiVersion}/tasks?${params.toString()}&force=true`,
       {
         method: Method.delete,
         headers: this.gopeedHeaders.headers,
-        body: JSON.stringify({
-          id,
-        }),
       },
     )
 

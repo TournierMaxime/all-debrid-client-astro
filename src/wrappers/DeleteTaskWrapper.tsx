@@ -6,27 +6,27 @@ import Alert from "@/components/shared/Alert"
 export default function DeleteTaskWrapper() {
   const [open, setOpen] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [mediaToDelete, setMediaToDelete] = useState<{ id: string }>({
-    id: "",
-  })
+  const [mediaToDelete, setMediaToDelete] = useState<string[]>([])
 
   const description = `Cette tâche est sur le point d'être supprimée du NAS.\nÊtes vous sur de vouloir continuer ?\nCette action est irréversible.`
 
   useEffect(() => {
-    const handler = (e: unknown) => {
-      setMediaToDelete((e as CustomEvent).detail)
+    const handler = (e: CustomEvent<{ id: string[] }>) => {
+      const data = e.detail.id
+      setMediaToDelete(data)
       setOpen(true)
     }
 
-    window.addEventListener("delete-task", handler)
-    return () => window.removeEventListener("delete-task", handler)
+    window.addEventListener("delete-task", handler as EventListener)
+    return () =>
+      window.removeEventListener("delete-task", handler as EventListener)
   }, [])
 
   const handleConfirm = async () => {
-    if (!mediaToDelete.id) return
+    if (!mediaToDelete) return
 
     try {
-      await actions.deleteTask({ id: mediaToDelete.id })
+      await actions.deleteTask({ id: mediaToDelete })
       setSuccess(true)
 
       setTimeout(() => {
@@ -37,7 +37,7 @@ export default function DeleteTaskWrapper() {
       alert("Une erreur est survenue lors de la suppression.")
     } finally {
       setOpen(false)
-      setMediaToDelete({ id: "" })
+      setMediaToDelete([])
     }
   }
 
@@ -50,7 +50,7 @@ export default function DeleteTaskWrapper() {
         open={open}
         onCancel={() => {
           setOpen(false)
-          setMediaToDelete({ id: "" })
+          setMediaToDelete([])
         }}
         onConfirm={handleConfirm}
       />

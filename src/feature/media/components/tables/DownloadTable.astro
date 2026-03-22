@@ -53,7 +53,7 @@ const { tasks } = Astro.props
           <TableCell>
             <Button
               isDeleteBtn={true}
-              onclick={`window.dispatchEvent(new CustomEvent("delete-task", { detail: { id: "${t.id}" } }))`}
+              onclick={`window.dispatchEvent(new CustomEvent("delete-task", { detail: { id: ["${t.id}"] } }))`}
               title="Supprimer"
             />
           </TableCell>
