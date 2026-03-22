@@ -11,7 +11,7 @@ const title = "Information"
 const description = `Actuellement le nom de domaine de wawacity est: ${getDomainName.domain}`
 ---
 
-<div class="bg-(--ads-bg-default) p-4">
+<div class="bg-(--ads-bg-default) px-4 py-2">
   <AlertMessage title={title} description={description}>
     <CheckDomain client:load expiresAt={getDomainName.expiresAt} />
   </AlertMessage>
