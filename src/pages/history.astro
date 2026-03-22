@@ -26,7 +26,7 @@ const description =
         title="Historique de téléchargement"
         description={description}
       />
-      <HistoryTable data={sortedLinks} />
+      {sortedLinks.length > 0 ? <HistoryTable data={sortedLinks} /> : null}
     </div>
   </div>
   <DownloadAgainWrapper client:only="react" />
