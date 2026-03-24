@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro"
 import Media from "@/feature/media/components/Media.astro"
-import Skeleton from "@/components/shared/Skeleton.astro"
+import Loader from "@/components/shared/Loader.astro"
 
 const { id } = Astro.params
 
@@ -10,6 +10,6 @@ if (!id) return
 
 <Layout>
   <Media server:defer id={id}>
-    <Skeleton slot="fallback" />
+    <Loader slot="fallback" />
   </Media>
 </Layout>
