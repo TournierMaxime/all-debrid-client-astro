@@ -14,7 +14,7 @@ class NAS {
   private sid: string | null = null
   private sidExpiresAt = 0
 
-  private SID_TTL = 55 * 60 * 1000 // 55 minutes
+  private SID_TTL = 6 * 24 * 60 * 60 * 1000 // 6 jours en millisecondes
 
   private async login() {
     const response = await fetch(
