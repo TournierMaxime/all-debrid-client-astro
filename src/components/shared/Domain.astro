@@ -1,18 +1,12 @@
 ---
-import { zaService } from "@/services/za"
 import { AlertMessage } from "./Alert"
-import CheckDomain from "@/feature/nas/utils/CheckDomain"
 
-const getDomainName = await zaService.getDomainName()
-
-if (!getDomainName) throw new Error("No domain available")
+const { domainName } = Astro.props
 
 const title = "Information"
-const description = `Actuellement le nom de domaine de wawacity est: ${getDomainName.domain}`
+const description = `Actuellement le nom de domaine de wawacity est: ${domainName}`
 ---
 
 <div class="bg-(--ads-bg-default) px-4 py-2">
-  <AlertMessage title={title} description={description}>
-    <CheckDomain client:load expiresAt={getDomainName.expiresAt} />
-  </AlertMessage>
+  <AlertMessage title={title} description={description} />
 </div>

@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets"
-import { zaService } from "@/services/za"
 
 const { title, src, clx } = Astro.props
 
@@ -8,15 +7,17 @@ if (!title || !src) {
   return null
 }
 
-const getDomainName = await zaService.getDomainName()
-
-if (!getDomainName) throw new Error("No domain available")
+console.log("src", src)
 ---
 
-<Image
-  src={`${getDomainName.domain + src}`}
-  alt={title ?? "Film title not provided"}
-  width={360}
-  height={480}
-  class={`object-cover rounded-t-lg ${clx ?? null}`}
-/>
+{
+  (
+    <Image
+      src={src}
+      alt={title ?? "Film title not provided"}
+      width={360}
+      height={480}
+      class={`object-cover rounded-t-lg ${clx ?? null}`}
+    />
+  )
+}

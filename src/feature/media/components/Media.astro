@@ -15,8 +15,6 @@ import {
 
 import { zaService } from "@/services/za"
 
-import { allDebridService } from "@/services/za"
-
 import { EnumFilmSerie, type Media } from "@/feature/media/type/media"
 
 import MediaWrapper from "@/wrappers/MediaWrapper"
@@ -25,12 +23,12 @@ import IsOnNas from "./IsOnNas.astro"
 
 const { id } = Astro.props
 
-const getDomainName = await zaService.getDomainName()
+const getDomainName = await zaService.checkDomainName()
 
 if (!getDomainName) throw new Error("No domain available")
 
 const decodeURI = decodeURIComponent(id)
-const url = `${getDomainName.domain}/?${decodeURI}`
+const url = `${getDomainName.domain.name}/?${decodeURI}`
 
 let data: Media
 
@@ -51,16 +49,8 @@ const {
   image,
   qualities,
   availableLanguages,
+  isOnNAS,
 } = data
-
-const normalizeTitle = data.title.split("[")[0].trim()
-
-const [checkResult, secondCheckResult] = await Promise.all([
-  allDebridService.check(normalizeTitle),
-  allDebridService.check(originalTitle),
-])
-
-const isOnNAS = checkResult.isOnNAS || secondCheckResult.isOnNAS
 ---
 
 <Card className="flex flex-col bg-(--ads-bg-default) rounded-none">
@@ -85,7 +75,7 @@ const isOnNAS = checkResult.isOnNAS || secondCheckResult.isOnNAS
       <Poster
         clx="w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
         title={title}
-        src={image}
+        src={getDomainName.domain.name + image}
       />
       <div class="flex flex-col w-full mb-4">
         <Details data={data} />

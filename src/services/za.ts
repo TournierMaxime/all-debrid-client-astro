@@ -7,16 +7,17 @@ import {
 import type { SearchProps } from "@/feature/search/type/search"
 
 interface Domain {
-  domain: string | null
-  expiresAt: number
+  success: boolean
+  message: string
+  domain: {
+    domainId: string
+    name: string
+    isCurrent: boolean
+  }
 }
 
 class ZA {
   public apiAllDebridLocal = SECRET_API_ALLDEBRID_LOCAL
-  private domainName: string | null = null
-  private checkEvery24H = 24 * 60 * 60 * 1000 // 24 hours
-  private expiresAt = 0
-  private domainPromise: Promise<Domain | null> | null = null
 
   async getFilms() {
     const response = await fetch(`${this.apiAllDebridLocal}/films/`, {
@@ -61,17 +62,6 @@ class ZA {
     return response.json()
   }
 
-  async check(title?: string) {
-    const response = await fetch(`${this.apiAllDebridLocal}/check/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title }),
-    })
-    return response.json()
-  }
-
   async checkDomainName(): Promise<Domain | null> {
     const response = await fetch(`${this.apiAllDebridLocal}/check-wawacity/`, {
       method: "GET",
@@ -80,35 +70,7 @@ class ZA {
       },
     })
 
-    const data = await response.json()
-
-    if (data && data.domain) {
-      this.domainName = data.domain
-      this.expiresAt = Date.now() + this.checkEvery24H
-
-      return { domain: this.domainName, expiresAt: this.expiresAt }
-    }
-
-    return null
-  }
-
-  async getDomainName(): Promise<Domain | null> {
-    if (this.domainName && Date.now() < this.expiresAt) {
-      return { domain: this.domainName, expiresAt: this.expiresAt }
-    }
-
-    // Si un check est déjà en cours, on attend le même
-    if (this.domainPromise) {
-      return this.domainPromise
-    }
-
-    this.domainPromise = this.checkDomainName()
-
-    const result = await this.domainPromise
-
-    this.domainPromise = null
-
-    return result
+    return response.json()
   }
 }
 

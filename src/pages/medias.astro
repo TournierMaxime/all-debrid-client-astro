@@ -1,18 +1,14 @@
 ---
 import Poster from "@/feature/media/components/Poster.astro"
 import { Card, CardTitle } from "@/components/ui/card"
-
-interface Element {
-  title: string
-  image: string
-  link: string
-}
+import { type Films } from "@/types/za"
 
 interface Props {
-  data: Element[]
+  data: Films[]
+  domainName: string
 }
 
-const { data }: Props = Astro.props
+const { data, domainName }: Props = Astro.props
 ---
 
 <div class="flex flex-col bg-(--ads-bg-default)">
@@ -25,21 +21,17 @@ const { data }: Props = Astro.props
       mx-auto"
   >
     {
-      data.map((film: Element) => {
+      data.map((film: Films) => {
         const { link, image, title } = film
-        const splitUrl = link.split("?")
-        const id = splitUrl[1]
-
-        const splitUrlImg = image.split("/").slice(3).join("/")
 
         return (
           <Card className="m-2 cursor-pointer">
             <li>
-              <a href={`/media/${id}`}>
+              <a href={`/media/${link.split("?").slice(1).join("")}`}>
                 <Poster
                   clx="h-50 md:h-80 sm:h-60"
                   title={title}
-                  src={`/${splitUrlImg}`}
+                  src={domainName + image}
                 />
               </a>
               <CardTitle className="font-normal text-sm text-center mt-2 py-2">

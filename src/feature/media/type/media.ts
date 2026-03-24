@@ -1,3 +1,5 @@
+import type { Actor, Director, Download, Genre, Quality } from "@/types/za"
+
 interface Medias {
   title: string
   link: string
@@ -10,20 +12,21 @@ interface Media {
   quality: string
   description?: string
   origin?: string
-  directors?: string[]
+  directors?: Director[]
   duration?: string
-  actors?: string[]
-  genres?: string[]
+  actors?: Actor[]
+  genres?: Genre[]
   releaseDate?: string
   fileSize?: string
-  downloads?: DownloadLink[]
-  qualities?: Qualities[]
+  downloads?: Download[]
+  qualities?: Quality[]
   originalTitle?: string
   downloadsEpisode?: DownloadEpisode[]
   availableSeasons?: AvailableSeasons[]
   availableLanguages?: AvailableLanguages[]
   season?: string
   episodes?: string
+  isOnNAS?: boolean
 }
 
 interface Qualities {

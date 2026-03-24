@@ -5,6 +5,12 @@ import { zaService } from "@/services/za"
 import Medias from "./medias.astro"
 import Loader from "@/components/shared/Loader.astro"
 
+const getDomainName = await zaService.checkDomainName()
+
+if (!getDomainName) return
+
+const { name } = getDomainName.domain
+
 const query = Astro.url.searchParams.get("query")
 const filter = Astro.url.searchParams.get("filter")
 
@@ -28,7 +34,7 @@ try {
     response && response.message ? (
       <CatchError error={response.message} />
     ) : (
-      <Medias server:defer data={response}>
+      <Medias server:defer data={response} domainName={name}>
         <Loader slot="fallback" />
       </Medias>
     )
