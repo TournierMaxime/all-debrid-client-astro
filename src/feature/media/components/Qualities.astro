@@ -1,19 +1,11 @@
 ---
 import DropDown from "@/components/shared/DropDown"
+import type { Quality } from "@/types/za"
 
-type Props = {
-  qualities:
-    | {
-        quality: string
-        url: string
-      }[]
-    | undefined
-}
-
-const { qualities } = Astro.props as Props
+const { qualities } = Astro.props
 
 const getQualities = (url: string) => {
-  return url.split("/?")[1] || ""
+  return url.split("?").slice(1).join("")
 }
 ---
 
@@ -26,7 +18,7 @@ const getQualities = (url: string) => {
     class="mt-2 bg-(--ads-bg-default) border border-(--ads-border-qualities) rounded-md shadow-md"
   >
     {
-      qualities?.map((quality: { quality: string; url: string }) => (
+      qualities?.map((quality: Quality) => (
         <li class="px-4 py-2 hover:bg-(--ads-hover-qualities) cursor-pointer">
           <a href={`/media/${getQualities(quality.url)}`}>
             <b class="p-2 font-normal text-sm">{quality.quality}</b>
