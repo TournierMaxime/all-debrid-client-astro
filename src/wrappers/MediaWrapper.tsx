@@ -13,7 +13,7 @@ export default function MediaWrapper({
   return (
     <MediaProvider>
       <Downloads
-        downloads={data.downloads}
+        downloads={data.links}
         type={type}
         downloadsEpisode={data.downloadsEpisode}
       />

@@ -2,6 +2,8 @@ import React, { createContext, useContext, useReducer } from "react"
 import { actions } from "astro:actions"
 import copy from "copy-to-clipboard"
 
+import type { Download } from "@/types/za"
+
 import type {
   DownloadEpisode,
   DownloadLink,
@@ -16,7 +18,7 @@ type MediaContextValue = MediaState & {
   openModal: (currentHost: string, currentUrl: string) => void
   resetModal: () => void
   copyToClipboard: (text: string) => Promise<void>
-  getDownLoads: (download: DownloadLink, index: number) => React.ReactNode
+  getDownLoads: (download: Download, index: number) => React.ReactNode
   getDownLoadsSeries: (
     download: DownloadEpisode,
     index: number,
@@ -184,7 +186,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const getDownLoads = (download: DownloadLink, index: number) => {
+  const getDownLoads = (download: Download, index: number) => {
     if (
       download.host !== "Premium" &&
       download.host !== "Netu" &&
@@ -198,7 +200,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
         <li
           key={index}
           className="px-4 py-2 hover:bg-(--ads-hover-dl) cursor-pointer"
-          onClick={() => openModal(download.host, download.url)}
+          onClick={() => openModal(download.host, download.dlProtectLink)}
         >
           <b className="p-2 font-normal text-sm">{download.host}</b>
         </li>

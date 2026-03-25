@@ -18,7 +18,7 @@ interface Media {
   genres?: Genre[]
   releaseDate?: string
   fileSize?: string
-  downloads?: Download[]
+  links?: Download[]
   qualities?: Quality[]
   originalTitle?: string
   downloadsEpisode?: DownloadEpisode[]
@@ -98,7 +98,7 @@ type DownloadEpisode = {
 
 type FilmDownloadsProps = {
   type: EnumFilmSerie.film
-  downloads: DownloadLink[]
+  downloads: Download[]
   downloadsEpisode?: never
 }
 
