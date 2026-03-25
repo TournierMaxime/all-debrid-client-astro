@@ -28,35 +28,16 @@ export const handleDownload = async (link: string | LinkData) => {
 }
 
 export const getFinalDownloadLink = async (
-  link: string | LinkData,
+  link: string,
 ): Promise<FinalDownloadLink | null> => {
-  const { data: resGetLink } = await actions.getLink({ link })
-
-  if (!resGetLink?.link) return null
-
-  const { uri, id } = resGetLink
-  const dlProtectedLink = uri + id
-
-  const { data: resGetRedirectLink } = await actions.getRedirectLink({
-    link: dlProtectedLink,
+  const { data: resGetUnlockLink } = await actions.unlockLink({
+    dlProtectLink: link,
   })
 
-  const links = resGetRedirectLink?.data?.links
-
-  if (!Array.isArray(links) || links.length === 0) {
-    return { dlProtectedLink }
-  }
-
-  const firstLink = links[0]
-
-  await actions.saveLink({ link: firstLink })
-
-  const { data: resGetUnlockLink } = await actions.getUnlockLink({
-    link: firstLink,
-  })
+  const unlockedLink = resGetUnlockLink.data.link
 
   return {
-    dlProtectedLink,
-    unlockLink: resGetUnlockLink?.data?.link,
+    dlProtectedLink: link,
+    unlockLink: unlockedLink,
   }
 }

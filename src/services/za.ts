@@ -72,6 +72,17 @@ class ZA {
 
     return response.json()
   }
+
+  async unlockLink(link: string) {
+    const response = await fetch(`${this.apiAllDebridLocal}/unlock/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dlProtectLink: link }),
+    })
+    return response.json()
+  }
 }
 
 class AllDebrid extends ZA {

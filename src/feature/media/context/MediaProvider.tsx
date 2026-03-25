@@ -7,14 +7,13 @@ import type { Download } from "@/types/za"
 import type {
   DownloadEpisode,
   DownloadLink,
-  LinkData,
   MediaAction,
   MediaState,
 } from "../type/media"
 import { getFinalDownloadLink } from "../utils/handleDownloadLink"
 
 type MediaContextValue = MediaState & {
-  handleDownloadLink: (link: string | LinkData, title: string) => Promise<void>
+  handleDownloadLink: (link: string, title: string) => Promise<void>
   openModal: (currentHost: string, currentUrl: string) => void
   resetModal: () => void
   copyToClipboard: (text: string) => Promise<void>
@@ -97,7 +96,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const handleDownloadLink = async (link: string | LinkData) => {
+  const handleDownloadLink = async (link: string) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
@@ -187,22 +186,24 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const getDownLoads = (download: Download, index: number) => {
+    const { host, dlProtectLink } = download
+
     if (
-      download.host !== "Premium" &&
-      download.host !== "Netu" &&
-      download.host !== "Vidoza" &&
-      download.host !== "Anonyme" &&
-      download.host !== "Uploady" &&
-      download.host !== "Vidlox" &&
-      download.host !== "MyStream"
+      host !== "Premium" &&
+      host !== "Netu" &&
+      host !== "Vidoza" &&
+      host !== "Anonyme" &&
+      host !== "Uploady" &&
+      host !== "Vidlox" &&
+      host !== "MyStream"
     ) {
       return (
         <li
           key={index}
           className="px-4 py-2 hover:bg-(--ads-hover-dl) cursor-pointer"
-          onClick={() => openModal(download.host, download.dlProtectLink)}
+          onClick={() => openModal(host, dlProtectLink)}
         >
-          <b className="p-2 font-normal text-sm">{download.host}</b>
+          <b className="p-2 font-normal text-sm">{host}</b>
         </li>
       )
     }

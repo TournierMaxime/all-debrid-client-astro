@@ -45,6 +45,13 @@ export const server = {
     },
   }),
 
+  unlockLink: defineAction({
+    input: z.object({ dlProtectLink: z.string() }),
+    handler: async ({ dlProtectLink }) => {
+      return await zaService.unlockLink(dlProtectLink)
+    },
+  }),
+
   // --- Actions AllDebrid Service ---
 
   getLink: defineAction({
