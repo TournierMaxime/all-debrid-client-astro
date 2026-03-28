@@ -26,7 +26,7 @@ class Gopeed {
     },
   }
 
-  async resolve(url: string): Promise<ResolveResponse> {
+  async resolve(url: string, name: string): Promise<ResolveResponse> {
     const response = await fetch(
       `${this.apiGopeed}/${this.apiVersion}/resolve`,
       {
@@ -37,7 +37,7 @@ class Gopeed {
             url,
           },
           opts: {
-            name: "",
+            name,
             path: this.path,
             selectFiles: [],
             extra: null,

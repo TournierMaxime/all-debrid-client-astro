@@ -4,7 +4,7 @@ import { useMedia } from "../context/MediaProvider"
 
 import GenerateLink from "./GenerateLink"
 
-export default function Modal() {
+export default function Modal({ title }: { title: string }) {
   const { isVisible, resetModal, provider } = useMedia()
   return (
     isVisible && (
@@ -14,7 +14,7 @@ export default function Modal() {
           onClose={() => resetModal()}
           title={`Génération du lien ${provider}`}
         >
-          <GenerateLink />
+          <GenerateLink title={title} />
         </GenericModal>
       </div>
     )

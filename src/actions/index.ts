@@ -190,9 +190,10 @@ export const server = {
   createTask: defineAction({
     input: z.object({
       url: z.string(),
+      name: z.string(),
     }),
-    handler: async ({ url }) => {
-      const resolve = await gopeedService.resolve(url)
+    handler: async ({ url, name }) => {
+      const resolve = await gopeedService.resolve(url, name)
       const id = resolve.data.id
       return gopeedService.createTask(id)
     },

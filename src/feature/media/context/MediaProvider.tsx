@@ -22,9 +22,10 @@ type MediaContextValue = MediaState & {
     download: DownloadEpisode,
     index: number,
   ) => React.ReactNode
-  handleClick: () => Promise<void>
+  handleClick: (title: string) => Promise<void>
   createDownloadTask: (
     unlockLink: string,
+    title: string,
   ) => Promise<{ id: string; title: string; path: string }>
 }
 
@@ -78,9 +79,11 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDownloadTask = async (
     unlockLink: string,
+    title: string,
   ): Promise<{ id: string; title: string; path: string }> => {
     const { data: create } = await actions.createTask({
       url: unlockLink,
+      name: title,
     })
 
     const createId = create.data
@@ -96,11 +99,11 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const handleDownloadLink = async (link: string) => {
+  const handleDownloadLink = async (link: string, title: string) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
-      const finalLink = await getFinalDownloadLink(link)
+      const finalLink = await getFinalDownloadLink(link, title)
 
       if (!finalLink) {
         dispatch({
@@ -137,10 +140,10 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
         },
       })
 
-      const { unlockLink } = finalLink
+      const { unlockLink, originalTitle } = finalLink
 
       if (unlockLink) {
-        await createDownloadTask(unlockLink)
+        await createDownloadTask(unlockLink, originalTitle)
       }
     } catch (error) {
       dispatch({
@@ -228,11 +231,11 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  const handleClick = async () => {
+  const handleClick = async (title: string) => {
     if (state.link?.link) {
       await copyToClipboard(state.link.link)
     } else {
-      await handleDownloadLink(state.dlProtectedLink)
+      await handleDownloadLink(state.dlProtectedLink, title)
     }
   }
 

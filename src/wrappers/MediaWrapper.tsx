@@ -17,7 +17,7 @@ export default function MediaWrapper({
         type={type}
         downloadsEpisode={data.downloadsEpisode}
       />
-      <Modal />
+      <Modal title={`${data.originalTitle} (${data.releaseDate})`} />
     </MediaProvider>
   )
 }
