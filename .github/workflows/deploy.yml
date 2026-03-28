@@ -35,9 +35,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: 🔢 Increment version
-        run: npm version patch --no-git-tag-version
-
       - name: 🛑 Stop des conteneurs (si en cours)
         run: docker compose down || true
         working-directory: /var/app
