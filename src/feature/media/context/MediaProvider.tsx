@@ -198,7 +198,8 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       host !== "Anonyme" &&
       host !== "Uploady" &&
       host !== "Vidlox" &&
-      host !== "MyStream"
+      host !== "MyStream" &&
+      host !== "DailyUploads"
     ) {
       return (
         <li
