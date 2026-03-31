@@ -33,7 +33,7 @@ export function DownloadTask({ taskId, title }: DownloadTaskProps) {
     }
   }, [taskId])
 
-  // Polling toutes les 5s
+  // Polling toutes les 1s
   useEffect(() => {
     fetchInfo()
     const interval = setInterval(fetchInfo, 1000)

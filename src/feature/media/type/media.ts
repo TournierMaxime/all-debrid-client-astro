@@ -21,9 +21,9 @@ interface Media {
   links?: Download[]
   qualities?: Quality[]
   originalTitle?: string
-  downloadsEpisode?: DownloadEpisode[]
+  downloadEpisode?: DownloadEpisode[]
   availableSeasons?: AvailableSeasons[]
-  availableLanguages?: AvailableLanguages[]
+  availableLanguage?: AvailableLanguages[]
   season?: string
   episodes?: string
   isOnNAS?: boolean
@@ -92,20 +92,28 @@ type DownloadLink = {
 }
 
 type DownloadEpisode = {
-  title: string
-  links: DownloadLink[]
+  episodeId: string
+  name: string
+  downloadLinkId: string
+  mediaId: string
+  links: {
+    downloadLinkId: string
+    host: string
+    dlProtectLink: string
+    mediaId: string
+  }
 }
 
 type FilmDownloadsProps = {
   type: EnumFilmSerie.film
   downloads: Download[]
-  downloadsEpisode?: never
+  downloadEpisode?: never
 }
 
 type SerieDownloadsProps = {
   type: EnumFilmSerie.serie
   downloads?: never
-  downloadsEpisode: DownloadEpisode[]
+  downloadEpisode: DownloadEpisode[]
 }
 
 type PropsFilmSerie = FilmDownloadsProps | SerieDownloadsProps

@@ -7,11 +7,11 @@ import { EnumFilmSerie } from "../type/media"
 export default function Downloads({
   downloads,
   type,
-  downloadsEpisode,
+  downloadEpisode,
 }: {
   downloads: PropsFilmSerie["downloads"]
   type: PropsFilmSerie["type"]
-  downloadsEpisode: PropsFilmSerie["downloadsEpisode"]
+  downloadEpisode: PropsFilmSerie["downloadEpisode"]
 }) {
   const { getDownLoads, getDownLoadsSeries } = useMedia()
 
@@ -22,7 +22,7 @@ export default function Downloads({
           downloads?.map((download, index) => getDownLoads(download, index))}
 
         {type === EnumFilmSerie.serie &&
-          downloadsEpisode?.map((episode, index) =>
+          downloadEpisode?.map((episode, index) =>
             getDownLoadsSeries(episode, index),
           )}
       </ul>

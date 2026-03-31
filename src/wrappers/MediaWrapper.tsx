@@ -15,9 +15,12 @@ export default function MediaWrapper({
       <Downloads
         downloads={data.links}
         type={type}
-        downloadsEpisode={data.downloadsEpisode}
+        downloadEpisode={data.downloadEpisode}
       />
-      <Modal title={`${data.originalTitle} (${data.releaseDate})`} />
+      <Modal
+        type={type}
+        title={`${data.originalTitle} (${data.releaseDate})`}
+      />
     </MediaProvider>
   )
 }

@@ -48,7 +48,7 @@ const {
   releaseDate,
   image,
   qualities,
-  availableLanguages,
+  availableLanguage,
   isOnNAS,
 } = data
 ---
@@ -88,7 +88,7 @@ const {
           {id.includes("film") ? (
             <Qualities qualities={qualities} />
           ) : (
-            <Languages languages={availableLanguages} />
+            <Languages languages={availableLanguage} />
           )}
 
           <MediaWrapper

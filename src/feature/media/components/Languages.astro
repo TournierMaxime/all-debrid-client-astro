@@ -11,10 +11,6 @@ type Props = {
 }
 
 const { languages } = Astro.props as Props
-
-const getLanguages = (url: string) => {
-  return url.split("/?")[1] || ""
-}
 ---
 
 <DropDown
@@ -28,7 +24,7 @@ const getLanguages = (url: string) => {
     {
       languages?.map((language) => (
         <li class="px-4 py-2 hover:bg-(--ads-hover-languages) cursor-pointer">
-          <a href={`/media/${getLanguages(language.url)}`} class="p-2 m-2">
+          <a href={`/media/${language.url.split("?")[1]}`} class="p-2 m-2">
             <b>{language.name}</b>
           </a>
         </li>

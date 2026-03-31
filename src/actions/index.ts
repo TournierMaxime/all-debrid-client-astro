@@ -191,9 +191,10 @@ export const server = {
     input: z.object({
       url: z.string(),
       name: z.string(),
+      type: z.string(),
     }),
-    handler: async ({ url, name }) => {
-      const resolve = await gopeedService.resolve(url, name)
+    handler: async ({ url, name, type }) => {
+      const resolve = await gopeedService.resolve(url, name, type)
       const id = resolve.data.id
       return gopeedService.createTask(id)
     },

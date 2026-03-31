@@ -26,7 +26,11 @@ class Gopeed {
     },
   }
 
-  async resolve(url: string, name: string): Promise<ResolveResponse> {
+  async resolve(
+    url: string,
+    name: string,
+    type: string,
+  ): Promise<ResolveResponse> {
     const response = await fetch(
       `${this.apiGopeed}/${this.apiVersion}/resolve`,
       {
@@ -38,7 +42,8 @@ class Gopeed {
           },
           opts: {
             name,
-            path: this.path,
+            path:
+              type === "film" ? `${this.path}/Films` : `${this.path}/Séries`,
             selectFiles: [],
             extra: null,
           },

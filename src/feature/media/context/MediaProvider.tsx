@@ -4,16 +4,15 @@ import copy from "copy-to-clipboard"
 
 import type { Download } from "@/types/za"
 
-import type {
-  DownloadEpisode,
-  DownloadLink,
-  MediaAction,
-  MediaState,
-} from "../type/media"
+import type { DownloadEpisode, MediaAction, MediaState } from "../type/media"
 import { getFinalDownloadLink } from "../utils/handleDownloadLink"
 
 type MediaContextValue = MediaState & {
-  handleDownloadLink: (link: string, title: string) => Promise<void>
+  handleDownloadLink: (
+    link: string,
+    title: string,
+    type: string,
+  ) => Promise<void>
   openModal: (currentHost: string, currentUrl: string) => void
   resetModal: () => void
   copyToClipboard: (text: string) => Promise<void>
@@ -22,10 +21,10 @@ type MediaContextValue = MediaState & {
     download: DownloadEpisode,
     index: number,
   ) => React.ReactNode
-  handleClick: (title: string) => Promise<void>
+  handleClick: (title: string, type: string) => Promise<void>
   createDownloadTask: (
     unlockLink: string,
-    title: string,
+    title?: string,
   ) => Promise<{ id: string; title: string; path: string }>
 }
 
@@ -79,11 +78,13 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDownloadTask = async (
     unlockLink: string,
-    title: string,
+    title?: string,
+    type?: string,
   ): Promise<{ id: string; title: string; path: string }> => {
     const { data: create } = await actions.createTask({
       url: unlockLink,
       name: title,
+      type,
     })
 
     const createId = create.data
@@ -99,7 +100,11 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const handleDownloadLink = async (link: string, title: string) => {
+  const handleDownloadLink = async (
+    link: string,
+    title: string,
+    type: string,
+  ) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
@@ -143,7 +148,7 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
       const { unlockLink, originalTitle } = finalLink
 
       if (unlockLink) {
-        await createDownloadTask(unlockLink, originalTitle)
+        await createDownloadTask(unlockLink, originalTitle, type)
       }
     } catch (error) {
       dispatch({
@@ -214,29 +219,41 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const getDownLoadsSeries = (download: DownloadEpisode, index: number) => {
-    return (
-      <li key={index} className="px-4 py-2">
-        <b>{download.title}</b>
-        <ul>
-          {download.links.map((link: DownloadLink, index: number) => (
+    if (
+      download.links.host !== "Premium" &&
+      download.links.host !== "Netu" &&
+      download.links.host !== "Vidoza" &&
+      download.links.host !== "Anonyme" &&
+      download.links.host !== "Uploady" &&
+      download.links.host !== "Vidlox" &&
+      download.links.host !== "MyStream" &&
+      download.links.host !== "DailyUploads" &&
+      download.links.host !== "Nitroflare"
+    ) {
+      return (
+        <li key={index} className="px-4 py-2">
+          <b>{download.name}</b>
+          <ul>
             <li
               key={index}
               className="px-4 py-2 hover:bg-(--ads-hover-dl) cursor-pointer block"
-              onClick={() => openModal(link.host, link.url)}
+              onClick={() =>
+                openModal(download.links.host, download.links.dlProtectLink)
+              }
             >
-              <b>{link.host}</b>
+              <b>{download.links.host}</b>
             </li>
-          ))}
-        </ul>
-      </li>
-    )
+          </ul>
+        </li>
+      )
+    }
   }
 
-  const handleClick = async (title: string) => {
+  const handleClick = async (title: string, type: string) => {
     if (state.link?.link) {
       await copyToClipboard(state.link.link)
     } else {
-      await handleDownloadLink(state.dlProtectedLink, title)
+      await handleDownloadLink(state.dlProtectedLink, title, type)
     }
   }
 

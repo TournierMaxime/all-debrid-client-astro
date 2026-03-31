@@ -4,7 +4,13 @@ import useDetailsMedia from "@/hooks/useDetailsMedia"
 
 import { useMedia } from "../context/MediaProvider"
 
-export default function GenerateLink({ title }: { title: string }) {
+export default function GenerateLink({
+  title,
+  type,
+}: {
+  title: string
+  type: string
+}) {
   const { link, handleClick, downloading, noLink } = useMedia()
   const { getStatus } = useDetailsMedia()
 
@@ -12,7 +18,7 @@ export default function GenerateLink({ title }: { title: string }) {
     return (
       <Button
         className={`m-1 px-2 py-1 bg-(--ads-btn-default) text-(--ads-text-default) rounded cursor-pointer text-sm`}
-        onClick={() => handleClick(title)}
+        onClick={() => handleClick(title, type)}
         disabled={noLink}
       >
         {getStatus(downloading, link?.link, noLink)}
