@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.1.2
+
+### Patch Changes
+
+- ea3af06: TEST TEST
+
 ## 2.1.1
 
 ### Patch Changes
