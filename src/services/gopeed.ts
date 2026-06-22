@@ -108,9 +108,7 @@ class Gopeed {
     id.forEach((id) => params.append("id", id))
     // &force=true supprime les fichiers sur le NAS
     const response = await fetch(
-      `${this.apiGopeed}/${
-        this.apiVersion
-      }/tasks?${params.toString()}&force=true`,
+      `${this.apiGopeed}/${this.apiVersion}/tasks?${params.toString()}`,
       {
         method: Method.delete,
         headers: this.gopeedHeaders.headers,
