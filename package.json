@@ -1,7 +1,7 @@
 {
   "name": "all-debrid-client-astro",
   "type": "module",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
