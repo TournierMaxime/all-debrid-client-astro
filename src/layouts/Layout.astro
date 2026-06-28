@@ -3,7 +3,7 @@ import "@/styles/global.css"
 
 import Head from "@/components/core/Head.astro"
 import Header from "@/components/core/Header.astro"
-import NavImage from "@/components/core/NavImage.astro"
+import { NavImage } from "@/components/core/NavImage"
 import Footer from "@/components/core/Footer.astro"
 
 import SearchWrapper from "@/wrappers/SearchWrapper"
@@ -18,9 +18,9 @@ const { title = "All Debrid" } = Astro.props
     class="max-w-5xl mx-auto bg-(--ads-bg-body) border border-(--ads-border) shadow-md rounded-md"
   >
     <Header>
-      <NavImage />
+      <NavImage client:only />
       <div class="w-8/12"></div>
-      <SearchWrapper client:load />
+      <SearchWrapper client:only />
     </Header>
 
     <slot />
