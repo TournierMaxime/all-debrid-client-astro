@@ -7,7 +7,7 @@ export const NavImage = () => {
     <div className="w-2/12 flex flex-row items-center">
       <a href={"/"}>
         <img
-          src={"../../../public/logo.png"}
+          src={"/logo.png"}
           alt="All Debrid Scraper"
           width={500}
           height={500}

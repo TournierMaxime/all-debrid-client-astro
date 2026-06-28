@@ -1,5 +1,13 @@
 # all-debrid-client-astro
 
+## 2.2.1
+
+### Patch Changes
+
+- Remove domain name from header and added in the footer
+- Fix links styles in the drawer
+- Fix logo was not displayed
+
 ## 2.2.0
 
 ### Minor Changes

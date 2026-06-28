@@ -8,7 +8,6 @@ import Volume from "@/feature/nas/Volume.astro"
 import Announcement from "@/components/shared/Announcement.astro"
 import Loader from "@/components/shared/Loader.astro"
 import Skeleton from "@/components/shared/Skeleton.astro"
-import Domain from "@/components/shared/Domain.astro"
 
 const getDomainName = await zaService.checkDomainName()
 
@@ -24,7 +23,6 @@ const annoucement = false
 
 <Layout>
   {annoucement && <Announcement />}
-  <Domain domainName={name} />
   <Volume server:defer>
     <Loader slot="fallback" />
   </Volume>

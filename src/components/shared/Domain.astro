@@ -1,12 +1,14 @@
 ---
-import { AlertMessage } from "./Alert"
-
 const { domainName } = Astro.props
-
-const title = "Information"
-const description = `Actuellement le nom de domaine de wawacity est: ${domainName}`
 ---
 
 <div class="bg-(--ads-bg-default) px-4 py-2">
-  <AlertMessage title={title} description={description} />
+  <a
+    class="font-normal text-sm underline"
+    href={domainName}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {domainName.split(".").slice(-2).join(".")}
+  </a>
 </div>
