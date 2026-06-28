@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.2.2
+
+### Patch Changes
+
+- Fix margin in the drawer
+
 ## 2.2.1
 
 ### Patch Changes

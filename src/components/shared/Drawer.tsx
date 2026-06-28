@@ -14,8 +14,8 @@ export const Drawer = () => {
         <HiOutlineMenu className="md:w-10 md:h-10 w-7.5 h-7.5 max-w-10 cursor-pointer" />
       </DrawerTrigger>
       <DrawerContent className="text-xl h-auto flex justify-center">
-        <ul className="flex flex-col items-center gap-4">
-          <li className="mt-2">
+        <ul className="flex flex-col items-center gap-4 my-4">
+          <li>
             <Search className="font-semibold text-normal border-2 border-gray-300 rounded-lg px-2 py-1" />
           </li>
           <li>
