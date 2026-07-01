@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Fix handle destructuration
+- Fix destructuration
 
 ## 2.2.2
 
