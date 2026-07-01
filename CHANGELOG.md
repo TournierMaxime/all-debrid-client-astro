@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.2.3
+
+### Patch Changes
+
+- Fix handle destructuration
+
 ## 2.2.2
 
 ### Patch Changes
