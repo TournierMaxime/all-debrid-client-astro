@@ -11,9 +11,9 @@ import Skeleton from "@/components/shared/Skeleton.astro"
 
 const getDomainName = await zaService.checkDomainName()
 
-if (!getDomainName) return
+if (!getDomainName || !getDomainName?.domain?.name) return
 
-const { name } = getDomainName.domain
+const domainName = getDomainName.domain.name
 
 const response = await zaService.getFilms()
 const { films } = response
@@ -26,7 +26,7 @@ const annoucement = false
   <Volume server:defer>
     <Loader slot="fallback" />
   </Volume>
-  <Medias server:defer data={films} domainName={name}>
+  <Medias server:defer data={films} domainName={domainName}>
     <div
       slot="fallback"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 mx-auto"

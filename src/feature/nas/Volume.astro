@@ -30,7 +30,7 @@ let videoShare
 
 if (sid) {
   const capacityResponse: Data = await nasService.getCapacity()
-  const { shares } = capacityResponse.data
+  const shares = capacityResponse?.data?.shares || []
 
   videoShare = capacityResponse && shares.find((v: Share) => v.name === "video")
 }
