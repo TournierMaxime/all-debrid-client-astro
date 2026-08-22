@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.3.1
+
+### Patch Changes
+
+- Add missing PUBLIC_TMDB
+
 ## 2.3.0
 
 ### Minor Changes
