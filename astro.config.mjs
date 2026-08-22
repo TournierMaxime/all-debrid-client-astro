@@ -73,6 +73,30 @@ export default defineConfig({
         context: "server",
         access: "public",
       }),
+      SECRET_PROWLARR_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_SONARR_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_RADARR_ENDPOINT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_PROWLARR_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_SONARR_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      SECRET_RADARR_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
     },
   },
 

@@ -25,6 +25,12 @@ jobs:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       SECRET_GOPEED_TOKEN: ${{ secrets.SECRET_GOPEED_TOKEN }}
       PUBLIC_GOPEED: ${{ secrets.PUBLIC_GOPEED }}
+      SECRET_PROWLARR_API_KEY: ${{ secrets.SECRET_PROWLARR_API_KEY }}
+      SECRET_PROWLARR_ENDPOINT: ${{ secrets.SECRET_PROWLARR_ENDPOINT }}
+      SECRET_SONARR_ENDPOINT: ${{ secrets.SECRET_SONARR_ENDPOINT }}
+      SECRET_SONARR_API_KEY: ${{ secrets.SECRET_SONARR_API_KEY }}
+      SECRET_RADARR_ENDPOINT: ${{ secrets.SECRET_RADARR_ENDPOINT }}
+      SECRET_RADARR_API_KEY: ${{ secrets.SECRET_RADARR_API_KEY }}
 
     steps:
       - name: 📦 Cloner le dépôt
