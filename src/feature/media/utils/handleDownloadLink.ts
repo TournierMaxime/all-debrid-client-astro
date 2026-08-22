@@ -30,7 +30,35 @@ export const handleDownload = async (link: string | LinkData) => {
 export const getFinalDownloadLink = async (
   dlProtectLink: string,
   title: string,
+  isMagnet?: boolean,
 ): Promise<FinalDownloadLink | null> => {
+  if (isMagnet) {
+    const { data: resUploadMagnet } = await actions.uploadMagnet({
+      dlProtectLink,
+    })
+
+    const id = resUploadMagnet.data.magnets[0].id.toString()
+
+    const { data: resMagnetLink } = await actions.magnetLink({
+      id,
+    })
+
+    const magnetLink = resMagnetLink.data.magnets[0].files[0].l
+    console.log("magnetLink", magnetLink)
+
+    const { data: resGetUnlockLink } = await actions.getUnlockLink({
+      link: magnetLink,
+    })
+
+    const { link } = resGetUnlockLink.data
+
+    return {
+      dlProtectedLink: dlProtectLink,
+      unlockLink: link,
+      originalTitle: `${title}`,
+    }
+  }
+
   const { data: resGetUnlockLink } = await actions.unlockLink({
     dlProtectLink,
   })

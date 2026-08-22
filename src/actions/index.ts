@@ -103,6 +103,24 @@ export const server = {
     },
   }),
 
+  uploadMagnet: defineAction({
+    input: z.object({
+      dlProtectLink: z.string(),
+    }),
+    handler: async ({ dlProtectLink }) => {
+      return allDebridService.uploadMagnet(dlProtectLink)
+    },
+  }),
+
+  magnetLink: defineAction({
+    input: z.object({
+      id: z.string(),
+    }),
+    handler: async ({ id }) => {
+      return allDebridService.magnetLink(id)
+    },
+  }),
+
   deleteMetadataItem: defineAction({
     input: z.object({
       ids: z.string(),

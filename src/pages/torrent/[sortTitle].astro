@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Tag from "@/components/shared/Tag.astro"
-import Details from "@/feature/media/components/Details.astro"
 import Poster from "@/feature/media/components/Poster.astro"
 
 import moment from "moment"
@@ -18,6 +17,11 @@ import { tmdbService } from "@/services/tmdb"
 import { tmdbImgPath } from "@/constants/utils"
 import Runtime from "@/components/shared/Runtime.astro"
 import { formatBytes } from "@/lib/utils"
+import {
+  EnumFilmSerie,
+  type FilmDownloadsProps,
+} from "@/feature/media/type/media"
+import TorrentWrapper from "@/wrappers/TorrentWrapper"
 
 const { sortTitle } = Astro.params
 
@@ -30,7 +34,7 @@ const torrent = await prowlarrService.search({
   query: sortTitle,
 })
 
-const { fileName, guid, downloadUrl, tmdbId, size } = torrent[0] || {}
+const { fileName, guid, tmdbId, size, indexer, protocol } = torrent[0] || {}
 
 const tmdb = await tmdbService.movie(tmdbId.toString())
 
@@ -47,6 +51,21 @@ const {
 const credits = await tmdbService.credits(tmdbId.toString())
 
 const { cast, crew } = credits || {}
+
+const links: FilmDownloadsProps = {
+  type: EnumFilmSerie.film,
+  downloads: [
+    {
+      downloadLinkId: "",
+      host: indexer,
+      dlProtectLink: guid,
+      fileProvider: protocol,
+      debribLink: "",
+      filmId: "",
+    },
+  ],
+  downloadEpisode: undefined,
+}
 
 if (!sortTitle) return
 ---
@@ -145,6 +164,15 @@ if (!sortTitle) return
             </>
           )
         }
+      </div>
+      <div class="flex md:flex-row md:justify-between flex-col w-full">
+        <TorrentWrapper
+          client:load
+          data={links}
+          type={EnumFilmSerie.film}
+          title={`${title} (${moment(release_date).format("YYYY")})`}
+          isMagnet={true}
+        />
       </div>
     </CardContent>
   </Card>

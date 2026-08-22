@@ -7,9 +7,11 @@ import { useMedia } from "../context/MediaProvider"
 export default function GenerateLink({
   title,
   type,
+  isMagnet,
 }: {
   title: string
   type: string
+  isMagnet?: boolean
 }) {
   const { link, handleClick, downloading, noLink } = useMedia()
   const { getStatus } = useDetailsMedia()
@@ -18,7 +20,7 @@ export default function GenerateLink({
     return (
       <Button
         className={`m-1 px-2 py-1 bg-(--ads-btn-default) text-(--ads-text-default) rounded cursor-pointer text-sm`}
-        onClick={() => handleClick(title, type)}
+        onClick={() => handleClick(title, type, isMagnet)}
         disabled={noLink}
       >
         {getStatus(downloading, link?.link, noLink)}

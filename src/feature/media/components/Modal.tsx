@@ -7,9 +7,11 @@ import GenerateLink from "./GenerateLink"
 export default function Modal({
   title,
   type,
+  isMagnet,
 }: {
   title: string
   type: string
+  isMagnet?: boolean
 }) {
   const { isVisible, resetModal, provider } = useMedia()
   return (
@@ -20,7 +22,7 @@ export default function Modal({
           onClose={() => resetModal()}
           title={`Génération du lien ${provider}`}
         >
-          <GenerateLink title={title} type={type} />
+          <GenerateLink title={title} type={type} isMagnet={isMagnet} />
         </GenericModal>
       </div>
     )

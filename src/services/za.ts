@@ -192,8 +192,9 @@ class AllDebrid extends ZA {
 
   async uploadMagnet(guid: string) {
     // guid from prowlarr
+    const magnet = `magnet:?xt=urn:btih:${guid}`
     const body = new URLSearchParams()
-    body.append("magnets[]", guid)
+    body.append("magnets[]", magnet)
 
     const response = await fetch(`${this.officialAllDebridApi}/magnet/upload`, {
       method: "POST",
@@ -206,7 +207,6 @@ class AllDebrid extends ZA {
   }
 
   async magnetLink(id: string) {
-    // guid from prowlarr
     const body = new URLSearchParams()
     body.append("id[]", id)
 

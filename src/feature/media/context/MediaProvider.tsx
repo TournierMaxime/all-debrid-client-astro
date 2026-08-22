@@ -12,6 +12,7 @@ type MediaContextValue = MediaState & {
     link: string,
     title: string,
     type: string,
+    isMagnet?: boolean,
   ) => Promise<void>
   openModal: (currentHost: string, currentUrl: string) => void
   resetModal: () => void
@@ -21,7 +22,11 @@ type MediaContextValue = MediaState & {
     download: DownloadEpisode,
     index: number,
   ) => React.ReactNode
-  handleClick: (title: string, type: string) => Promise<void>
+  handleClick: (
+    title: string,
+    type: string,
+    isMagnet?: boolean,
+  ) => Promise<void>
   createDownloadTask: (
     unlockLink: string,
     title?: string,
@@ -104,11 +109,12 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     link: string,
     title: string,
     type: string,
+    isMagnet?: boolean,
   ) => {
     try {
       dispatch({ type: "SET_DOWNLOADING", payload: true })
 
-      const finalLink = await getFinalDownloadLink(link, title)
+      const finalLink = await getFinalDownloadLink(link, title, isMagnet)
 
       if (!finalLink) {
         dispatch({
@@ -249,11 +255,15 @@ export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const handleClick = async (title: string, type: string) => {
+  const handleClick = async (
+    title: string,
+    type: string,
+    isMagnet?: boolean,
+  ) => {
     if (state.link?.link) {
       await copyToClipboard(state.link.link)
     } else {
-      await handleDownloadLink(state.dlProtectedLink, title, type)
+      await handleDownloadLink(state.dlProtectedLink, title, type, isMagnet)
     }
   }
 
