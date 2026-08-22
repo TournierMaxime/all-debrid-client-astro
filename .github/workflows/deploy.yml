@@ -31,6 +31,8 @@ jobs:
       SECRET_SONARR_API_KEY: ${{ secrets.SECRET_SONARR_API_KEY }}
       SECRET_RADARR_ENDPOINT: ${{ secrets.SECRET_RADARR_ENDPOINT }}
       SECRET_RADARR_API_KEY: ${{ secrets.SECRET_RADARR_API_KEY }}
+      SECRET_TMDB_API_KEY: ${{ secrets.SECRET_TMDB_API_KEY }}
+      PUBLIC_TMDB: ${{ secrets.PUBLIC_TMDB }}
 
     steps:
       - name: 📦 Cloner le dépôt

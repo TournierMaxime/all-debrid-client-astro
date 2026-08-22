@@ -10,6 +10,7 @@ services:
         - PUBLIC_GOPEED=${PUBLIC_GOPEED}
         - PUBLIC_DS=${PUBLIC_DS}
         - NODE_ENV=${NODE_ENV}
+        - PUBLIC_TMDB=${PUBLIC_TMDB}
     environment:
       - PORT=${PORT}
       - SECRET_API_ALLDEBRID_LOCAL=${SECRET_API_ALLDEBRID_LOCAL}
@@ -31,6 +32,8 @@ services:
       - SECRET_SONARR_API_KEY=${SECRET_SONARR_API_KEY}
       - SECRET_RADARR_ENDPOINT=${SECRET_RADARR_ENDPOINT}
       - SECRET_RADARR_API_KEY=${SECRET_RADARR_API_KEY}
+      - SECRET_TMDB_API_KEY=${SECRET_TMDB_API_KEY}
+      - PUBLIC_TMDB=${PUBLIC_TMDB}
     working_dir: /var/app
     user: root
     ports:

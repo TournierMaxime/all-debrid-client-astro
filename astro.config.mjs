@@ -97,6 +97,14 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      SECRET_TMDB_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      PUBLIC_TMDB: envField.string({
+        context: "server",
+        access: "public",
+      }),
     },
   },
 
