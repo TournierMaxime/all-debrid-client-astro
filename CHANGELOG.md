@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.3.0
+
+### Minor Changes
+
+- Add torrents
+
 ## 2.2.3
 
 ### Patch Changes
