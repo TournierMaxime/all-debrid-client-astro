@@ -189,6 +189,36 @@ class AllDebrid extends ZA {
     )
     return response.json()
   }
+
+  async uploadMagnet(guid: string) {
+    // guid from prowlarr
+    const body = new URLSearchParams()
+    body.append("magnets[]", guid)
+
+    const response = await fetch(`${this.officialAllDebridApi}/magnet/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
+      },
+      body,
+    })
+    return response.json()
+  }
+
+  async magnetLink(id: string) {
+    // guid from prowlarr
+    const body = new URLSearchParams()
+    body.append("id[]", id)
+
+    const response = await fetch(`${this.officialAllDebridApi}/magnet/files`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${SECRET_ALLDEBRID_TOKEN}`,
+      },
+      body,
+    })
+    return response.json()
+  }
 }
 
 export const zaService = new ZA()

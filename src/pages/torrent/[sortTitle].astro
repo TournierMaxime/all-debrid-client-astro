@@ -1,0 +1,69 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import { prowlarrService } from "@/services/prowlarr"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import Tag from "@/components/shared/Tag.astro"
+import Details from "@/feature/media/components/Details.astro"
+import Poster from "@/feature/media/components/Poster.astro"
+
+import moment from "moment"
+
+const { sortTitle } = Astro.params
+
+const torrent = await prowlarrService.search({
+  type: "search",
+  categories: "2000",
+  indexerIds: "1",
+  limit: "50",
+  offset: "0",
+  query: sortTitle,
+})
+
+const { title, publishDate, indexer, infoUrl, guid, downloadUrl, tmdbId } =
+  torrent[0] || {}
+
+if (!sortTitle) return
+---
+
+<Layout>
+  <div class="bg-(--ads-bg-default) p-4 rounded-none w-full">
+    <Card className="flex flex-col bg-(--ads-bg-default) rounded-none">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>
+          <ul class="flex flex-row flex-wrap my-2">
+            <li><Tag tag={indexer} /></li>
+            <li>
+              <Tag tag={moment(publishDate).format("DD/MM/YYYY à HH:mm")} />
+            </li>
+          </ul>
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center w-full h-full mx-auto">
+        <div
+          class="flex items-start md:flex-row md:justify-between flex-col w-full"
+        >
+          {
+            tmdbId && (
+              <>
+                <Poster
+                  clx="w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
+                  title={title}
+                  src={""}
+                />
+                <div class="flex flex-col w-full mb-4"></div>
+              </>
+            )
+          }
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+</Layout>

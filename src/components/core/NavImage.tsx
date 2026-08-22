@@ -18,6 +18,11 @@ export const NavImage = () => {
       {width > 768 && (
         <ul className="flex flex-col flex-wrap sm:flex-row sm:flex-nowrap">
           <li className="mr-4 my-0.5 sm:my-0">
+            <a href="/torrents" className="font-semibold text-normal">
+              Torrents
+            </a>
+          </li>
+          <li className="mr-4 my-0.5 sm:my-0">
             <a href="/history" className="font-semibold text-normal">
               Historique
             </a>

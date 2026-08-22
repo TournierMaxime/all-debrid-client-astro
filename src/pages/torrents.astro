@@ -1,0 +1,72 @@
+---
+import Layout from "@/layouts/Layout.astro"
+
+import { prowlarrService } from "@/services/prowlarr"
+
+import moment from "moment"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import type { Search } from "@/types/prowlarr"
+import Tag from "@/components/shared/Tag.astro"
+import { Button } from "@/components/ui/button"
+
+const torrents = await prowlarrService.search({
+  type: "search",
+  categories: "2000",
+  indexerIds: "1",
+  limit: "50",
+  offset: "0",
+})
+---
+
+<Layout>
+  <div class="bg-(--ads-bg-default) p-4 rounded-none w-full">
+    <Table className="bg-(--ads-bg-default) p-4 rounded-none">
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-1/4">Titre</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead>Détails</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {
+          torrents &&
+            torrents.map((torrent: Search) => {
+              const { title, publishDate, sortTitle } = torrent
+
+              const displayTitle =
+                title.length > 70 ? title.substring(0, 70) + "..." : title
+              return (
+                <TableRow>
+                  <TableCell className="truncate">{displayTitle}</TableCell>
+                  <TableCell>
+                    <Tag
+                      tag={moment(publishDate).format("DD/MM/YYYY à HH:mm")}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size={"sm"}
+                      className="bg-(--ads-btn-default) rounded mr-4 cursor-pointer"
+                    >
+                      <a class="text-sm" href={`/torrent/${sortTitle}`}>
+                        Consulter
+                      </a>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            })
+        }
+      </TableBody>
+    </Table>
+  </div>
+</Layout>

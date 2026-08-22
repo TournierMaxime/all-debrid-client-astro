@@ -20,6 +20,14 @@ export const Drawer = () => {
           </li>
           <li>
             <a
+              href="/torrents"
+              className="font-semibold text-normal border-2 border-gray-300 rounded-lg px-2 py-1"
+            >
+              Torrents
+            </a>
+          </li>
+          <li>
+            <a
               href="/history"
               className="font-semibold text-normal border-2 border-gray-300 rounded-lg px-2 py-1"
             >
