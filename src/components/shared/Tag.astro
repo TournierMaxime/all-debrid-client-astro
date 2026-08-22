@@ -1,10 +1,11 @@
 ---
 import { Badge } from "@/components/ui/badge"
 
-const { tag, color = "", clx = "" } = Astro.props
+const { tag, color = "", clx = "", title = "" } = Astro.props
 ---
 
 <Badge
+  title={title}
   variant={"outline"}
   className={`bg-(--ads-bg-default) text-left text-(--ads-text-black) text-sm font-normal px-2 py-1 m-1 rounded border border-(--ads-border-dropdown) truncate ${color} ${clx}`}
 >

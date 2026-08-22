@@ -102,7 +102,7 @@ export default defineConfig({
         access: "secret",
       }),
       PUBLIC_TMDB: envField.string({
-        context: "server",
+        context: "client",
         access: "public",
       }),
     },

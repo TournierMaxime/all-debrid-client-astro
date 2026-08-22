@@ -14,6 +14,10 @@ import Details from "@/feature/media/components/Details.astro"
 import Poster from "@/feature/media/components/Poster.astro"
 
 import moment from "moment"
+import { tmdbService } from "@/services/tmdb"
+import { tmdbImgPath } from "@/constants/utils"
+import Runtime from "@/components/shared/Runtime.astro"
+import { formatBytes } from "@/lib/utils"
 
 const { sortTitle } = Astro.params
 
@@ -26,44 +30,122 @@ const torrent = await prowlarrService.search({
   query: sortTitle,
 })
 
-const { title, publishDate, indexer, infoUrl, guid, downloadUrl, tmdbId } =
-  torrent[0] || {}
+const { fileName, guid, downloadUrl, tmdbId, size } = torrent[0] || {}
+
+const tmdb = await tmdbService.movie(tmdbId.toString())
+
+const {
+  original_title,
+  title,
+  release_date,
+  runtime,
+  genres,
+  poster_path,
+  overview,
+} = tmdb || {}
+
+const credits = await tmdbService.credits(tmdbId.toString())
+
+const { cast, crew } = credits || {}
 
 if (!sortTitle) return
 ---
 
 <Layout>
-  <div class="bg-(--ads-bg-default) p-4 rounded-none w-full">
-    <Card className="flex flex-col bg-(--ads-bg-default) rounded-none">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
-          <ul class="flex flex-row flex-wrap my-2">
-            <li><Tag tag={indexer} /></li>
-            <li>
-              <Tag tag={moment(publishDate).format("DD/MM/YYYY à HH:mm")} />
-            </li>
-          </ul>
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col items-center w-full h-full mx-auto">
-        <div
-          class="flex items-start md:flex-row md:justify-between flex-col w-full"
-        >
-          {
-            tmdbId && (
-              <>
+  <Card className="flex flex-col bg-(--ads-bg-default) rounded-none">
+    <CardHeader>
+      <CardTitle>{title}</CardTitle>
+      <CardDescription>
+        <ul class="flex flex-row flex-wrap my-2">
+          <li><Tag tag={original_title} /></li>
+          <li><Runtime time={runtime} isMovie={true} /></li>
+          <li><Tag tag={moment(release_date).format("YYYY")} /></li>
+        </ul>
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center w-full h-full mx-auto">
+      <div
+        class="flex items-start md:flex-row md:justify-between flex-col w-full"
+      >
+        {
+          tmdbId && tmdb && (
+            <>
+              {poster_path && (
                 <Poster
                   clx="w-45 h-65 md:w-60 md:h-80 sm:w-40 sm:h-60 rounded-lg"
-                  title={title}
-                  src={""}
+                  title={tmdb.title}
+                  src={`${tmdbImgPath}${poster_path}`}
                 />
-                <div class="flex flex-col w-full mb-4"></div>
-              </>
-            )
-          }
-        </div>
-      </CardContent>
-    </Card>
-  </div>
+              )}
+              <div class="flex flex-col w-full mb-4">
+                <div class="flex flex-col w-full md:pl-4 mb-4">
+                  {overview && (
+                    <div class="w-full text-justify my-2 md:m-0">
+                      <h3 class="text-lg font-semibold">Synopsis</h3>
+                      <p class="flex flex-row flex-wrap">{overview}</p>
+                    </div>
+                  )}
+                  {crew && (
+                    <div class="flex flex-col my-2">
+                      <h3 class="text-lg font-semibold">Réalisation</h3>
+                      <div class="flex flex-row flex-wrap">
+                        {crew
+                          .filter((person) => person.job === "Director")
+                          .map((person) => (
+                            <Tag tag={person.name} />
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                  {cast && (
+                    <div class="flex flex-col my-2">
+                      <h3 class="text-lg font-semibold">Acteurs</h3>
+                      <div class="flex flex-row flex-wrap">
+                        {cast
+                          .map((actor) => <Tag tag={actor.name} />)
+                          .slice(0, 10)}
+                      </div>
+                    </div>
+                  )}
+                  {genres && (
+                    <div class="flex flex-col my-2">
+                      <h3 class="text-lg font-semibold">Genres</h3>
+                      <div class="flex flex-row flex-wrap">
+                        {genres.map((genre) => (
+                          <Tag tag={genre.name} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {fileName && (
+                    <div class="w-full text-justify">
+                      <h3 class="text-lg font-semibold">Nom du fichier</h3>
+                      <div class="flex flex-row flex-wrap">
+                        <Tag
+                          title={fileName}
+                          tag={
+                            fileName.length > 100
+                              ? fileName.substring(0, 100).concat("...")
+                              : fileName
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {size && (
+                    <div class="w-full text-justify">
+                      <h3 class="text-lg font-semibold">Taille</h3>
+                      <div class="flex flex-row flex-wrap">
+                        <Tag tag={formatBytes(size)} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )
+        }
+      </div>
+    </CardContent>
+  </Card>
 </Layout>
