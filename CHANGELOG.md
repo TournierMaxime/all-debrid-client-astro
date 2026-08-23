@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.5.0
+
+### Minor Changes
+
+- add search torrent
+
 ## 2.4.0
 
 ### Minor Changes

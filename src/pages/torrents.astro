@@ -19,12 +19,11 @@ import { Button } from "@/components/ui/button"
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { Input } from "@/components/ui/input"
 
 const url = new URL(Astro.request.url)
 const LIMIT = 50
@@ -33,6 +32,7 @@ const STEP = 50
 const CATEGORIES = "2000"
 const INDEXER_IDS = "1"
 const TYPE = "search"
+const QUERY = url.searchParams.get("query") || ""
 
 const torrents = await prowlarrService.search({
   type: TYPE,
@@ -40,14 +40,38 @@ const torrents = await prowlarrService.search({
   indexerIds: INDEXER_IDS,
   limit: LIMIT.toString(),
   offset: OFFSET.toString(),
+  ...(QUERY && { query: QUERY }),
 })
 
 const hasNextPage = torrents.length === STEP
 const currentPage = Math.floor(OFFSET / STEP) + 1
+
+const queryParam = QUERY ? `&query=${encodeURIComponent(QUERY)}` : ""
 ---
 
 <Layout>
   <div class="bg-(--ads-bg-default) p-4 rounded-none w-full">
+    <div class={"flex flex-col w-full"}>
+      <form
+        method="get"
+        action=""
+        class="flex flex-col sm:flex-row sm:items-center"
+      >
+        <Input
+          type="text"
+          name="query"
+          value={QUERY}
+          placeholder={`Rechercher`}
+          className="px-4 py-2 sm:w-8/12 w-full rounded-md border border-(--ads-form-border) text-(--ads-text-black) focus:outline-none"
+        />
+        <Button
+          type="submit"
+          className="flex w-full sm:w-4/12 mt-4 sm:mt-0 justify-center bg-(--ads-btn-default) px-4 py-2 rounded-md text-(--ads-text-default) transition cursor-pointer sm:ml-4"
+        >
+          Rechercher
+        </Button>
+      </form>
+    </div>
     <Table className="bg-(--ads-bg-default) p-4 rounded-none">
       <TableHeader>
         <TableRow>
@@ -95,7 +119,7 @@ const currentPage = Math.floor(OFFSET / STEP) + 1
             <PaginationItem>
               <PaginationPrevious
                 text="Précédent"
-                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${Math.max(0, OFFSET - STEP)}`}
+                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${Math.max(0, OFFSET - STEP)}${queryParam}`}
               />
             </PaginationItem>
           )
@@ -110,7 +134,7 @@ const currentPage = Math.floor(OFFSET / STEP) + 1
             <PaginationItem>
               <PaginationNext
                 text="Suivant"
-                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${OFFSET + STEP}`}
+                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${OFFSET + STEP}${queryParam}`}
               />
             </PaginationItem>
           )
