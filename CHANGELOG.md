@@ -1,5 +1,11 @@
 # all-debrid-client-astro
 
+## 2.4.0
+
+### Minor Changes
+
+- Add pagination
+
 ## 2.3.1
 
 ### Patch Changes
