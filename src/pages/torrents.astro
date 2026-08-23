@@ -16,14 +16,34 @@ import {
 import type { Search } from "@/types/prowlarr"
 import Tag from "@/components/shared/Tag.astro"
 import { Button } from "@/components/ui/button"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
+const url = new URL(Astro.request.url)
+const LIMIT = 50
+const OFFSET = Number(url.searchParams.get("offset")) || 0
+const STEP = 50
+const CATEGORIES = "2000"
+const INDEXER_IDS = "1"
+const TYPE = "search"
 
 const torrents = await prowlarrService.search({
-  type: "search",
-  categories: "2000",
-  indexerIds: "1",
-  limit: "50",
-  offset: "0",
+  type: TYPE,
+  categories: CATEGORIES,
+  indexerIds: INDEXER_IDS,
+  limit: LIMIT.toString(),
+  offset: OFFSET.toString(),
 })
+
+const hasNextPage = torrents.length === STEP
+const currentPage = Math.floor(OFFSET / STEP) + 1
 ---
 
 <Layout>
@@ -68,5 +88,34 @@ const torrents = await prowlarrService.search({
         }
       </TableBody>
     </Table>
+    <Pagination className="bg-(--ads-bg-default) p-4 rounded-none">
+      <PaginationContent>
+        {
+          OFFSET > 0 && (
+            <PaginationItem>
+              <PaginationPrevious
+                text="Précédent"
+                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${Math.max(0, OFFSET - STEP)}`}
+              />
+            </PaginationItem>
+          )
+        }
+
+        <PaginationItem className="px-4 text-sm">
+          Page {currentPage}
+        </PaginationItem>
+
+        {
+          hasNextPage && (
+            <PaginationItem>
+              <PaginationNext
+                text="Suivant"
+                href={`?categories=${CATEGORIES}&type=${TYPE}&indexerIds=${INDEXER_IDS}&limit=${LIMIT}&offset=${OFFSET + STEP}`}
+              />
+            </PaginationItem>
+          )
+        }
+      </PaginationContent>
+    </Pagination>
   </div>
 </Layout>
